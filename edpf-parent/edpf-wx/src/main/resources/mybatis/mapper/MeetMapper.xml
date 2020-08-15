@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MeetMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MeetEntity">
+        <id column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="lname" jdbcType="NVARCHAR" property="lname"/>
+        <result column="module_id" jdbcType="CHAR" property="moduleId"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="emcee" jdbcType="NVARCHAR" property="emcee"/>
+        <result column="organizer" jdbcType="NVARCHAR" property="organizer"/>
+        <result column="Record_user" jdbcType="NVARCHAR" property="recordUser"/>
+        <result column="Summary" jdbcType="NVARCHAR" property="summary"/>
+        <result column="room_serial" jdbcType="INTEGER" property="roomSerial"/>
+        <result column="group_bh" jdbcType="VARCHAR" property="groupBh"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="qd_state" jdbcType="INTEGER" property="qdState"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="reg_serial" jdbcType="NVARCHAR" property="regSerial"/>
+        <result column="week_day" jdbcType="INTEGER" property="weekDay"/>
+        <result column="cycle" jdbcType="INTEGER" property="cycle"/>
+        <result column="day" jdbcType="INTEGER" property="day"/>
+        <result column="dep_bh" jdbcType="NVARCHAR" property="depBh"/>
+        <result column="appointment" jdbcType="NVARCHAR" property="appointment"/>
+        <result column="notice" jdbcType="INTEGER" property="notice"/>
+        <result column="email" jdbcType="INTEGER" property="email"/>
+        <result column="Dev_tmpbh" jdbcType="BIGINT" property="devTmpbh"/>
+        <result column="alluser" jdbcType="INTEGER" property="alluser"/>
+        <result column="zq_group" jdbcType="NVARCHAR" property="zqGroup"/>
+        <result column="meet_state" jdbcType="INTEGER" property="meetState"/>
+        <result column="approve_state" jdbcType="INTEGER" property="approveState"/>
+        <result column="order_state" jdbcType="INTEGER" property="orderState"/>
+        <result column="Dep_name" jdbcType="NVARCHAR" property="roomName"/>
+        <result column="wx_notice" jdbcType="INTEGER" property="wxNotice"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+    </resultMap>
+    <resultMap id="TimeMap" type="com.weds.edwx.entity.TimeEntity">
+        <result column="cdate" jdbcType="VARCHAR" property="cdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        bh, lname, module_id, kssj, jssj, emcee, organizer, Record_user, Summary, room_serial,
+            group_bh, lx, qd_state, gly_no, sj, reg_serial, week_day, cycle, day, dep_bh, appointment,
+            notice, email, Dev_tmpbh, alluser, zq_group
+    </sql>
+    <select id="selectMeetInfo" resultMap="BaseResultMap">
+        select *
+        from dt_meet
+        where bh = #{bh}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select a.room_serial,
+               a.bh,
+               a.lname,
+               a.appointment,
+                -- a.kssj,a.jssj,
+               DATEADD(mi, isnull(-c.ksqdsj, 0), a.kssj)                             kssj,
+               DATEADD(mi, isnull(c.jsqdsj, 0), a.jssj)                              jssj,
+               a.sj,
+               d.user_lname,
+               case when num2 = 2 and num1 &lt; 2 then 1 else isnull(num2, 2) end as approve_state,
+               gly_no,
+               (case
+                    when a.jssj &gt; getdate() and a.kssj &gt; getdate() then 0
+                    when a.jssj &gt; getdate() and a.kssj &lt; getdate() then 1
+                    when a.jssj &lt; getdate() then 2 end)                        as meet_state,
+               (case
+                    when exists(select 1
+                                from dt_meet
+                                where bh = #{bh}
+                                  and appointment in (select user_no from dt_user where user_serial = #{userSerial}
+                                                                                    and user_type &lt; 51)) then 0
+                    else 1 end)                                                   as order_state,
+               b.Dep_name
+        from dt_meet a
+                 inner join tkq_room b on a.room_serial = b.Dep_serial and a.bh = #{bh}
+                 inner join meet_guize c on a.bh = c.meet_bh
+                 inner join dt_user d on a.appointment = d.user_no and d.user_type &lt; 51
+                 left join (select meet_bh, min(t2.sp_flag + t2.sp_jg) as num1, max(t2.sp_flag + t2.sp_jg) as num2
+                            from meet_sp t2
+                            group by meet_bh) e on a.bh = e.meet_bh
+    </select>
+    <select id="selectDateListByEntity" parameterType="com.weds.edwx.entity.QueryTimeEntity" resultMap="TimeMap">
+        select distinct convert(varchar(20), a.jssj, 23) as cdate
+        from (select bh, lname, kssj, jssj, sj
+              from dt_meet
+              where gly_no in (select user_no from dt_user where user_serial = #{userSerial}
+                                                             and user_type &lt; 51)
+                and #{kssj} &lt; jssj
+                and jssj &lt; #{jssj}
+              union all
+              select a.bh, a.lname, a.kssj, a.jssj, a.sj
+              from dt_meet a
+                       inner join meet_md b on a.bh = b.meet_bh
+              where b.user_serial = #{userSerial}
+                and #{kssj} &lt; jssj
+                and jssj &lt; #{jssj}) a
+    </select>
+    <select id="selectMeetListByRoom" parameterType="com.weds.edwx.entity.QueryTimeEntity" resultMap="BaseResultMap">
+        select a.bh,
+               a.lname,-- a.kssj,a.jssj,
+               DATEADD(mi, -b.ksqdsj, a.kssj)                      kssj,
+               DATEADD(mi, b.jsqdsj, a.jssj)                       jssj,
+               (case
+                    when a.jssj &gt; #{currentTime} and a.kssj &gt; #{currentTime} then 0
+                    when a.jssj &gt; #{currentTime} and a.kssj &lt; #{currentTime} then 1
+                    when a.jssj &lt; #{currentTime} then 2 end) as meet_state,
+               (case
+                    when a.gly_no = (select user_no from dt_user where user_serial = #{userSerial}) then 0
+                    else 1 end)order_state
+        from dt_meet a
+                 inner join meet_guize b on a.bh = b.meet_bh
+        where a.room_serial = #{roomSerial}
+          and a.jssj &gt; #{kssj}
+          and a.jssj &lt; #{jssj}
+          and not exists(select 1 from meet_sp c where a.bh = c.meet_bh
+                                                   and (c.sp_jg = 2 or c.sp_flag = 0))
+        order by a.kssj
+    </select>
+    <select id="selectMeetByEntity" parameterType="com.weds.edwx.entity.MeetEntity" resultType="java.lang.Integer">
+    <![CDATA[
+        select count(a.bh) as meetCount
+        from dt_meet a
+                 left join meet_guize b on a.bh = b.meet_bh
+        where a.room_serial = #{roomSerial}
+          and not(
+                dateadd(n, ISNULL(-b.ksqdsj, -10), a.kssj) > dateadd(n, #{jsqdsj}, #{jssj})
+                    or dateadd(n, isnull(b.jsqdsj, 10), a.jssj) < dateadd(n, -#{ksqdsj}, #{kssj}))
+          and a.bh <> #{bh}
+          and not exists(select 1 from meet_sp c where a.bh = c.meet_bh
+                                                   and (sp_jg = 2 or sp_flag = 0))
+        ]]>
+  </select>
+    <select id="selectMeetByDev" parameterType="com.weds.edwx.entity.MeetEntity" resultType="java.lang.Integer">
+    <![CDATA[
+        select count(a.bh)
+        from dt_meet a
+                 left join meet_guize b on a.bh = b.meet_bh
+                 left join meet_dev c on a.bh = c.meet_bh
+        where c.dev_serial in(select dev_serial from tkq_room_dev where Dep_serial = #{roomSerial})
+          and not(dateadd(n, ISNULL(-b.ksqdsj, -10), a.kssj) >= dateadd(n, #{jsqdsj}, #{jssj})
+                      or dateadd(n, isnull(b.jsqdsj, 10), a.jssj) <= dateadd(n, -#{ksqdsj}, #{kssj}))
+          and a.bh <> #{bh}
+        ]]>
+  </select>
+    <select id="selectMyMeetListByDate" parameterType="com.weds.edwx.entity.QueryTimeEntity" resultMap="BaseResultMap">
+        select m.bh, m.room_serial, n.Dep_name, m.lname, m.kssj, m.jssj,
+        (case when jssj &gt; getdate() and kssj &gt; getdate() then 0
+        when jssj &gt; getdate() and kssj &lt; #{currentTime} then 1
+        when jssj &lt; #{currentTime} then 2 end) as meet_state,
+        m.order_state from (
+        select a.room_serial, a.bh, a.lname,
+        DATEADD(mi,isnull(-c.ksqdsj,0),a.kssj) kssj,DATEADD(mi,isnull(c.jsqdsj,0),a.jssj) jssj, a.sj, 0 as order_state
+        from dt_meet a inner join meet_guize c on a.bh=c.meet_bh
+        <where>
+            a.gly_no in (select user_no from dt_user where user_serial=#{userSerial} and user_type &lt; 51)
+            and a.jssj &gt; #{kssj} and a.jssj &lt; #{jssj}
+            <if test="type == 0">
+                and ( a.kssj &gt; #{currentTime} or  <![CDATA[  a.jssj >= #{currentTime} ]]>)
+            </if>
+            <if test="type == 2">
+                and a.jssj &lt; #{currentTime}
+            </if>
+        </where>
+        union
+        select a.bh,a.room_serial,a.lname,
+        DATEADD(mi,isnull(-c.ksqdsj,0),a.kssj) kssj,DATEADD(mi,isnull(c.jsqdsj,0),a.jssj) jssj,
+        a.sj,1 as order_state from dt_meet a inner join meet_md b on
+        a.bh=b.meet_bh inner join meet_guize c on a.bh=c.meet_bh
+        <where>
+            b.user_serial=#{userSerial} and a.jssj &gt; #{kssj} and a.jssj &lt; #{jssj}
+            <if test="type == 0"><!--未开始-->
+                and (a.kssj &gt; #{currentTime} or  <![CDATA[ a.jssj >= #{currentTime} ]]>)
+            </if>
+            <if test="type == 2"><!--已结束-->
+                and a.jssj &lt; #{currentTime}
+            </if>
+        </where>
+        ) m
+        inner join tkq_room n on m.room_serial=n.Dep_serial
+    </select>
+    <select id="selectMySubmit" resultMap="BaseResultMap">
+        select t0.*, t3.Dep_name, case when num2 = 2 and num1 &lt; 2 then 1 else isnull(t4.num2, 2) end as approve_state
+        from dt_meet t0
+                 join tkq_room t3 on t0.room_serial = t3.dep_serial
+                 left join (select meet_bh, min(t2.sp_flag + t2.sp_jg) as num1, max(t2.sp_flag + t2.sp_jg) as num2
+                            from meet_sp t2
+                            group by meet_bh) as t4 on t0.bh = t4.meet_bh
+        where exists(select 1
+                     from dt_user t1
+                     where t1.user_serial = #{userSerial}
+                       and t1.user_type
+                               &lt;
+                           51
+                       and t1.user_no = t0.appointment)
+        order by t0.sj desc
+    </select>
+    <select id="selectMyApprove" resultMap="BaseResultMap">
+        select t0.*, t3.Dep_name, t5.approve_state from dt_meet t0 join tkq_room t3
+        on t0.room_serial = t3.dep_serial
+        join (select t1.meet_bh, 0 as approve_state from meet_sp t1
+        left join (select meet_bh, count(1) as num from meet_sp where sp_jg = 1
+        and sp_flag = 1 group by meet_bh) as t2
+        on t1.meet_bh = t2.meet_bh
+        join dt_user t00 on t1.user_serial = t00.user_serial and t00.user_type &lt; 51
+        where t1.user_serial = #{userSerial}
+        and t1.sp_flag = 0
+        and t1.sp_order != 0
+        and t1.sp_order = t2.num
+        union
+        select meet_bh, 0 as approve_state
+        from meet_sp t01
+        join dt_user t02 on t01.user_serial = t02.user_serial and t02.user_type &lt; 51
+        where t01.user_serial = #{userSerial}
+        and sp_flag = 0
+        and sp_order = 0
+        union
+        select meet_bh, max(sp_jg) as approve_state
+        from meet_sp t03
+        join dt_user t04 on t03.user_serial = t04.user_serial and t04.user_type &lt; 51
+        where t03.user_serial = #{userSerial}
+        and sp_flag = 1
+        group by meet_bh) as t5 on t0.bh = t5.meet_bh
+        <if test="bh != null">
+            where t0.bh = #{bh}
+        </if>
+        order by t0.sj desc
+    </select>
+    <select id="selectMyCopy" resultMap="BaseResultMap">
+        select t1.*, t3.Dep_name
+        from dt_meet t1
+                 join tkq_room t3 on t1.room_serial = t3.dep_serial
+        where exists(select 1 from meet_md t2 where t2.user_serial = #{userSerial}
+                                                and t1.bh = t2.meet_bh)
+          and not exists(select 1 from meet_sp t4 where t1.bh = t4.meet_bh
+                                                    and (t4.sp_jg = 2 or t4.sp_flag = 0))
+        order by t1.sj desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from meet_md
+        where meet_bh = #{bh};
+        delete from meet_dev
+        where meet_bh = #{bh};
+        delete from meet_groupbh
+        where meet_bh = #{bh};
+        delete from meet_jl
+        where meet_bh = #{bh};
+        delete from meet_fx_result
+        where meet_bh = #{bh};
+        delete from dt_meet
+        where bh = #{bh};
+        delete from meet_sp
+        where meet_bh = #{bh};
+        delete from meet_guize
+        where meet_bh = #{bh};
+    </delete>
+    <insert id="insertUpdate1ByMeetBh" parameterType="java.lang.Integer">
+        insert into jreal_update_1 (jdev_bh, jdodata)
+        select bh, 1073741824
+        from st_device
+        where dev_lb = 10
+          and bh in (select dev_serial from meet_dev where meet_bh = #{bh})
+    </insert>
+    <insert id="insertUpdate2To5ByMeetBh" parameterType="java.lang.Integer">
+        INSERT into jreal_update_2 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from meet_dev
+        where meet_bh = #{bh};
+        INSERT into jreal_update_3 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from meet_dev
+        where meet_bh = #{bh};
+        INSERT into jreal_update_4 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from meet_dev
+        where meet_bh = #{bh};
+        INSERT into jreal_update_5 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from meet_dev
+        where meet_bh = #{bh};
+    </insert>
+    <insert id="insertWxNotice" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into MSG_SEND(USER_SERIAL,MSG_STATE,RECORD_DATE,INSERT_DATE,TEMPLET_ID,MES_CONTENT,MSG_XH)
+        select a.user_serial,0,#{recordTime},#{recordTime},'100800',
+        '{meettime:"'+convert(varchar(20),#{kssj},120)+'",meetname:"'+#{lname}+'",meetroom:"'+b.dep_name+'"}',#{bh}
+        from dt_user a,tkq_room b where a.user_serial in
+        <foreach collection="meetUsersStr.split(',')" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        and b.dep_serial=#{roomSerial}
+    </insert>
+    <insert id="insertCancelWxNotice" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into MSG_SEND (USER_SERIAL, MSG_STATE, RECORD_DATE, INSERT_DATE, TEMPLET_ID, MES_CONTENT, MSG_XH)
+        select b.user_serial,
+               0,
+               #{recordTime},
+               #{recordTime},
+               '100801',
+               '{meettime:"' + convert(varchar(20), a.kssj, 120) + '",meetname:"' + a.lname + '",meetroom:"' +
+               c.Dep_name + '"}',
+               a.bh
+        from dt_meet a
+                 inner join meet_md b on a.bh = b.meet_bh
+                 inner join tkq_room c on a.room_serial = c.Dep_serial
+        where a.bh = #{bh}
+    </insert>
+    <insert id="insert" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into dt_meet (bh,
+                             lname,
+                             module_id,
+                             kssj,
+                             jssj,
+                             room_serial,
+                             organizer,
+                             notice,
+                             email,
+                             Summary,
+                             qd_state,
+                             gly_no,
+                             sj,
+                             reg_serial,
+                             lx,
+                             appointment,
+                             wx_notice)
+        VALUES (#{bh},
+                #{lname},
+                #{moduleId},
+                #{kssj},
+                #{jssj},
+                #{roomSerial},
+                '默认公司',
+                '0',
+                '0',
+                '',
+                '1',
+                #{appointment},
+                #{sj},
+                '',
+                1,
+                #{appointment},
+                #{wxNotice})
+    </insert>
+    <insert id="insertMeetDev" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into meet_dev (type, meet_bh, dev_serial, gly_no, sj)
+        select 0, #{bh}, dev_serial, 'admin', #{sj}
+        from tkq_room_dev
+        where Dep_serial = #{roomSerial}
+    </insert>
+    <insert id="insertUpdate1ByDev" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into jreal_update_1 (jdev_bh, jdodata)
+        select bh, 1073741824
+        from st_device
+        where dev_lb = 10
+          and bh in (select dev_serial from tkq_room_dev where Dep_serial = #{roomSerial})
+    </insert>
+    <insert id="insertUpdate2To5ByDev" parameterType="com.weds.edwx.entity.MeetEntity">
+        INSERT into jreal_update_2 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from tkq_room_dev
+        where Dep_serial = #{roomSerial};
+        INSERT into jreal_update_3 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from tkq_room_dev
+        where Dep_serial = #{roomSerial};
+        INSERT into jreal_update_4 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from tkq_room_dev
+        where Dep_serial = #{roomSerial};
+        INSERT into jreal_update_5 (jdev_bh, jdodata)
+        SELECT dev_serial, 1073741824
+        from tkq_room_dev
+        where Dep_serial = #{roomSerial};
+    </insert>
+    <insert id="insertOperateLog" parameterType="com.weds.edwx.entity.MeetEntity">
+        INSERT into WT_MEET_LOG (lx, log_type, log_state, log_bz, log_sj, log_ip, gly_no)
+        VALUES (8, 4, 0, '预约会议', #{sj}, '', '')
+    </insert>
+    <select id="selectMeetOrderStateByBh" parameterType="com.weds.edwx.entity.QueryTimeEntity"
+            resultType="java.lang.Integer">
+        select count(bh)
+        from dt_meet
+        where bh = #{roomSerial}
+          and gly_no in (select user_no from dt_user where user_serial = #{userSerial})
+          AND kssj &gt; #{currentTime}
+    </select>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into dt_meet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="lname != null">
+                lname,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
+            <if test="kssj != null">
+                kssj,
+            </if>
+            <if test="jssj != null">
+                jssj,
+            </if>
+            <if test="emcee != null">
+                emcee,
+            </if>
+            <if test="organizer != null">
+                organizer,
+            </if>
+            <if test="recordUser != null">
+                Record_user,
+            </if>
+            <if test="summary != null">
+                Summary,
+            </if>
+            <if test="roomSerial != null">
+                room_serial,
+            </if>
+            <if test="groupBh != null">
+                group_bh,
+            </if>
+            <if test="lx != null">
+                lx,
+            </if>
+            <if test="qdState != null">
+                qd_state,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="regSerial != null">
+                reg_serial,
+            </if>
+            <if test="weekDay != null">
+                week_day,
+            </if>
+            <if test="cycle != null">
+                cycle,
+            </if>
+            <if test="day != null">
+                day,
+            </if>
+            <if test="depBh != null">
+                dep_bh,
+            </if>
+            <if test="appointment != null">
+                appointment,
+            </if>
+            <if test="notice != null">
+                notice,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="devTmpbh != null">
+                Dev_tmpbh,
+            </if>
+            <if test="alluser != null">
+                alluser,
+            </if>
+            <if test="zqGroup != null">
+                zq_group,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="lname != null">
+                #{lname,jdbcType=NVARCHAR},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId,jdbcType=CHAR},
+            </if>
+            <if test="kssj != null">
+                #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="emcee != null">
+                #{emcee,jdbcType=NVARCHAR},
+            </if>
+            <if test="organizer != null">
+                #{organizer,jdbcType=NVARCHAR},
+            </if>
+            <if test="recordUser != null">
+                #{recordUser,jdbcType=NVARCHAR},
+            </if>
+            <if test="summary != null">
+                #{summary,jdbcType=NVARCHAR},
+            </if>
+            <if test="roomSerial != null">
+                #{roomSerial,jdbcType=INTEGER},
+            </if>
+            <if test="groupBh != null">
+                #{groupBh,jdbcType=VARCHAR},
+            </if>
+            <if test="lx != null">
+                #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="qdState != null">
+                #{qdState,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regSerial != null">
+                #{regSerial,jdbcType=NVARCHAR},
+            </if>
+            <if test="weekDay != null">
+                #{weekDay,jdbcType=INTEGER},
+            </if>
+            <if test="cycle != null">
+                #{cycle,jdbcType=INTEGER},
+            </if>
+            <if test="day != null">
+                #{day,jdbcType=INTEGER},
+            </if>
+            <if test="depBh != null">
+                #{depBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="appointment != null">
+                #{appointment,jdbcType=NVARCHAR},
+            </if>
+            <if test="notice != null">
+                #{notice,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=INTEGER},
+            </if>
+            <if test="devTmpbh != null">
+                #{devTmpbh,jdbcType=BIGINT},
+            </if>
+            <if test="alluser != null">
+                #{alluser,jdbcType=INTEGER},
+            </if>
+            <if test="zqGroup != null">
+                #{zqGroup,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.MeetEntity">
+        update dt_meet
+        <set>
+            <if test="lname != null">
+                lname = #{lname,jdbcType=NVARCHAR},
+            </if>
+            <if test="moduleId != null">
+                module_id = #{moduleId,jdbcType=CHAR},
+            </if>
+            <if test="kssj != null">
+                kssj = #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                jssj = #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="emcee != null">
+                emcee = #{emcee,jdbcType=NVARCHAR},
+            </if>
+            <if test="organizer != null">
+                organizer = #{organizer,jdbcType=NVARCHAR},
+            </if>
+            <if test="recordUser != null">
+                Record_user = #{recordUser,jdbcType=NVARCHAR},
+            </if>
+            <if test="summary != null">
+                Summary = #{summary,jdbcType=NVARCHAR},
+            </if>
+            <if test="roomSerial != null">
+                room_serial = #{roomSerial,jdbcType=INTEGER},
+            </if>
+            <if test="groupBh != null">
+                group_bh = #{groupBh,jdbcType=VARCHAR},
+            </if>
+            <if test="lx != null">
+                lx = #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="qdState != null">
+                qd_state = #{qdState,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regSerial != null">
+                reg_serial = #{regSerial,jdbcType=NVARCHAR},
+            </if>
+            <if test="weekDay != null">
+                week_day = #{weekDay,jdbcType=INTEGER},
+            </if>
+            <if test="cycle != null">
+                cycle = #{cycle,jdbcType=INTEGER},
+            </if>
+            <if test="day != null">
+                day = #{day,jdbcType=INTEGER},
+            </if>
+            <if test="depBh != null">
+                dep_bh = #{depBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="appointment != null">
+                appointment = #{appointment,jdbcType=NVARCHAR},
+            </if>
+            <if test="notice != null">
+                notice = #{notice,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=INTEGER},
+            </if>
+            <if test="devTmpbh != null">
+                Dev_tmpbh = #{devTmpbh,jdbcType=BIGINT},
+            </if>
+            <if test="alluser != null">
+                alluser = #{alluser,jdbcType=INTEGER},
+            </if>
+            <if test="zqGroup != null">
+                zq_group = #{zqGroup,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.MeetEntity">
+        update dt_meet
+        set lname       = #{lname,jdbcType=NVARCHAR},
+            module_id   = #{moduleId,jdbcType=CHAR},
+            kssj        = #{kssj,jdbcType=TIMESTAMP},
+            jssj        = #{jssj,jdbcType=TIMESTAMP},
+            emcee       = #{emcee,jdbcType=NVARCHAR},
+            organizer   = #{organizer,jdbcType=NVARCHAR},
+            Record_user = #{recordUser,jdbcType=NVARCHAR},
+            Summary     = #{summary,jdbcType=NVARCHAR},
+            room_serial = #{roomSerial,jdbcType=INTEGER},
+            group_bh    = #{groupBh,jdbcType=VARCHAR},
+            lx          = #{lx,jdbcType=INTEGER},
+            qd_state    = #{qdState,jdbcType=INTEGER},
+            gly_no      = #{glyNo,jdbcType=NVARCHAR},
+            sj          = #{sj,jdbcType=TIMESTAMP},
+            reg_serial  = #{regSerial,jdbcType=NVARCHAR},
+            week_day    = #{weekDay,jdbcType=INTEGER},
+            cycle       = #{cycle,jdbcType=INTEGER},
+            day         = #{day,jdbcType=INTEGER},
+            dep_bh      = #{depBh,jdbcType=NVARCHAR},
+            appointment = #{appointment,jdbcType=NVARCHAR},
+            notice      = #{notice,jdbcType=INTEGER},
+            email       = #{email,jdbcType=INTEGER},
+            Dev_tmpbh   = #{devTmpbh,jdbcType=BIGINT},
+            alluser     = #{alluser,jdbcType=INTEGER},
+            zq_group    = #{zqGroup,jdbcType=NVARCHAR}
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.MeetEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_meet
+        <where>
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="lname != null">
+                and lname = #{lname,jdbcType=NVARCHAR}
+            </if>
+            <if test="moduleId != null">
+                and module_id = #{moduleId,jdbcType=CHAR}
+            </if>
+            <if test="kssj != null">
+                and kssj = #{kssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jssj != null">
+                and jssj = #{jssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="emcee != null">
+                and emcee = #{emcee,jdbcType=NVARCHAR}
+            </if>
+            <if test="organizer != null">
+                and organizer = #{organizer,jdbcType=NVARCHAR}
+            </if>
+            <if test="recordUser != null">
+                and Record_user = #{recordUser,jdbcType=NVARCHAR}
+            </if>
+            <if test="summary != null">
+                and Summary = #{summary,jdbcType=NVARCHAR}
+            </if>
+            <if test="roomSerial != null">
+                and room_serial = #{roomSerial,jdbcType=INTEGER}
+            </if>
+            <if test="groupBh != null">
+                <bind name="groupBhLike" value="'%'+groupBh+'%'"/>
+                and group_bh like #{groupBhLike}
+                <!--and group_bh = #{groupBh,jdbcType=VARCHAR}-->
+            </if>
+            <if test="lx != null">
+                and lx = #{lx,jdbcType=INTEGER}
+            </if>
+            <if test="qdState != null">
+                and qd_state = #{qdState,jdbcType=INTEGER}
+            </if>
+            <if test="glyNo != null">
+                and gly_no = #{glyNo,jdbcType=NVARCHAR}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="regSerial != null">
+                and reg_serial = #{regSerial,jdbcType=NVARCHAR}
+            </if>
+            <if test="weekDay != null">
+                and week_day = #{weekDay,jdbcType=INTEGER}
+            </if>
+            <if test="cycle != null">
+                and cycle = #{cycle,jdbcType=INTEGER}
+            </if>
+            <if test="day != null">
+                and day = #{day,jdbcType=INTEGER}
+            </if>
+            <if test="depBh != null">
+                and dep_bh = #{depBh,jdbcType=NVARCHAR}
+            </if>
+            <if test="appointment != null">
+                and appointment = #{appointment,jdbcType=NVARCHAR}
+            </if>
+            <if test="notice != null">
+                and notice = #{notice,jdbcType=INTEGER}
+            </if>
+            <if test="email != null">
+                and email = #{email,jdbcType=INTEGER}
+            </if>
+            <if test="devTmpbh != null">
+                and Dev_tmpbh = #{devTmpbh,jdbcType=BIGINT}
+            </if>
+            <if test="alluser != null">
+                and alluser = #{alluser,jdbcType=INTEGER}
+            </if>
+            <if test="zqGroup != null">
+                and zq_group = #{zqGroup,jdbcType=NVARCHAR}
+            </if>
+        </where>
+    </select>
+    <insert id="insertMeetRule" parameterType="com.weds.edwx.entity.MeetEntity">
+        insert into meet_guize (meet_bh, ksqdsj, jsqdsj, ksjcdsj, ksjztsj, bxqd, bxqt, rqyc)
+        select #{bh},
+               #{ksqdsj},
+               #{jsqdsj},
+               ksjcdsj,
+               ksjztsj,
+               bxqd,
+               bxqt,
+               rqyc
+        from meet_guize
+        where bh = 1
+    </insert>
+    <select id="selectMeetRule" parameterType="com.weds.edwx.entity.MeetEntity" resultType="java.lang.Integer">
+        select count(1)
+        from meet_guize
+        where meet_bh = #{bh}
+    </select>
+</mapper>

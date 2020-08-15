@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.RoleFunctionMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.RoleFunctionEntity">
+        <id column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <id column="function_id" jdbcType="VARCHAR" property="functionId"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        role_id, function_id, spare_col1, spare_col2, spare_col3, ct_user, ct_date, lt_user,
+                 lt_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_role_function
+        where role_id = #{roleId,jdbcType=VARCHAR}
+        and function_id = #{functionId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete from ed_role_function
+        where role_id = #{roleId,jdbcType=VARCHAR}
+          and function_id = #{functionId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.RoleFunctionEntity">
+        insert into ed_role_function (role_id,
+                                      function_id,
+                                      spare_col1,
+                                      spare_col2,
+                                      spare_col3,
+                                      ct_user,
+                                      ct_date,
+                                      lt_user,
+                                      lt_date)
+        values (#{roleId,jdbcType=VARCHAR},
+                #{functionId,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.RoleFunctionEntity">
+        insert into ed_role_function
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="functionId != null">
+                function_id,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="functionId != null">
+                #{functionId,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.RoleFunctionEntity">
+        update ed_role_function
+        <set>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where role_id = #{roleId,jdbcType=VARCHAR}
+        and function_id = #{functionId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.RoleFunctionEntity">
+        update ed_role_function
+        set spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=TIMESTAMP},
+            lt_user    = #{ltUser,jdbcType=VARCHAR},
+            lt_date    = #{ltDate,jdbcType=TIMESTAMP}
+        where role_id = #{roleId,jdbcType=VARCHAR}
+          and function_id = #{functionId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.RoleFunctionEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_role_function
+        <where>
+            <if test="roleId != null">
+                <bind name="roleIdLike" value="'%'+roleId+'%'"/>
+                and role_id like #{roleIdLike}
+                <!--and role_id = #{roleId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="functionId != null">
+                <bind name="functionIdLike" value="'%'+functionId+'%'"/>
+                and function_id like #{functionIdLike}
+                <!--and function_id = #{functionId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and lt_date = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_role_function
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or role_id like #{keysLike}
+                or function_id like #{keysLike}
+                or spare_col1 like #{keysLike}
+                or spare_col2 like #{keysLike}
+                or spare_col3 like #{keysLike}
+                or ct_user like #{keysLike}
+                or lt_user like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_role_function
+        where (role_id,function_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.roleId},#{item.functionId})
+        </foreach>
+    </delete>
+
+    <delete id="deleteByRoleId" parameterType="String">
+        delete from ed_role_function
+        where role_id = #{roleId}
+    </delete>
+</mapper>

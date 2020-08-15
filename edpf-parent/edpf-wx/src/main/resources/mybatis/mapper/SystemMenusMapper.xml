@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.SystemMenusMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.SystemMenusEntity">
+        <id column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <id column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="icon_id" jdbcType="VARCHAR" property="iconId"/>
+        <result column="icon_url_id" jdbcType="VARCHAR" property="iconUrlId"/>
+        <result column="menu_idx" jdbcType="INTEGER" property="menuIdx"/>
+        <result column="user_flag" jdbcType="INTEGER" property="userFlag"/>
+        <result column="use_flag" jdbcType="INTEGER" property="useFlag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="VARCHAR" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="VARCHAR" property="ltDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        company_id, menu_id, menu_name, icon_id, icon_url_id, menu_idx, user_flag, use_flag,
+                    remark, spare_col1, spare_col2, spare_col3, spare_col4, ct_user, ct_date, lt_user, lt_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_menus
+        where company_id = #{companyId,jdbcType=VARCHAR}
+        and menu_id = #{menuId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.SystemMenusEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_menus
+        <where>
+            <if test="companyId != null">
+                <bind name="companyIdLike" value="'%'+companyId+'%'"/>
+                and company_id like #{companyIdLike}
+                <!--and company_id = #{companyId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="menuId != null">
+                <bind name="menuIdLike" value="'%'+menuId+'%'"/>
+                and menu_id like #{menuIdLike}
+                <!--and menu_id = #{menuId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="menuName != null">
+                <bind name="menuNameLike" value="'%'+menuName+'%'"/>
+                and menu_name like #{menuNameLike}
+                <!--and menu_name = #{menuName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="iconId != null">
+                <bind name="iconIdLike" value="'%'+iconId+'%'"/>
+                and icon_id like #{iconIdLike}
+                <!--and icon_id = #{iconId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="iconUrlId != null">
+                <bind name="iconUrlIdLike" value="'%'+iconUrlId+'%'"/>
+                and icon_url_id like #{iconUrlIdLike}
+                <!--and icon_url_id = #{iconUrlId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="menuIdx != null">
+                and menu_idx = #{menuIdx,jdbcType=INTEGER}
+            </if>
+            <if test="userFlag != null">
+                and user_flag = #{userFlag,jdbcType=INTEGER}
+            </if>
+            <if test="useFlag != null">
+                and use_flag = #{useFlag,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                <bind name="ctDateLike" value="'%'+ctDate+'%'"/>
+                and ct_date like #{ctDateLike}
+                <!--and ct_date = #{ctDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                <bind name="ltDateLike" value="'%'+ltDate+'%'"/>
+                and lt_date like #{ltDateLike}
+                <!--and lt_date = #{ltDate,jdbcType=VARCHAR}-->
+            </if>
+            and menu_id in (select t1.function_id from ed_sys_function t1
+            join ed_role_function t2
+            on t1.use_flag = '1' and t1.function_id = t2.function_id
+            join ed_user_role t3
+            on t2.role_id = t3.role_id
+            where t3.user_serial = #{userSerial})
+        </where>
+        order by spare_col1, spare_col2, menu_idx
+    </select>
+</mapper>

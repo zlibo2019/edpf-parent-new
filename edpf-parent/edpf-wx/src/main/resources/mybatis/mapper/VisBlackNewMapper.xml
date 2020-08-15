@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisBlackNewMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisBlackNewEntity">
+    <id column="vis_no" jdbcType="NVARCHAR" property="visNo" />
+    <result column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="lx" jdbcType="INTEGER" property="lx" />
+    <result column="vis_name" jdbcType="NVARCHAR" property="visName" />
+    <result column="vis_sex" jdbcType="INTEGER" property="visSex" />
+    <result column="vis_bz" jdbcType="NVARCHAR" property="visBz" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <result column="gly_no" jdbcType="NVARCHAR" property="glyNo" />
+    <result column="vis_flg" jdbcType="INTEGER" property="visFlg" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    vis_no, xh, lx, vis_name, vis_sex, vis_bz, sj, gly_no, vis_flg, user_serial, open_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vis_black
+    where vis_no = #{visNo,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from vis_black
+    where vis_no = #{visNo,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.VisBlackNewEntity">
+    <selectKey keyProperty="visNo" order="AFTER" resultType="java.lang.String">
+      SELECT SCOPE_IDENTITY()
+    </selectKey>
+    insert into vis_black (xh, lx, vis_name, 
+      vis_sex, vis_bz, sj, 
+      gly_no, vis_flg, user_serial, 
+      open_id)
+    values (#{xh,jdbcType=INTEGER}, #{lx,jdbcType=INTEGER}, #{visName,jdbcType=NVARCHAR}, 
+      #{visSex,jdbcType=INTEGER}, #{visBz,jdbcType=NVARCHAR}, #{sj,jdbcType=TIMESTAMP}, 
+      #{glyNo,jdbcType=NVARCHAR}, #{visFlg,jdbcType=INTEGER}, #{userSerial,jdbcType=BIGINT}, 
+      #{openId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisBlackNewEntity">
+    <selectKey keyProperty="visNo" order="AFTER" resultType="java.lang.String">
+      SELECT SCOPE_IDENTITY()
+    </selectKey>
+    insert into vis_black
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="lx != null">
+        lx,
+      </if>
+      <if test="visName != null">
+        vis_name,
+      </if>
+      <if test="visSex != null">
+        vis_sex,
+      </if>
+      <if test="visBz != null">
+        vis_bz,
+      </if>
+      <if test="sj != null">
+        sj,
+      </if>
+      <if test="glyNo != null">
+        gly_no,
+      </if>
+      <if test="visFlg != null">
+        vis_flg,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="lx != null">
+        #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="visName != null">
+        #{visName,jdbcType=NVARCHAR},
+      </if>
+      <if test="visSex != null">
+        #{visSex,jdbcType=INTEGER},
+      </if>
+      <if test="visBz != null">
+        #{visBz,jdbcType=NVARCHAR},
+      </if>
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glyNo != null">
+        #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="visFlg != null">
+        #{visFlg,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisBlackNewEntity">
+    update vis_black
+    <set>
+      <if test="xh != null">
+        xh = #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="lx != null">
+        lx = #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="visName != null">
+        vis_name = #{visName,jdbcType=NVARCHAR},
+      </if>
+      <if test="visSex != null">
+        vis_sex = #{visSex,jdbcType=INTEGER},
+      </if>
+      <if test="visBz != null">
+        vis_bz = #{visBz,jdbcType=NVARCHAR},
+      </if>
+      <if test="sj != null">
+        sj = #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glyNo != null">
+        gly_no = #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="visFlg != null">
+        vis_flg = #{visFlg,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        user_serial = #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vis_no = #{visNo,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisBlackNewEntity">
+    update vis_black
+    set xh = #{xh,jdbcType=INTEGER},
+      lx = #{lx,jdbcType=INTEGER},
+      vis_name = #{visName,jdbcType=NVARCHAR},
+      vis_sex = #{visSex,jdbcType=INTEGER},
+      vis_bz = #{visBz,jdbcType=NVARCHAR},
+      sj = #{sj,jdbcType=TIMESTAMP},
+      gly_no = #{glyNo,jdbcType=NVARCHAR},
+      vis_flg = #{visFlg,jdbcType=INTEGER},
+      user_serial = #{userSerial,jdbcType=BIGINT},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where vis_no = #{visNo,jdbcType=NVARCHAR}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisBlackNewEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vis_black
+    <where>
+      <if test="visNo != null">
+        <bind name="visNoLike" value="'%'+visNo+'%'" />
+        and vis_no like #{visNoLike}
+        <!--and vis_no = #{visNo,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="lx != null">
+        and lx = #{lx,jdbcType=INTEGER}
+      </if>
+      <if test="visName != null">
+        <bind name="visNameLike" value="'%'+visName+'%'" />
+        and vis_name like #{visNameLike}
+        <!--and vis_name = #{visName,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="visSex != null">
+        and vis_sex = #{visSex,jdbcType=INTEGER}
+      </if>
+      <if test="visBz != null">
+        <bind name="visBzLike" value="'%'+visBz+'%'" />
+        and vis_bz like #{visBzLike}
+        <!--and vis_bz = #{visBz,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="sj != null">
+        and sj = #{sj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="glyNo != null">
+        <bind name="glyNoLike" value="'%'+glyNo+'%'" />
+        and gly_no like #{glyNoLike}
+        <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="visFlg != null">
+        and vis_flg = #{visFlg,jdbcType=INTEGER}
+      </if>
+      <if test="userSerial != null">
+        and user_serial = #{userSerial,jdbcType=BIGINT}
+      </if>
+      <if test="openId != null">
+        <bind name="openIdLike" value="'%'+openId+'%'" />
+        and open_id like #{openIdLike}
+        <!--and open_id = #{openId,jdbcType=VARCHAR}-->
+      </if>
+    </where>
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vis_black
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or vis_no like #{keysLike}
+        or xh == #{keys}
+        or lx == #{keys}
+        or vis_name like #{keysLike}
+        or vis_sex == #{keys}
+        or vis_bz like #{keysLike}
+        or sj == #{keys}
+        or gly_no like #{keysLike}
+        or vis_flg == #{keys}
+        or user_serial == #{keys}
+        or open_id like #{keysLike}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    vis_black
+    where (vis_no) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.visNo})
+    </foreach>
+  </delete>
+</mapper>

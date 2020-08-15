@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.JrealNowcmdMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.JrealNowcmdEntity">
+    <id column="jcmdsig" jdbcType="INTEGER" property="jcmdsig" />
+    <result column="jdev_id" jdbcType="INTEGER" property="jdevId" />
+    <result column="jdev_bh" jdbcType="CHAR" property="jdevBh" />
+    <result column="jtype" jdbcType="INTEGER" property="jtype" />
+    <result column="jint" jdbcType="INTEGER" property="jint" />
+    <result column="jstr" jdbcType="VARCHAR" property="jstr" />
+    <result column="jret_per" jdbcType="INTEGER" property="jretPer" />
+    <result column="jret_subper" jdbcType="INTEGER" property="jretSubper" />
+    <result column="jret_int" jdbcType="INTEGER" property="jretInt" />
+    <result column="jret_str" jdbcType="VARCHAR" property="jretStr" />
+    <result column="jtime" jdbcType="TIMESTAMP" property="jtime" />
+    <result column="jlast_time" jdbcType="TIMESTAMP" property="jlastTime" />
+    <result column="juser_type" jdbcType="INTEGER" property="juserType" />
+    <result column="juser_show" jdbcType="VARCHAR" property="juserShow" />
+    <result column="juser_group" jdbcType="INTEGER" property="juserGroup" />
+    <result column="joperator" jdbcType="NVARCHAR" property="joperator" />
+    <result column="jip_addr" jdbcType="VARCHAR" property="jipAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    jcmdsig, jdev_id, jdev_bh, jtype, jint, jstr, jret_per, jret_subper, jret_int, jret_str, 
+    jtime, jlast_time, juser_type, juser_show, juser_group, joperator, jip_addr
+  </sql>
+  <insert id="insert" parameterType="com.weds.edmj.entity.JrealNowcmdEntity">
+    insert into jreal_nowcmd (jcmdsig, jdev_id, jdev_bh, 
+      jtype, jint, jstr, 
+      jret_per, jret_subper, jret_int, 
+      jret_str, jtime, jlast_time, 
+      juser_type, juser_show, juser_group, 
+      joperator, jip_addr)
+    values (#{jcmdsig,jdbcType=INTEGER}, #{jdevId,jdbcType=INTEGER}, #{jdevBh,jdbcType=CHAR}, 
+      #{jtype,jdbcType=INTEGER}, #{jint,jdbcType=INTEGER}, #{jstr,jdbcType=VARCHAR}, 
+      #{jretPer,jdbcType=INTEGER}, #{jretSubper,jdbcType=INTEGER}, #{jretInt,jdbcType=INTEGER}, 
+      #{jretStr,jdbcType=VARCHAR}, #{jtime,jdbcType=TIMESTAMP}, #{jlastTime,jdbcType=TIMESTAMP}, 
+      #{juserType,jdbcType=INTEGER}, #{juserShow,jdbcType=VARCHAR}, #{juserGroup,jdbcType=INTEGER}, 
+      #{joperator,jdbcType=NVARCHAR}, #{jipAddr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    jreal_nowcmd
+    (jcmdsig,jdev_id,jdev_bh,jtype,jint,jstr,jret_per,jret_subper,jret_int,jret_str,jtime,jlast_time,juser_type,juser_show,juser_group,joperator,jip_addr)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.jcmdsig,jdbcType=INTEGER},#{item.jdevId,jdbcType=INTEGER},#{item.jdevBh,jdbcType=CHAR},#{item.jtype,jdbcType=INTEGER},#{item.jint,jdbcType=INTEGER},#{item.jstr,jdbcType=VARCHAR},#{item.jretPer,jdbcType=INTEGER},#{item.jretSubper,jdbcType=INTEGER},#{item.jretInt,jdbcType=INTEGER},#{item.jretStr,jdbcType=VARCHAR},#{item.jtime,jdbcType=TIMESTAMP},#{item.jlastTime,jdbcType=TIMESTAMP},#{item.juserType,jdbcType=INTEGER},#{item.juserShow,jdbcType=VARCHAR},#{item.juserGroup,jdbcType=INTEGER},#{item.joperator,jdbcType=NVARCHAR},#{item.jipAddr,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.JrealNowcmdEntity">
+    insert into jreal_nowcmd
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jcmdsig != null">
+        jcmdsig,
+      </if>
+      <if test="jdevId != null">
+        jdev_id,
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh,
+      </if>
+      <if test="jtype != null">
+        jtype,
+      </if>
+      <if test="jint != null">
+        jint,
+      </if>
+      <if test="jstr != null">
+        jstr,
+      </if>
+      <if test="jretPer != null">
+        jret_per,
+      </if>
+      <if test="jretSubper != null">
+        jret_subper,
+      </if>
+      <if test="jretInt != null">
+        jret_int,
+      </if>
+      <if test="jretStr != null">
+        jret_str,
+      </if>
+      <if test="jtime != null">
+        jtime,
+      </if>
+      <if test="jlastTime != null">
+        jlast_time,
+      </if>
+      <if test="juserType != null">
+        juser_type,
+      </if>
+      <if test="juserShow != null">
+        juser_show,
+      </if>
+      <if test="juserGroup != null">
+        juser_group,
+      </if>
+      <if test="joperator != null">
+        joperator,
+      </if>
+      <if test="jipAddr != null">
+        jip_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jcmdsig != null">
+        #{jcmdsig,jdbcType=INTEGER},
+      </if>
+      <if test="jdevId != null">
+        #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jtype != null">
+        #{jtype,jdbcType=INTEGER},
+      </if>
+      <if test="jint != null">
+        #{jint,jdbcType=INTEGER},
+      </if>
+      <if test="jstr != null">
+        #{jstr,jdbcType=VARCHAR},
+      </if>
+      <if test="jretPer != null">
+        #{jretPer,jdbcType=INTEGER},
+      </if>
+      <if test="jretSubper != null">
+        #{jretSubper,jdbcType=INTEGER},
+      </if>
+      <if test="jretInt != null">
+        #{jretInt,jdbcType=INTEGER},
+      </if>
+      <if test="jretStr != null">
+        #{jretStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jtime != null">
+        #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jlastTime != null">
+        #{jlastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="juserType != null">
+        #{juserType,jdbcType=INTEGER},
+      </if>
+      <if test="juserShow != null">
+        #{juserShow,jdbcType=VARCHAR},
+      </if>
+      <if test="juserGroup != null">
+        #{juserGroup,jdbcType=INTEGER},
+      </if>
+      <if test="joperator != null">
+        #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertMjDoorOperateBatch" parameterType="com.weds.edmj.entity.JrealNowcmdEntity">
+    insert jreal_nowcmd(jdev_bh,jstr)
+    select dev_serial, '1,'+cast(#{operateLx} as varchar)+','+cast(dev_order as varchar)+','+ cast(#{timeSec} as varchar)
+    from st_doorfx_real
+    <where>
+      fx=0 and dev_order !=9
+      <if test="gateList !=null">
+        and gate_bh in
+        <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+    </where>
+  </insert>
+  <insert id="insertKqDoorOperateBatch" parameterType="com.weds.edmj.entity.JrealNowcmdEntity">
+    insert jreal_nowcmd(jdev_bh,jtype,jstr)
+    select dev_serial, 0,'1,open_door,5'
+    from st_doorfx_real
+    <where>
+      fx=0 and dev_order=9
+      <if test="gateList !=null">
+        and gate_bh in
+        <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+    </where>
+  </insert>
+  <select id="selectForceCount" parameterType="com.weds.edmj.entity.JrealNowcmdEntity" resultType="java.lang.Integer">
+    select count(1)
+    FROM jmonitor_state a ,st_doorfx_real c ,DT_GATE_REAL e
+    <where>
+      a.jdev_bh=c.dev_serial and a.jdoor=c.dev_order and c.fx=0 and c.gate_bh=e.Gate_bh
+      <if test="timeSec==1">
+        and a.jforce_open=1
+      </if>
+      <if test="timeSec==2">
+        and a.jforce_close=1
+      </if>
+      <if test="gateList !=null">
+        and e.gate_bh in
+        <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+      <if test="placeList !=null">
+        and e.acdep_serial in
+        <foreach close=")" collection="placeList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.JrealNowcmdEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jreal_nowcmd
+    <where>
+      <if test="jcmdsig != null">
+        and jcmdsig = #{jcmdsig,jdbcType=INTEGER}
+      </if>
+      <if test="jdevId != null">
+        and jdev_id = #{jdevId,jdbcType=INTEGER}
+      </if>
+      <if test="jdevBh != null">
+        <bind name="jdevBhLike" value="'%'+jdevBh+'%'" />
+        and jdev_bh like #{jdevBhLike}
+        <!--and jdev_bh = #{jdevBh,jdbcType=CHAR}-->
+      </if>
+      <if test="jtype != null">
+        and jtype = #{jtype,jdbcType=INTEGER}
+      </if>
+      <if test="jint != null">
+        and jint = #{jint,jdbcType=INTEGER}
+      </if>
+      <if test="jstr != null">
+        <bind name="jstrLike" value="'%'+jstr+'%'" />
+        and jstr like #{jstrLike}
+        <!--and jstr = #{jstr,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jretPer != null">
+        and jret_per = #{jretPer,jdbcType=INTEGER}
+      </if>
+      <if test="jretSubper != null">
+        and jret_subper = #{jretSubper,jdbcType=INTEGER}
+      </if>
+      <if test="jretInt != null">
+        and jret_int = #{jretInt,jdbcType=INTEGER}
+      </if>
+      <if test="jretStr != null">
+        <bind name="jretStrLike" value="'%'+jretStr+'%'" />
+        and jret_str like #{jretStrLike}
+        <!--and jret_str = #{jretStr,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jtime != null">
+        and jtime = #{jtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="jlastTime != null">
+        and jlast_time = #{jlastTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="juserType != null">
+        and juser_type = #{juserType,jdbcType=INTEGER}
+      </if>
+      <if test="juserShow != null">
+        <bind name="juserShowLike" value="'%'+juserShow+'%'" />
+        and juser_show like #{juserShowLike}
+        <!--and juser_show = #{juserShow,jdbcType=VARCHAR}-->
+      </if>
+      <if test="juserGroup != null">
+        and juser_group = #{juserGroup,jdbcType=INTEGER}
+      </if>
+      <if test="joperator != null">
+        <bind name="joperatorLike" value="'%'+joperator+'%'" />
+        and joperator like #{joperatorLike}
+        <!--and joperator = #{joperator,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="jipAddr != null">
+        <bind name="jipAddrLike" value="'%'+jipAddr+'%'" />
+        and jip_addr like #{jipAddrLike}
+        <!--and jip_addr = #{jipAddr,jdbcType=VARCHAR}-->
+      </if>
+    </where>
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jreal_nowcmd
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or jcmdsig = #{keys}
+        or jdev_id = #{keys}
+        or jdev_bh like #{keysLike}
+        or jtype = #{keys}
+        or jint = #{keys}
+        or jstr like #{keysLike}
+        or jret_per = #{keys}
+        or jret_subper = #{keys}
+        or jret_int = #{keys}
+        or jret_str like #{keysLike}
+        or jtime = #{keys}
+        or jlast_time = #{keys}
+        or juser_type = #{keys}
+        or juser_show like #{keysLike}
+        or juser_group = #{keys}
+        or joperator like #{keysLike}
+        or jip_addr like #{keysLike}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.RoleEntity">
+    <result column="tt_name" jdbcType="NVARCHAR" property="ttName" />
+    <result column="tt_order" jdbcType="NVARCHAR" property="ttOrder" />
+  </resultMap>
+  <insert id="insert" parameterType="com.weds.edmj.entity.RoleEntity">
+    insert into tt_role (tt_name, tt_order)
+    values (#{ttName,jdbcType=NVARCHAR}, #{ttOrder,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    tt_role
+    (tt_name,tt_order)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.ttName,jdbcType=NVARCHAR},#{item.ttOrder,jdbcType=NVARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.RoleEntity">
+    insert into tt_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ttName != null">
+        tt_name,
+      </if>
+      <if test="ttOrder != null">
+        tt_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ttName != null">
+        #{ttName,jdbcType=NVARCHAR},
+      </if>
+      <if test="ttOrder != null">
+        #{ttOrder,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.RoleEntity" resultMap="BaseResultMap">
+    select
+    tt_name,tt_order
+    from tt_role
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        and (tt_name like #{keysLike} or
+        tt_order like #{keysLike})
+      </if>
+    </where>
+  </select>
+</mapper>

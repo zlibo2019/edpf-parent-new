@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.DeviceMonitorMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.DeviceMonitorEntity">
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="dev_serial" jdbcType="CHAR" property="devSerial" />
+    <result column="dev_id" jdbcType="INTEGER" property="devId" />
+    <result column="online_state" jdbcType="INTEGER" property="onlineState" />
+    <result column="dev_downdata" jdbcType="INTEGER" property="devDowndata" />
+    <result column="dev_downfile" jdbcType="INTEGER" property="devDownfile" />
+    <result column="dev_update" jdbcType="INTEGER" property="devUpdate" />
+    <result column="dev_upfile" jdbcType="INTEGER" property="devUpfile" />
+    <result column="dev_softver" jdbcType="VARCHAR" property="devSoftver" />
+    <result column="online_sj" jdbcType="TIMESTAMP" property="onlineSj" />
+    <result column="dev_state" jdbcType="INTEGER" property="devState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    xh, dev_serial, dev_id, online_state, dev_downdata, dev_downfile, dev_update, dev_upfile, 
+    dev_softver, online_sj, dev_state
+  </sql>
+
+  <select id="selectByRoomBh" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select COUNT(dev_serial) as state
+    from st_device_monitor
+    where dev_serial in (select dev_serial from tkq_room_dev where Dep_serial=#{bh}) and online_state=1
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_device_monitor
+    where xh = #{xh,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from st_device_monitor
+    where xh = #{xh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.DeviceMonitorEntity">
+    insert into st_device_monitor (xh, dev_serial, dev_id, 
+      online_state, dev_downdata, dev_downfile, 
+      dev_update, dev_upfile, dev_softver, 
+      online_sj, dev_state)
+    values (#{xh,jdbcType=INTEGER}, #{devSerial,jdbcType=CHAR}, #{devId,jdbcType=INTEGER}, 
+      #{onlineState,jdbcType=INTEGER}, #{devDowndata,jdbcType=INTEGER}, #{devDownfile,jdbcType=INTEGER}, 
+      #{devUpdate,jdbcType=INTEGER}, #{devUpfile,jdbcType=INTEGER}, #{devSoftver,jdbcType=VARCHAR}, 
+      #{onlineSj,jdbcType=TIMESTAMP}, #{devState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.DeviceMonitorEntity">
+    insert into st_device_monitor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="devSerial != null">
+        dev_serial,
+      </if>
+      <if test="devId != null">
+        dev_id,
+      </if>
+      <if test="onlineState != null">
+        online_state,
+      </if>
+      <if test="devDowndata != null">
+        dev_downdata,
+      </if>
+      <if test="devDownfile != null">
+        dev_downfile,
+      </if>
+      <if test="devUpdate != null">
+        dev_update,
+      </if>
+      <if test="devUpfile != null">
+        dev_upfile,
+      </if>
+      <if test="devSoftver != null">
+        dev_softver,
+      </if>
+      <if test="onlineSj != null">
+        online_sj,
+      </if>
+      <if test="devState != null">
+        dev_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="devSerial != null">
+        #{devSerial,jdbcType=CHAR},
+      </if>
+      <if test="devId != null">
+        #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineState != null">
+        #{onlineState,jdbcType=INTEGER},
+      </if>
+      <if test="devDowndata != null">
+        #{devDowndata,jdbcType=INTEGER},
+      </if>
+      <if test="devDownfile != null">
+        #{devDownfile,jdbcType=INTEGER},
+      </if>
+      <if test="devUpdate != null">
+        #{devUpdate,jdbcType=INTEGER},
+      </if>
+      <if test="devUpfile != null">
+        #{devUpfile,jdbcType=INTEGER},
+      </if>
+      <if test="devSoftver != null">
+        #{devSoftver,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineSj != null">
+        #{onlineSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devState != null">
+        #{devState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.DeviceMonitorEntity">
+    update st_device_monitor
+    <set>
+      <if test="devSerial != null">
+        dev_serial = #{devSerial,jdbcType=CHAR},
+      </if>
+      <if test="devId != null">
+        dev_id = #{devId,jdbcType=INTEGER},
+      </if>
+      <if test="onlineState != null">
+        online_state = #{onlineState,jdbcType=INTEGER},
+      </if>
+      <if test="devDowndata != null">
+        dev_downdata = #{devDowndata,jdbcType=INTEGER},
+      </if>
+      <if test="devDownfile != null">
+        dev_downfile = #{devDownfile,jdbcType=INTEGER},
+      </if>
+      <if test="devUpdate != null">
+        dev_update = #{devUpdate,jdbcType=INTEGER},
+      </if>
+      <if test="devUpfile != null">
+        dev_upfile = #{devUpfile,jdbcType=INTEGER},
+      </if>
+      <if test="devSoftver != null">
+        dev_softver = #{devSoftver,jdbcType=VARCHAR},
+      </if>
+      <if test="onlineSj != null">
+        online_sj = #{onlineSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devState != null">
+        dev_state = #{devState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.DeviceMonitorEntity">
+    update st_device_monitor
+    set dev_serial = #{devSerial,jdbcType=CHAR},
+      dev_id = #{devId,jdbcType=INTEGER},
+      online_state = #{onlineState,jdbcType=INTEGER},
+      dev_downdata = #{devDowndata,jdbcType=INTEGER},
+      dev_downfile = #{devDownfile,jdbcType=INTEGER},
+      dev_update = #{devUpdate,jdbcType=INTEGER},
+      dev_upfile = #{devUpfile,jdbcType=INTEGER},
+      dev_softver = #{devSoftver,jdbcType=VARCHAR},
+      online_sj = #{onlineSj,jdbcType=TIMESTAMP},
+      dev_state = #{devState,jdbcType=INTEGER}
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.DeviceMonitorEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from st_device_monitor
+    <where>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="devSerial != null">
+        and dev_serial = #{devSerial,jdbcType=CHAR}
+      </if>
+      <if test="devId != null">
+        and dev_id = #{devId,jdbcType=INTEGER}
+      </if>
+      <if test="onlineState != null">
+        and online_state = #{onlineState,jdbcType=INTEGER}
+      </if>
+      <if test="devDowndata != null">
+        and dev_downdata = #{devDowndata,jdbcType=INTEGER}
+      </if>
+      <if test="devDownfile != null">
+        and dev_downfile = #{devDownfile,jdbcType=INTEGER}
+      </if>
+      <if test="devUpdate != null">
+        and dev_update = #{devUpdate,jdbcType=INTEGER}
+      </if>
+      <if test="devUpfile != null">
+        and dev_upfile = #{devUpfile,jdbcType=INTEGER}
+      </if>
+      <if test="devSoftver != null">
+        <bind name="devSoftverLike" value="'%'+devSoftver+'%'" />
+        and dev_softver like #{devSoftverLike}
+        <!--and dev_softver = #{devSoftver,jdbcType=VARCHAR}-->
+      </if>
+      <if test="onlineSj != null">
+        and online_sj = #{onlineSj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="devState != null">
+        and dev_state = #{devState,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

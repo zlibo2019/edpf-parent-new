@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisJlAllMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisJlAllEntity">
+        <id column="xh" jdbcType="BIGINT" property="xh"/>
+        <result column="Vis_Serial" jdbcType="VARCHAR" property="visSerial"/>
+        <result column="Card_Hao" jdbcType="VARCHAR" property="cardHao"/>
+        <result column="Vis_Place" jdbcType="NVARCHAR" property="visPlace"/>
+        <result column="Vis_Type" jdbcType="INTEGER" property="visType"/>
+        <result column="Vis_Door" jdbcType="VARCHAR" property="visDoor"/>
+        <result column="Door_Name" jdbcType="NVARCHAR" property="doorName"/>
+        <result column="fx" jdbcType="TINYINT" property="fx"/>
+        <result column="Result" jdbcType="TINYINT" property="result"/>
+        <result column="jFrame_id" jdbcType="INTEGER" property="jframeId"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="jWaterSN" jdbcType="INTEGER" property="jwatersn"/>
+        <result column="jWriteTime" jdbcType="TIMESTAMP" property="jwritetime"/>
+        <result column="jDevSerial" jdbcType="CHAR" property="jdevserial"/>
+        <result column="user_name" jdbcType="NVARCHAR" property="userName"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, Vis_Serial, Card_Hao, Vis_Place, Vis_Type, Vis_Door, Door_Name, fx, Result, jFrame_id,
+            sj, jWaterSN, jWriteTime, jDevSerial, user_name, dep_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_JL_All
+        where xh = #{xh,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from Vis_JL_All
+        where xh = #{xh,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisJlAllEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Long">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_JL_All (Vis_Serial, Card_Hao, Vis_Place,
+        Vis_Type, Vis_Door, Door_Name,
+        fx, Result, jFrame_id,
+        sj, jWaterSN, jWriteTime,
+        jDevSerial, user_name, dep_name
+        )
+        values (#{visSerial,jdbcType=VARCHAR}, #{cardHao,jdbcType=VARCHAR}, #{visPlace,jdbcType=NVARCHAR},
+        #{visType,jdbcType=INTEGER}, #{visDoor,jdbcType=VARCHAR}, #{doorName,jdbcType=NVARCHAR},
+        #{fx,jdbcType=TINYINT}, #{result,jdbcType=TINYINT}, #{jframeId,jdbcType=INTEGER},
+        #{sj,jdbcType=TIMESTAMP}, #{jwatersn,jdbcType=INTEGER}, #{jwritetime,jdbcType=TIMESTAMP},
+        #{jdevserial,jdbcType=CHAR}, #{userName,jdbcType=NVARCHAR}, #{depName,jdbcType=NVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisJlAllEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Long">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_JL_All
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                Vis_Serial,
+            </if>
+            <if test="cardHao != null">
+                Card_Hao,
+            </if>
+            <if test="visPlace != null">
+                Vis_Place,
+            </if>
+            <if test="visType != null">
+                Vis_Type,
+            </if>
+            <if test="visDoor != null">
+                Vis_Door,
+            </if>
+            <if test="doorName != null">
+                Door_Name,
+            </if>
+            <if test="fx != null">
+                fx,
+            </if>
+            <if test="result != null">
+                Result,
+            </if>
+            <if test="jframeId != null">
+                jFrame_id,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="jwatersn != null">
+                jWaterSN,
+            </if>
+            <if test="jwritetime != null">
+                jWriteTime,
+            </if>
+            <if test="jdevserial != null">
+                jDevSerial,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="depName != null">
+                dep_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                #{visSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="cardHao != null">
+                #{cardHao,jdbcType=VARCHAR},
+            </if>
+            <if test="visPlace != null">
+                #{visPlace,jdbcType=NVARCHAR},
+            </if>
+            <if test="visType != null">
+                #{visType,jdbcType=INTEGER},
+            </if>
+            <if test="visDoor != null">
+                #{visDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="doorName != null">
+                #{doorName,jdbcType=NVARCHAR},
+            </if>
+            <if test="fx != null">
+                #{fx,jdbcType=TINYINT},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=TINYINT},
+            </if>
+            <if test="jframeId != null">
+                #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwatersn != null">
+                #{jwatersn,jdbcType=INTEGER},
+            </if>
+            <if test="jwritetime != null">
+                #{jwritetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jdevserial != null">
+                #{jdevserial,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                #{depName,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisJlAllEntity">
+        update Vis_JL_All
+        <set>
+            <if test="visSerial != null">
+                Vis_Serial = #{visSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="cardHao != null">
+                Card_Hao = #{cardHao,jdbcType=VARCHAR},
+            </if>
+            <if test="visPlace != null">
+                Vis_Place = #{visPlace,jdbcType=NVARCHAR},
+            </if>
+            <if test="visType != null">
+                Vis_Type = #{visType,jdbcType=INTEGER},
+            </if>
+            <if test="visDoor != null">
+                Vis_Door = #{visDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="doorName != null">
+                Door_Name = #{doorName,jdbcType=NVARCHAR},
+            </if>
+            <if test="fx != null">
+                fx = #{fx,jdbcType=TINYINT},
+            </if>
+            <if test="result != null">
+                Result = #{result,jdbcType=TINYINT},
+            </if>
+            <if test="jframeId != null">
+                jFrame_id = #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwatersn != null">
+                jWaterSN = #{jwatersn,jdbcType=INTEGER},
+            </if>
+            <if test="jwritetime != null">
+                jWriteTime = #{jwritetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jdevserial != null">
+                jDevSerial = #{jdevserial,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisJlAllEntity">
+        update Vis_JL_All
+        set Vis_Serial = #{visSerial,jdbcType=VARCHAR},
+            Card_Hao   = #{cardHao,jdbcType=VARCHAR},
+            Vis_Place  = #{visPlace,jdbcType=NVARCHAR},
+            Vis_Type   = #{visType,jdbcType=INTEGER},
+            Vis_Door   = #{visDoor,jdbcType=VARCHAR},
+            Door_Name  = #{doorName,jdbcType=NVARCHAR},
+            fx         = #{fx,jdbcType=TINYINT},
+            Result     = #{result,jdbcType=TINYINT},
+            jFrame_id  = #{jframeId,jdbcType=INTEGER},
+            sj         = #{sj,jdbcType=TIMESTAMP},
+            jWaterSN   = #{jwatersn,jdbcType=INTEGER},
+            jWriteTime = #{jwritetime,jdbcType=TIMESTAMP},
+            jDevSerial = #{jdevserial,jdbcType=CHAR},
+            user_name  = #{userName,jdbcType=NVARCHAR},
+            dep_name   = #{depName,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=BIGINT}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisJlAllEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_JL_All
+        <where>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=BIGINT}
+            </if>
+            <if test="visSerial != null">
+                <bind name="visSerialLike" value="'%'+visSerial+'%'"/>
+                and Vis_Serial like #{visSerialLike}
+                <!--and Vis_Serial = #{visSerial,jdbcType=VARCHAR}-->
+            </if>
+            <if test="cardHao != null">
+                <bind name="cardHaoLike" value="'%'+cardHao+'%'"/>
+                and Card_Hao like #{cardHaoLike}
+                <!--and Card_Hao = #{cardHao,jdbcType=VARCHAR}-->
+            </if>
+            <if test="visPlace != null">
+                <bind name="visPlaceLike" value="'%'+visPlace+'%'"/>
+                and Vis_Place like #{visPlaceLike}
+                <!--and Vis_Place = #{visPlace,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visType != null">
+                and Vis_Type = #{visType,jdbcType=INTEGER}
+            </if>
+            <if test="visDoor != null">
+                <bind name="visDoorLike" value="'%'+visDoor+'%'"/>
+                and Vis_Door like #{visDoorLike}
+                <!--and Vis_Door = #{visDoor,jdbcType=VARCHAR}-->
+            </if>
+            <if test="doorName != null">
+                <bind name="doorNameLike" value="'%'+doorName+'%'"/>
+                and Door_Name like #{doorNameLike}
+                <!--and Door_Name = #{doorName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="fx != null">
+                and fx = #{fx,jdbcType=TINYINT}
+            </if>
+            <if test="result != null">
+                and Result = #{result,jdbcType=TINYINT}
+            </if>
+            <if test="jframeId != null">
+                and jFrame_id = #{jframeId,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jwatersn != null">
+                and jWaterSN = #{jwatersn,jdbcType=INTEGER}
+            </if>
+            <if test="jwritetime != null">
+                and jWriteTime = #{jwritetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jdevserial != null">
+                <bind name="jdevserialLike" value="'%'+jdevserial+'%'"/>
+                and jDevSerial like #{jdevserialLike}
+                <!--and jDevSerial = #{jdevserial,jdbcType=CHAR}-->
+            </if>
+            <if test="userName != null">
+                <bind name="userNameLike" value="'%'+userName+'%'"/>
+                and user_name like #{userNameLike}
+                <!--and user_name = #{userName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depName != null">
+                <bind name="depNameLike" value="'%'+depName+'%'"/>
+                and dep_name like #{depNameLike}
+                <!--and dep_name = #{depName,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_JL_All
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or Vis_Serial like #{keysLike}
+                or Card_Hao like #{keysLike}
+                or Vis_Place like #{keysLike}
+                or Vis_Door like #{keysLike}
+                or Door_Name like #{keysLike}
+                or jDevSerial like #{keysLike}
+                or user_name like #{keysLike}
+                or dep_name like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        Vis_JL_All
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

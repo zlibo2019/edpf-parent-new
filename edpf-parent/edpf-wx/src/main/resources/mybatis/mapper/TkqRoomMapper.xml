@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.TkqRoomMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.TkqRoomEntity">
+        <id column="Dep_serial" jdbcType="INTEGER" property="depSerial"/>
+        <result column="Dep_no" jdbcType="VARCHAR" property="depNo"/>
+        <result column="Dep_parent" jdbcType="INTEGER" property="depParent"/>
+        <result column="Dep_name" jdbcType="NVARCHAR" property="depName"/>
+        <result column="Dep_order" jdbcType="INTEGER" property="depOrder"/>
+        <result column="Dep_address" jdbcType="NVARCHAR" property="depAddress"/>
+        <result column="Dep_type" jdbcType="INTEGER" property="depType"/>
+        <result column="Dep_door" jdbcType="INTEGER" property="depDoor"/>
+        <result column="Dep_user" jdbcType="INTEGER" property="depUser"/>
+        <result column="dep_level" jdbcType="INTEGER" property="depLevel"/>
+        <result column="dep_exam" jdbcType="INTEGER" property="depExam"/>
+        <result column="Sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="Dep_state" jdbcType="INTEGER" property="depState"/>
+        <result column="Dep_nums" jdbcType="INTEGER" property="depNums"/>
+        <result column="Dep_sex" jdbcType="INTEGER" property="depSex"/>
+        <result column="Dep_info" jdbcType="INTEGER" property="depInfo"/>
+        <result column="dep_fee" jdbcType="VARCHAR" property="depFee"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="dep_number" jdbcType="VARCHAR" property="depNumber"/>
+        <result column="reg_serial" jdbcType="NVARCHAR" property="regSerial"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="sp" jdbcType="INTEGER" property="sp"/>
+        <result column="room_photo" jdbcType="INTEGER" property="roomPhoto"/>
+        <result column="photo_path" jdbcType="NVARCHAR" property="photoPath"/>
+        <result column="photo_name" jdbcType="NVARCHAR" property="photoName"/>
+        <result column="room_dep" jdbcType="INTEGER" property="roomDep"/>
+        <result column="star_level" jdbcType="INTEGER" property="starLevel"/>
+        <result column="level_detail" jdbcType="VARCHAR" property="levelDetail"/>
+        <result column="dep_manifesto" jdbcType="NVARCHAR" property="depManifesto"/>
+        <result column="fuser_serial" jdbcType="VARCHAR" property="fuserSerial"/>
+        <result column="dep_slogan" jdbcType="NVARCHAR" property="depSlogan"/>
+        <result column="dep_synopsis" jdbcType="NVARCHAR" property="depSynopsis"/>
+        <result column="dep_showname" jdbcType="NVARCHAR" property="depShowname"/>
+        <result column="usable" jdbcType="INTEGER" property="usable"/>
+        <result column="hy_spr" jdbcType="INTEGER" property="hySpr"/>
+
+    </resultMap>
+    <resultMap id="MeetRoomMap" type="com.weds.edwx.entity.MeetRoomEntity">
+        <id column="Dep_serial" jdbcType="INTEGER" property="depSerial"/>
+        <result column="Dep_name" jdbcType="NVARCHAR" property="depName"/>
+        <result column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="lname" jdbcType="NVARCHAR" property="meetName"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="photo_path" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="meet_state" jdbcType="INTEGER" property="meetState"/>
+    </resultMap>
+    <resultMap id="ResourceMap" type="com.weds.edwx.entity.RoomResourceEntity">
+        <id column="resource_xh" jdbcType="INTEGER" property="resourceXh"/>
+        <result column="resource_name" jdbcType="VARCHAR" property="resourceName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        Dep_serial, Dep_no, Dep_parent, Dep_name, Dep_order, Dep_address, Dep_type, Dep_door,
+                    Dep_user, dep_level, dep_exam, Sj, Dep_state, Dep_nums, Dep_sex, Dep_info, dep_fee,
+                    remark, dep_number, reg_serial, user_serial, sp, room_photo, photo_path, photo_name,
+                    room_dep, star_level, level_detail, dep_manifesto, fuser_serial, dep_slogan, dep_synopsis,
+                    dep_showname, usable, hy_spr
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from tkq_room
+      where Dep_serial = #{depSerial,jdbcType=INTEGER}
+    </select>
+    <!--
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      delete from tkq_room
+      where Dep_serial = #{depSerial,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.TkqRoomEntity">
+      insert into tkq_room (Dep_serial, Dep_no, Dep_parent,
+        Dep_name, Dep_order, Dep_address,
+        Dep_type, Dep_door, Dep_user,
+        dep_level, dep_exam, Sj,
+        Dep_state, Dep_nums, Dep_sex,
+        Dep_info, dep_fee, remark,
+        dep_number, reg_serial, user_serial,
+        sp, room_photo, photo_path,
+        photo_name, room_dep, star_level,
+        level_detail, dep_manifesto, fuser_serial,
+        dep_slogan, dep_synopsis, dep_showname,
+        usable, hy_spr)
+      values (#{depSerial,jdbcType=INTEGER}, #{depNo,jdbcType=VARCHAR}, #{depParent,jdbcType=INTEGER},
+        #{depName,jdbcType=NVARCHAR}, #{depOrder,jdbcType=INTEGER}, #{depAddress,jdbcType=NVARCHAR},
+        #{depType,jdbcType=INTEGER}, #{depDoor,jdbcType=INTEGER}, #{depUser,jdbcType=INTEGER},
+        #{depLevel,jdbcType=INTEGER}, #{depExam,jdbcType=INTEGER}, #{sj,jdbcType=TIMESTAMP},
+        #{depState,jdbcType=INTEGER}, #{depNums,jdbcType=INTEGER}, #{depSex,jdbcType=INTEGER},
+        #{depInfo,jdbcType=INTEGER}, #{depFee,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+        #{depNumber,jdbcType=VARCHAR}, #{regSerial,jdbcType=NVARCHAR}, #{userSerial,jdbcType=BIGINT},
+        #{sp,jdbcType=INTEGER}, #{roomPhoto,jdbcType=INTEGER}, #{photoPath,jdbcType=NVARCHAR},
+        #{photoName,jdbcType=NVARCHAR}, #{roomDep,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER},
+        #{levelDetail,jdbcType=VARCHAR}, #{depManifesto,jdbcType=NVARCHAR}, #{fuserSerial,jdbcType=VARCHAR},
+        #{depSlogan,jdbcType=NVARCHAR}, #{depSynopsis,jdbcType=NVARCHAR}, #{depShowname,jdbcType=NVARCHAR},
+        #{usable,jdbcType=INTEGER}, #{hySpr,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.TkqRoomEntity">
+      insert into tkq_room
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="depSerial != null">
+          Dep_serial,
+        </if>
+        <if test="depNo != null">
+          Dep_no,
+        </if>
+        <if test="depParent != null">
+          Dep_parent,
+        </if>
+        <if test="depName != null">
+          Dep_name,
+        </if>
+        <if test="depOrder != null">
+          Dep_order,
+        </if>
+        <if test="depAddress != null">
+          Dep_address,
+        </if>
+        <if test="depType != null">
+          Dep_type,
+        </if>
+        <if test="depDoor != null">
+          Dep_door,
+        </if>
+        <if test="depUser != null">
+          Dep_user,
+        </if>
+        <if test="depLevel != null">
+          dep_level,
+        </if>
+        <if test="depExam != null">
+          dep_exam,
+        </if>
+        <if test="sj != null">
+          Sj,
+        </if>
+        <if test="depState != null">
+          Dep_state,
+        </if>
+        <if test="depNums != null">
+          Dep_nums,
+        </if>
+        <if test="depSex != null">
+          Dep_sex,
+        </if>
+        <if test="depInfo != null">
+          Dep_info,
+        </if>
+        <if test="depFee != null">
+          dep_fee,
+        </if>
+        <if test="remark != null">
+          remark,
+        </if>
+        <if test="depNumber != null">
+          dep_number,
+        </if>
+        <if test="regSerial != null">
+          reg_serial,
+        </if>
+        <if test="userSerial != null">
+          user_serial,
+        </if>
+        <if test="sp != null">
+          sp,
+        </if>
+        <if test="roomPhoto != null">
+          room_photo,
+        </if>
+        <if test="photoPath != null">
+          photo_path,
+        </if>
+        <if test="photoName != null">
+          photo_name,
+        </if>
+        <if test="roomDep != null">
+          room_dep,
+        </if>
+        <if test="starLevel != null">
+          star_level,
+        </if>
+        <if test="levelDetail != null">
+          level_detail,
+        </if>
+        <if test="depManifesto != null">
+          dep_manifesto,
+        </if>
+        <if test="fuserSerial != null">
+          fuser_serial,
+        </if>
+        <if test="depSlogan != null">
+          dep_slogan,
+        </if>
+        <if test="depSynopsis != null">
+          dep_synopsis,
+        </if>
+        <if test="depShowname != null">
+          dep_showname,
+        </if>
+        <if test="usable != null">
+          usable,
+        </if>
+        <if test="hySpr != null">
+          hy_spr,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="depSerial != null">
+          #{depSerial,jdbcType=INTEGER},
+        </if>
+        <if test="depNo != null">
+          #{depNo,jdbcType=VARCHAR},
+        </if>
+        <if test="depParent != null">
+          #{depParent,jdbcType=INTEGER},
+        </if>
+        <if test="depName != null">
+          #{depName,jdbcType=NVARCHAR},
+        </if>
+        <if test="depOrder != null">
+          #{depOrder,jdbcType=INTEGER},
+        </if>
+        <if test="depAddress != null">
+          #{depAddress,jdbcType=NVARCHAR},
+        </if>
+        <if test="depType != null">
+          #{depType,jdbcType=INTEGER},
+        </if>
+        <if test="depDoor != null">
+          #{depDoor,jdbcType=INTEGER},
+        </if>
+        <if test="depUser != null">
+          #{depUser,jdbcType=INTEGER},
+        </if>
+        <if test="depLevel != null">
+          #{depLevel,jdbcType=INTEGER},
+        </if>
+        <if test="depExam != null">
+          #{depExam,jdbcType=INTEGER},
+        </if>
+        <if test="sj != null">
+          #{sj,jdbcType=TIMESTAMP},
+        </if>
+        <if test="depState != null">
+          #{depState,jdbcType=INTEGER},
+        </if>
+        <if test="depNums != null">
+          #{depNums,jdbcType=INTEGER},
+        </if>
+        <if test="depSex != null">
+          #{depSex,jdbcType=INTEGER},
+        </if>
+        <if test="depInfo != null">
+          #{depInfo,jdbcType=INTEGER},
+        </if>
+        <if test="depFee != null">
+          #{depFee,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null">
+          #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="depNumber != null">
+          #{depNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="regSerial != null">
+          #{regSerial,jdbcType=NVARCHAR},
+        </if>
+        <if test="userSerial != null">
+          #{userSerial,jdbcType=BIGINT},
+        </if>
+        <if test="sp != null">
+          #{sp,jdbcType=INTEGER},
+        </if>
+        <if test="roomPhoto != null">
+          #{roomPhoto,jdbcType=INTEGER},
+        </if>
+        <if test="photoPath != null">
+          #{photoPath,jdbcType=NVARCHAR},
+        </if>
+        <if test="photoName != null">
+          #{photoName,jdbcType=NVARCHAR},
+        </if>
+        <if test="roomDep != null">
+          #{roomDep,jdbcType=INTEGER},
+        </if>
+        <if test="starLevel != null">
+          #{starLevel,jdbcType=INTEGER},
+        </if>
+        <if test="levelDetail != null">
+          #{levelDetail,jdbcType=VARCHAR},
+        </if>
+        <if test="depManifesto != null">
+          #{depManifesto,jdbcType=NVARCHAR},
+        </if>
+        <if test="fuserSerial != null">
+          #{fuserSerial,jdbcType=VARCHAR},
+        </if>
+        <if test="depSlogan != null">
+          #{depSlogan,jdbcType=NVARCHAR},
+        </if>
+        <if test="depSynopsis != null">
+          #{depSynopsis,jdbcType=NVARCHAR},
+        </if>
+        <if test="depShowname != null">
+          #{depShowname,jdbcType=NVARCHAR},
+        </if>
+        <if test="usable != null">
+          #{usable,jdbcType=INTEGER},
+        </if>
+        <if test="hySpr != null">
+          #{hySpr,jdbcType=INTEGER},
+        </if>
+      </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.TkqRoomEntity">
+      update tkq_room
+      <set>
+        <if test="depNo != null">
+          Dep_no = #{depNo,jdbcType=VARCHAR},
+        </if>
+        <if test="depParent != null">
+          Dep_parent = #{depParent,jdbcType=INTEGER},
+        </if>
+        <if test="depName != null">
+          Dep_name = #{depName,jdbcType=NVARCHAR},
+        </if>
+        <if test="depOrder != null">
+          Dep_order = #{depOrder,jdbcType=INTEGER},
+        </if>
+        <if test="depAddress != null">
+          Dep_address = #{depAddress,jdbcType=NVARCHAR},
+        </if>
+        <if test="depType != null">
+          Dep_type = #{depType,jdbcType=INTEGER},
+        </if>
+        <if test="depDoor != null">
+          Dep_door = #{depDoor,jdbcType=INTEGER},
+        </if>
+        <if test="depUser != null">
+          Dep_user = #{depUser,jdbcType=INTEGER},
+        </if>
+        <if test="depLevel != null">
+          dep_level = #{depLevel,jdbcType=INTEGER},
+        </if>
+        <if test="depExam != null">
+          dep_exam = #{depExam,jdbcType=INTEGER},
+        </if>
+        <if test="sj != null">
+          Sj = #{sj,jdbcType=TIMESTAMP},
+        </if>
+        <if test="depState != null">
+          Dep_state = #{depState,jdbcType=INTEGER},
+        </if>
+        <if test="depNums != null">
+          Dep_nums = #{depNums,jdbcType=INTEGER},
+        </if>
+        <if test="depSex != null">
+          Dep_sex = #{depSex,jdbcType=INTEGER},
+        </if>
+        <if test="depInfo != null">
+          Dep_info = #{depInfo,jdbcType=INTEGER},
+        </if>
+        <if test="depFee != null">
+          dep_fee = #{depFee,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null">
+          remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="depNumber != null">
+          dep_number = #{depNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="regSerial != null">
+          reg_serial = #{regSerial,jdbcType=NVARCHAR},
+        </if>
+        <if test="userSerial != null">
+          user_serial = #{userSerial,jdbcType=BIGINT},
+        </if>
+        <if test="sp != null">
+          sp = #{sp,jdbcType=INTEGER},
+        </if>
+        <if test="roomPhoto != null">
+          room_photo = #{roomPhoto,jdbcType=INTEGER},
+        </if>
+        <if test="photoPath != null">
+          photo_path = #{photoPath,jdbcType=NVARCHAR},
+        </if>
+        <if test="photoName != null">
+          photo_name = #{photoName,jdbcType=NVARCHAR},
+        </if>
+        <if test="roomDep != null">
+          room_dep = #{roomDep,jdbcType=INTEGER},
+        </if>
+        <if test="starLevel != null">
+          star_level = #{starLevel,jdbcType=INTEGER},
+        </if>
+        <if test="levelDetail != null">
+          level_detail = #{levelDetail,jdbcType=VARCHAR},
+        </if>
+        <if test="depManifesto != null">
+          dep_manifesto = #{depManifesto,jdbcType=NVARCHAR},
+        </if>
+        <if test="fuserSerial != null">
+          fuser_serial = #{fuserSerial,jdbcType=VARCHAR},
+        </if>
+        <if test="depSlogan != null">
+          dep_slogan = #{depSlogan,jdbcType=NVARCHAR},
+        </if>
+        <if test="depSynopsis != null">
+          dep_synopsis = #{depSynopsis,jdbcType=NVARCHAR},
+        </if>
+        <if test="depShowname != null">
+          dep_showname = #{depShowname,jdbcType=NVARCHAR},
+        </if>
+        <if test="usable != null">
+          usable = #{usable,jdbcType=INTEGER},
+        </if>
+        <if test="hySpr != null">
+          hy_spr = #{hySpr,jdbcType=INTEGER},
+        </if>
+      </set>
+      where Dep_serial = #{depSerial,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.TkqRoomEntity">
+      update tkq_room
+      set Dep_no = #{depNo,jdbcType=VARCHAR},
+        Dep_parent = #{depParent,jdbcType=INTEGER},
+        Dep_name = #{depName,jdbcType=NVARCHAR},
+        Dep_order = #{depOrder,jdbcType=INTEGER},
+        Dep_address = #{depAddress,jdbcType=NVARCHAR},
+        Dep_type = #{depType,jdbcType=INTEGER},
+        Dep_door = #{depDoor,jdbcType=INTEGER},
+        Dep_user = #{depUser,jdbcType=INTEGER},
+        dep_level = #{depLevel,jdbcType=INTEGER},
+        dep_exam = #{depExam,jdbcType=INTEGER},
+        Sj = #{sj,jdbcType=TIMESTAMP},
+        Dep_state = #{depState,jdbcType=INTEGER},
+        Dep_nums = #{depNums,jdbcType=INTEGER},
+        Dep_sex = #{depSex,jdbcType=INTEGER},
+        Dep_info = #{depInfo,jdbcType=INTEGER},
+        dep_fee = #{depFee,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        dep_number = #{depNumber,jdbcType=VARCHAR},
+        reg_serial = #{regSerial,jdbcType=NVARCHAR},
+        user_serial = #{userSerial,jdbcType=BIGINT},
+        sp = #{sp,jdbcType=INTEGER},
+        room_photo = #{roomPhoto,jdbcType=INTEGER},
+        photo_path = #{photoPath,jdbcType=NVARCHAR},
+        photo_name = #{photoName,jdbcType=NVARCHAR},
+        room_dep = #{roomDep,jdbcType=INTEGER},
+        star_level = #{starLevel,jdbcType=INTEGER},
+        level_detail = #{levelDetail,jdbcType=VARCHAR},
+        dep_manifesto = #{depManifesto,jdbcType=NVARCHAR},
+        fuser_serial = #{fuserSerial,jdbcType=VARCHAR},
+        dep_slogan = #{depSlogan,jdbcType=NVARCHAR},
+        dep_synopsis = #{depSynopsis,jdbcType=NVARCHAR},
+        dep_showname = #{depShowname,jdbcType=NVARCHAR},
+        usable = #{usable,jdbcType=INTEGER},
+        hy_spr = #{hySpr,jdbcType=INTEGER}
+      where Dep_serial = #{depSerial,jdbcType=INTEGER}
+    </update>
+    -->
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.TkqRoomEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tkq_room
+        <where>
+            <if test="depSerial != null">
+                and Dep_serial = #{depSerial,jdbcType=INTEGER}
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and Dep_no like #{depNoLike}
+                <!--and Dep_no = #{depNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depParent != null">
+                and Dep_parent = #{depParent,jdbcType=INTEGER}
+            </if>
+            <if test="depName != null">
+                and Dep_name = #{depName,jdbcType=NVARCHAR}
+            </if>
+            <if test="depOrder != null">
+                and Dep_order = #{depOrder,jdbcType=INTEGER}
+            </if>
+            <if test="depAddress != null">
+                and Dep_address = #{depAddress,jdbcType=NVARCHAR}
+            </if>
+            <if test="depType != null">
+                and Dep_type = #{depType,jdbcType=INTEGER}
+            </if>
+            <if test="depDoor != null">
+                and Dep_door = #{depDoor,jdbcType=INTEGER}
+            </if>
+            <if test="depUser != null">
+                and Dep_user = #{depUser,jdbcType=INTEGER}
+            </if>
+            <if test="depLevel != null">
+                and dep_level = #{depLevel,jdbcType=INTEGER}
+            </if>
+            <if test="depExam != null">
+                and dep_exam = #{depExam,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and Sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="depState != null">
+                and Dep_state = #{depState,jdbcType=INTEGER}
+            </if>
+            <if test="depNums != null">
+                and Dep_nums = #{depNums,jdbcType=INTEGER}
+            </if>
+            <if test="depSex != null">
+                and Dep_sex = #{depSex,jdbcType=INTEGER}
+            </if>
+            <if test="depInfo != null">
+                and Dep_info = #{depInfo,jdbcType=INTEGER}
+            </if>
+            <if test="depFee != null">
+                <bind name="depFeeLike" value="'%'+depFee+'%'"/>
+                and dep_fee like #{depFeeLike}
+                <!--and dep_fee = #{depFee,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depNumber != null">
+                <bind name="depNumberLike" value="'%'+depNumber+'%'"/>
+                and dep_number like #{depNumberLike}
+                <!--and dep_number = #{depNumber,jdbcType=VARCHAR}-->
+            </if>
+            <if test="regSerial != null">
+                and reg_serial = #{regSerial,jdbcType=NVARCHAR}
+            </if>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="sp != null">
+                and sp = #{sp,jdbcType=INTEGER}
+            </if>
+            <if test="roomPhoto != null">
+                and room_photo = #{roomPhoto,jdbcType=INTEGER}
+            </if>
+            <if test="photoPath != null">
+                and photo_path = #{photoPath,jdbcType=NVARCHAR}
+            </if>
+            <if test="photoName != null">
+                and photo_name = #{photoName,jdbcType=NVARCHAR}
+            </if>
+            <if test="roomDep != null">
+                and room_dep = #{roomDep,jdbcType=INTEGER}
+            </if>
+            <if test="starLevel != null">
+                and star_level = #{starLevel,jdbcType=INTEGER}
+            </if>
+            <if test="levelDetail != null">
+                <bind name="levelDetailLike" value="'%'+levelDetail+'%'"/>
+                and level_detail like #{levelDetailLike}
+                <!--and level_detail = #{levelDetail,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depManifesto != null">
+                and dep_manifesto = #{depManifesto,jdbcType=NVARCHAR}
+            </if>
+            <if test="fuserSerial != null">
+                <bind name="fuserSerialLike" value="'%'+fuserSerial+'%'"/>
+                and fuser_serial like #{fuserSerialLike}
+                <!--and fuser_serial = #{fuserSerial,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depSlogan != null">
+                and dep_slogan = #{depSlogan,jdbcType=NVARCHAR}
+            </if>
+            <if test="depSynopsis != null">
+                and dep_synopsis = #{depSynopsis,jdbcType=NVARCHAR}
+            </if>
+            <if test="depShowname != null">
+                and dep_showname = #{depShowname,jdbcType=NVARCHAR}
+            </if>
+            <if test="usable != null">
+                and usable = #{usable,jdbcType=INTEGER}
+            </if>
+            <if test="hySpr != null">
+                and hy_spr = #{hySpr,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <select id="selectRoomListByEntity" parameterType="com.weds.edwx.entity.QueryTimeEntity" resultMap="MeetRoomMap">
+        select a.Dep_serial,
+               a.Dep_name,
+               b.bh,
+               b.lname,
+               b.kssj,
+               b.jssj,
+               ''             as photo_path,
+               case
+                   when bh is null then 2
+                   when <![CDATA[  kssj <= #{currentTime} ]]> then 1
+                   when <![CDATA[  kssj > #{currentTime} ]]> then 0
+                   else 2 end as meet_state
+        from (select distinct a.Dep_serial, a.Dep_name, a.Dep_order
+              from tkq_room a
+                       inner join tkq_room_dev b on a.Dep_serial = b.Dep_serial and a.Dep_type = 2) a
+                 left join (select a.room_serial,
+                                   b.bh,
+                                   b.lname,-- b.kssj,b.jssj
+                                   DATEADD(mi, isnull(-c.ksqdsj, 0), b.kssj) kssj,
+                                   DATEADD(mi, isnull(c.jsqdsj, 0), b.jssj)  jssj
+                            from (select room_serial, MIN(bh) bh
+                                  from dt_meet
+                                  where #{kssj,jdbcType=TIMESTAMP} &lt; jssj
+                                    and #{jssj,jdbcType=TIMESTAMP} &gt; jssj
+                                    and not exists (select 1 from meet_sp where bh = meet_bh and (sp_jg = 2 or sp_flag = 0))
+                                  group by room_serial) a
+                                     inner join dt_meet b on a.bh = b.bh
+                                     inner join meet_guize c on a.bh = c.meet_bh) b on a.Dep_serial = b.room_serial
+        order by a.Dep_order
+    </select>
+    <select id="getRoomResourceList" parameterType="java.lang.Integer" resultMap="ResourceMap">
+        select a.resource_xh, b.resource_name
+        from room_resource a
+                 inner join tt_resource b on a.resource_xh = b.resource_xh and a.dep_serial = #{bh}
+    </select>
+</mapper>

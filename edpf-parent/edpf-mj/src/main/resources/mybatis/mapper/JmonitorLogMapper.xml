@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.JmonitorLogMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edmj.entity.JmonitorLogEntity">
+        <id column="JID" jdbcType="INTEGER" property="jid"/>
+        <result column="jdev_bh" jdbcType="CHAR" property="jdevBh"/>
+        <result column="jdoor" jdbcType="TINYINT" property="jdoor"/>
+        <result column="jdoor_dir" jdbcType="TINYINT" property="jdoorDir"/>
+        <result column="jlog_sn" jdbcType="INTEGER" property="jlogSn"/>
+        <result column="jlog_time" jdbcType="TIMESTAMP" property="jlogTime"/>
+        <result column="jlog_style" jdbcType="TINYINT" property="jlogStyle"/>
+        <result column="jcard" jdbcType="VARCHAR" property="jcard"/>
+        <result column="jlog_name" jdbcType="VARCHAR" property="jlogName"/>
+        <result column="jdoor_dirname" jdbcType="VARCHAR" property="jdoorDirname"/>
+        <result column="jlog_state" jdbcType="INTEGER" property="jlogState"/>
+        <result column="user_serial" jdbcType="INTEGER" property="userSerial"/>
+        <result column="Gate_Bh" jdbcType="VARCHAR" property="gateBh"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+        <result column="user_depname" jdbcType="VARCHAR" property="userDepname"/>
+        <result column="jframe_id" jdbcType="INTEGER" property="jframeId"/>
+        <result column="user_lx" jdbcType="TINYINT" property="userLx"/>
+        <result column="door_name" jdbcType="VARCHAR" property="doorName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        JID, jdev_bh, jdoor, jdoor_dir, jlog_sn, jlog_time, jlog_style, jcard, jlog_name,
+             jdoor_dirname, jlog_state, user_serial, Gate_Bh, user_lname, user_depname, jframe_id,
+             user_lx
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from jmonitor_log
+        where JID = #{jid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from jmonitor_log
+        where JID = #{jid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edmj.entity.JmonitorLogEntity">
+        insert into jmonitor_log (JID,
+                                  jdev_bh,
+                                  jdoor,
+                                  jdoor_dir,
+                                  jlog_sn,
+                                  jlog_time,
+                                  jlog_style,
+                                  jcard,
+                                  jlog_name,
+                                  jdoor_dirname,
+                                  jlog_state,
+                                  user_serial,
+                                  Gate_Bh,
+                                  user_lname,
+                                  user_depname,
+                                  jframe_id,
+                                  user_lx)
+        values (#{jid,jdbcType=INTEGER},
+                #{jdevBh,jdbcType=CHAR},
+                #{jdoor,jdbcType=TINYINT},
+                #{jdoorDir,jdbcType=TINYINT},
+                #{jlogSn,jdbcType=INTEGER},
+                #{jlogTime,jdbcType=TIMESTAMP},
+                #{jlogStyle,jdbcType=TINYINT},
+                #{jcard,jdbcType=VARCHAR},
+                #{jlogName,jdbcType=VARCHAR},
+                #{jdoorDirname,jdbcType=VARCHAR},
+                #{jlogState,jdbcType=INTEGER},
+                #{userSerial,jdbcType=INTEGER},
+                #{gateBh,jdbcType=VARCHAR},
+                #{userLname,jdbcType=VARCHAR},
+                #{userDepname,jdbcType=VARCHAR},
+                #{jframeId,jdbcType=INTEGER},
+                #{userLx,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertBatch" parameterType="List">
+        insert into
+        jmonitor_log
+        (JID,jdev_bh,jdoor,jdoor_dir,jlog_sn,jlog_time,jlog_style,jcard,jlog_name,jdoor_dirname,jlog_state,user_serial,Gate_Bh,user_lname,user_depname,jframe_id,user_lx)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.jid,jdbcType=INTEGER},#{item.jdevBh,jdbcType=CHAR},#{item.jdoor,jdbcType=TINYINT},#{item.jdoorDir,jdbcType=TINYINT},#{item.jlogSn,jdbcType=INTEGER},#{item.jlogTime,jdbcType=TIMESTAMP},#{item.jlogStyle,jdbcType=TINYINT},#{item.jcard,jdbcType=VARCHAR},#{item.jlogName,jdbcType=VARCHAR},#{item.jdoorDirname,jdbcType=VARCHAR},#{item.jlogState,jdbcType=INTEGER},#{item.userSerial,jdbcType=INTEGER},#{item.gateBh,jdbcType=VARCHAR},#{item.userLname,jdbcType=VARCHAR},#{item.userDepname,jdbcType=VARCHAR},#{item.jframeId,jdbcType=INTEGER},#{item.userLx,jdbcType=TINYINT})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edmj.entity.JmonitorLogEntity">
+        insert into jmonitor_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jid != null">
+                JID,
+            </if>
+            <if test="jdevBh != null">
+                jdev_bh,
+            </if>
+            <if test="jdoor != null">
+                jdoor,
+            </if>
+            <if test="jdoorDir != null">
+                jdoor_dir,
+            </if>
+            <if test="jlogSn != null">
+                jlog_sn,
+            </if>
+            <if test="jlogTime != null">
+                jlog_time,
+            </if>
+            <if test="jlogStyle != null">
+                jlog_style,
+            </if>
+            <if test="jcard != null">
+                jcard,
+            </if>
+            <if test="jlogName != null">
+                jlog_name,
+            </if>
+            <if test="jdoorDirname != null">
+                jdoor_dirname,
+            </if>
+            <if test="jlogState != null">
+                jlog_state,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="gateBh != null">
+                Gate_Bh,
+            </if>
+            <if test="userLname != null">
+                user_lname,
+            </if>
+            <if test="userDepname != null">
+                user_depname,
+            </if>
+            <if test="jframeId != null">
+                jframe_id,
+            </if>
+            <if test="userLx != null">
+                user_lx,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jid != null">
+                #{jid,jdbcType=INTEGER},
+            </if>
+            <if test="jdevBh != null">
+                #{jdevBh,jdbcType=CHAR},
+            </if>
+            <if test="jdoor != null">
+                #{jdoor,jdbcType=TINYINT},
+            </if>
+            <if test="jdoorDir != null">
+                #{jdoorDir,jdbcType=TINYINT},
+            </if>
+            <if test="jlogSn != null">
+                #{jlogSn,jdbcType=INTEGER},
+            </if>
+            <if test="jlogTime != null">
+                #{jlogTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jlogStyle != null">
+                #{jlogStyle,jdbcType=TINYINT},
+            </if>
+            <if test="jcard != null">
+                #{jcard,jdbcType=VARCHAR},
+            </if>
+            <if test="jlogName != null">
+                #{jlogName,jdbcType=VARCHAR},
+            </if>
+            <if test="jdoorDirname != null">
+                #{jdoorDirname,jdbcType=VARCHAR},
+            </if>
+            <if test="jlogState != null">
+                #{jlogState,jdbcType=INTEGER},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="gateBh != null">
+                #{gateBh,jdbcType=VARCHAR},
+            </if>
+            <if test="userLname != null">
+                #{userLname,jdbcType=VARCHAR},
+            </if>
+            <if test="userDepname != null">
+                #{userDepname,jdbcType=VARCHAR},
+            </if>
+            <if test="jframeId != null">
+                #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="userLx != null">
+                #{userLx,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.JmonitorLogEntity">
+        update jmonitor_log
+        <set>
+            <if test="jdevBh != null">
+                jdev_bh = #{jdevBh,jdbcType=CHAR},
+            </if>
+            <if test="jdoor != null">
+                jdoor = #{jdoor,jdbcType=TINYINT},
+            </if>
+            <if test="jdoorDir != null">
+                jdoor_dir = #{jdoorDir,jdbcType=TINYINT},
+            </if>
+            <if test="jlogSn != null">
+                jlog_sn = #{jlogSn,jdbcType=INTEGER},
+            </if>
+            <if test="jlogTime != null">
+                jlog_time = #{jlogTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jlogStyle != null">
+                jlog_style = #{jlogStyle,jdbcType=TINYINT},
+            </if>
+            <if test="jcard != null">
+                jcard = #{jcard,jdbcType=VARCHAR},
+            </if>
+            <if test="jlogName != null">
+                jlog_name = #{jlogName,jdbcType=VARCHAR},
+            </if>
+            <if test="jdoorDirname != null">
+                jdoor_dirname = #{jdoorDirname,jdbcType=VARCHAR},
+            </if>
+            <if test="jlogState != null">
+                jlog_state = #{jlogState,jdbcType=INTEGER},
+            </if>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="gateBh != null">
+                Gate_Bh = #{gateBh,jdbcType=VARCHAR},
+            </if>
+            <if test="userLname != null">
+                user_lname = #{userLname,jdbcType=VARCHAR},
+            </if>
+            <if test="userDepname != null">
+                user_depname = #{userDepname,jdbcType=VARCHAR},
+            </if>
+            <if test="jframeId != null">
+                jframe_id = #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="userLx != null">
+                user_lx = #{userLx,jdbcType=TINYINT},
+            </if>
+        </set>
+        where JID = #{jid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.JmonitorLogEntity">
+        update jmonitor_log
+        set jdev_bh       = #{jdevBh,jdbcType=CHAR},
+            jdoor         = #{jdoor,jdbcType=TINYINT},
+            jdoor_dir     = #{jdoorDir,jdbcType=TINYINT},
+            jlog_sn       = #{jlogSn,jdbcType=INTEGER},
+            jlog_time     = #{jlogTime,jdbcType=TIMESTAMP},
+            jlog_style    = #{jlogStyle,jdbcType=TINYINT},
+            jcard         = #{jcard,jdbcType=VARCHAR},
+            jlog_name     = #{jlogName,jdbcType=VARCHAR},
+            jdoor_dirname = #{jdoorDirname,jdbcType=VARCHAR},
+            jlog_state    = #{jlogState,jdbcType=INTEGER},
+            user_serial   = #{userSerial,jdbcType=INTEGER},
+            Gate_Bh       = #{gateBh,jdbcType=VARCHAR},
+            user_lname    = #{userLname,jdbcType=VARCHAR},
+            user_depname  = #{userDepname,jdbcType=VARCHAR},
+            jframe_id     = #{jframeId,jdbcType=INTEGER},
+            user_lx       = #{userLx,jdbcType=TINYINT}
+        where JID = #{jid,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edmj.entity.JmonitorLogEntity" resultMap="BaseResultMap">
+        select
+        a.JID,d.door_name,a.jlog_name,a.jlog_time,a.jdoor_dirname,a.jdoor,a.user_depname, a.jdev_bh,
+        a.jframe_id,a.user_serial, a.jlog_sn,
+        a.user_lname,a.jcard,a.jlog_state,a.user_lx
+        from
+        ( select top 500* from jmonitor_log WHERE jid >#{jid} order by JID desc ) a
+        inner join st_door_real d on d.bh=a.gate_bh
+        where
+        (1=1 and (a.jlog_time>=#{jlogTime})
+        and (
+        a.Gate_Bh in ( select Gate_Bh from dt_gate_real
+        <where>
+            <if test="placeList !=null">
+                and acdep_serial in
+                <foreach close=")" collection="placeList" index="index" item="item" open="(" separator=",">
+                    (#{item})
+                </foreach>
+            </if>
+            <if test="gateList !=null">
+                and gate_bh in
+                <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+                    (#{item})
+                </foreach>
+            </if>
+        </where>
+        )
+        or a.jlog_style in (26,27,28,30,51,59,62))
+        ) and (a.jdoor!=255)
+        order by a.JID DESC
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        jmonitor_log
+        where (JID) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.jid})
+        </foreach>
+    </delete>
+</mapper>

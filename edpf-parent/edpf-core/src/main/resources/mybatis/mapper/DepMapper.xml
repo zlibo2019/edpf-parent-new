@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.DepMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.DepEntity">
+        <id column="dep_serial" jdbcType="BIGINT" property="depSerial"/>
+        <result column="dep_parent" jdbcType="INTEGER" property="depParent"/>
+        <result column="dep_order" jdbcType="INTEGER" property="depOrder"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+        <result column="dep_no" jdbcType="VARCHAR" property="depNo"/>
+        <result column="dep_rule" jdbcType="NVARCHAR" property="depRule"/>
+        <result column="dep_regserial" jdbcType="NVARCHAR" property="depRegserial"/>
+        <result column="jz_dt_abbreviation" jdbcType="VARCHAR" property="jzDtAbbreviation"/>
+        <result column="dep_teachserial" jdbcType="INTEGER" property="depTeachserial"/>
+        <result column="dep_lx" jdbcType="INTEGER" property="depLx"/>
+        <result column="dep_domain" jdbcType="VARCHAR" property="depDomain"/>
+        <result column="user_nums" jdbcType="INTEGER" property="userNums"/>
+        <result column="leaf" jdbcType="INTEGER" property="leaf"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        dep_serial, dep_parent, dep_order, dep_name, dep_no, dep_rule, dep_regserial, jz_dt_abbreviation,
+                    dep_teachserial, dep_lx, dep_domain
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_dep
+        where dep_serial = #{depSerial,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dt_dep
+        where dep_serial = #{depSerial,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.DepEntity">
+        insert into dt_dep (dep_serial,
+                            dep_parent,
+                            dep_order,
+                            dep_name,
+                            dep_no,
+                            dep_rule,
+                            dep_regserial,
+                            jz_dt_abbreviation,
+                            dep_teachserial,
+                            dep_lx,
+                            dep_domain)
+        values (#{depSerial,jdbcType=BIGINT},
+                #{depParent,jdbcType=INTEGER},
+                #{depOrder,jdbcType=INTEGER},
+                #{depName,jdbcType=NVARCHAR},
+                #{depNo,jdbcType=VARCHAR},
+                #{depRule,jdbcType=NVARCHAR},
+                #{depRegserial,jdbcType=NVARCHAR},
+                #{jzDtAbbreviation,jdbcType=VARCHAR},
+                #{depTeachserial,jdbcType=INTEGER},
+                #{depLx,jdbcType=INTEGER},
+                #{depDomain,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.DepEntity">
+        insert into dt_dep
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="depSerial != null">
+                dep_serial,
+            </if>
+            <if test="depParent != null">
+                dep_parent,
+            </if>
+            <if test="depOrder != null">
+                dep_order,
+            </if>
+            <if test="depName != null">
+                dep_name,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="depRule != null">
+                dep_rule,
+            </if>
+            <if test="depRegserial != null">
+                dep_regserial,
+            </if>
+            <if test="jzDtAbbreviation != null">
+                jz_dt_abbreviation,
+            </if>
+            <if test="depTeachserial != null">
+                dep_teachserial,
+            </if>
+            <if test="depLx != null">
+                dep_lx,
+            </if>
+            <if test="depDomain != null">
+                dep_domain,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="depSerial != null">
+                #{depSerial,jdbcType=BIGINT},
+            </if>
+            <if test="depParent != null">
+                #{depParent,jdbcType=INTEGER},
+            </if>
+            <if test="depOrder != null">
+                #{depOrder,jdbcType=INTEGER},
+            </if>
+            <if test="depName != null">
+                #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="depRule != null">
+                #{depRule,jdbcType=NVARCHAR},
+            </if>
+            <if test="depRegserial != null">
+                #{depRegserial,jdbcType=NVARCHAR},
+            </if>
+            <if test="jzDtAbbreviation != null">
+                #{jzDtAbbreviation,jdbcType=VARCHAR},
+            </if>
+            <if test="depTeachserial != null">
+                #{depTeachserial,jdbcType=INTEGER},
+            </if>
+            <if test="depLx != null">
+                #{depLx,jdbcType=INTEGER},
+            </if>
+            <if test="depDomain != null">
+                #{depDomain,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.DepEntity">
+        update dt_dep
+        <set>
+            <if test="depParent != null">
+                dep_parent = #{depParent,jdbcType=INTEGER},
+            </if>
+            <if test="depOrder != null">
+                dep_order = #{depOrder,jdbcType=INTEGER},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="depRule != null">
+                dep_rule = #{depRule,jdbcType=NVARCHAR},
+            </if>
+            <if test="depRegserial != null">
+                dep_regserial = #{depRegserial,jdbcType=NVARCHAR},
+            </if>
+            <if test="jzDtAbbreviation != null">
+                jz_dt_abbreviation = #{jzDtAbbreviation,jdbcType=VARCHAR},
+            </if>
+            <if test="depTeachserial != null">
+                dep_teachserial = #{depTeachserial,jdbcType=INTEGER},
+            </if>
+            <if test="depLx != null">
+                dep_lx = #{depLx,jdbcType=INTEGER},
+            </if>
+            <if test="depDomain != null">
+                dep_domain = #{depDomain,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where dep_serial = #{depSerial,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.DepEntity">
+        update dt_dep
+        set dep_parent         = #{depParent,jdbcType=INTEGER},
+            dep_order          = #{depOrder,jdbcType=INTEGER},
+            dep_name           = #{depName,jdbcType=NVARCHAR},
+            dep_no             = #{depNo,jdbcType=VARCHAR},
+            dep_rule           = #{depRule,jdbcType=NVARCHAR},
+            dep_regserial      = #{depRegserial,jdbcType=NVARCHAR},
+            jz_dt_abbreviation = #{jzDtAbbreviation,jdbcType=VARCHAR},
+            dep_teachserial    = #{depTeachserial,jdbcType=INTEGER},
+            dep_lx             = #{depLx,jdbcType=INTEGER},
+            dep_domain         = #{depDomain,jdbcType=VARCHAR}
+        where dep_serial = #{depSerial,jdbcType=BIGINT}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.DepEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_dep
+        <where>
+            <if test="depSerial != null">
+                and dep_serial = #{depSerial,jdbcType=BIGINT}
+            </if>
+            <if test="depParent != null">
+                and dep_parent = #{depParent,jdbcType=INTEGER}
+            </if>
+            <if test="depOrder != null">
+                and dep_order = #{depOrder,jdbcType=INTEGER}
+            </if>
+            <if test="depName != null">
+                <bind name="depNameLike" value="'%'+depName+'%'"/>
+                and dep_name like #{depNameLike}
+                <!--and dep_name = #{depName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depRule != null">
+                <bind name="depRuleLike" value="'%'+depRule+'%'"/>
+                and dep_rule like #{depRuleLike}
+                <!--and dep_rule = #{depRule,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depRegserial != null">
+                <bind name="depRegserialLike" value="'%'+depRegserial+'%'"/>
+                and dep_regserial like #{depRegserialLike}
+                <!--and dep_regserial = #{depRegserial,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="jzDtAbbreviation != null">
+                <bind name="jzDtAbbreviationLike" value="'%'+jzDtAbbreviation+'%'"/>
+                and jz_dt_abbreviation like #{jzDtAbbreviationLike}
+                <!--and jz_dt_abbreviation = #{jzDtAbbreviation,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depTeachserial != null">
+                and dep_teachserial = #{depTeachserial,jdbcType=INTEGER}
+            </if>
+            <if test="depLx != null">
+                and dep_lx = #{depLx,jdbcType=INTEGER}
+            </if>
+            <if test="depDomain != null">
+                <bind name="depDomainLike" value="'%'+depDomain+'%'"/>
+                and dep_domain like #{depDomainLike}
+                <!--and dep_domain = #{depDomain,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDeptUserNums" parameterType="Integer" resultMap="BaseResultMap">
+        <![CDATA[
+        with temp (dep_parent,
+                 dep_parent_name,
+                 dep_serial,
+                 dep_name) as (select dep_serial, dep_name, dep_serial, dep_name
+                               from dt_dep
+                union all
+                select t2.dep_parent, t2.dep_parent_name, t1.dep_serial, t1.dep_name
+                from dt_dep t1,
+                     temp t2
+                where t1.dep_parent = t2.dep_serial)
+        select dep_parent as dep_serial, dep_parent_name as dep_name, num as user_nums
+        from (select t1.dep_parent, t1.dep_parent_name, count(distinct t2.user_serial) as num
+              from temp t1,
+                   dt_user t2
+              where t1.dep_serial = t2.user_dep
+                and t2.user_type < 51
+              group by t1.dep_parent, t1.dep_parent_name) as tt
+        where tt.dep_parent in (select dep_serial from dt_dep where dep_parent = #{depParentNo})
+        order by dep_parent
+        ]]>
+    </select>
+    <select id="selectOrgTree" parameterType="Integer" resultMap="BaseResultMap">
+        with temp (dep_serial,
+                 dep_name,
+                 dep_parent) as (select dep_serial, dep_name, dep_parent
+                                 from dt_dep
+                                 where dep_parent = #{depParentNo}
+                union all
+                select t2.dep_serial, t2.dep_name, t2.dep_parent
+                from temp t1,
+                     dt_dep t2
+                where t1.dep_serial = t2.dep_parent)
+        select *
+        from temp
+    </select>
+
+    <select id="selectOrgTreeLazy" parameterType="Integer" resultMap="BaseResultMap">
+        select t1.dep_serial, t1.dep_name, t1.dep_parent, case when t2.num is null then 0 else 1 end as leaf
+        from dt_dep t1
+                 left join (select dep_parent, count(1) as num
+                            from dt_dep
+                            where dep_parent in (select dep_serial from dt_dep where dep_parent = #{depParentNo})
+                            group by dep_parent) t2 on t1.dep_serial = t2.dep_parent
+        where t1.dep_parent = #{depParentNo}
+    </select>
+</mapper>

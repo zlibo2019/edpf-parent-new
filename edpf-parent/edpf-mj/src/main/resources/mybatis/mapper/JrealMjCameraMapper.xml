@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.JrealMjCameraMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.JrealMjCameraEntity">
+    <id column="jid" jdbcType="INTEGER" property="jid" />
+    <result column="Gate_bh" jdbcType="CHAR" property="gateBh" />
+    <result column="jdoor_fx" jdbcType="INTEGER" property="jdoorFx" />
+    <result column="jcam_type" jdbcType="INTEGER" property="jcamType" />
+    <result column="jcam_ip" jdbcType="VARCHAR" property="jcamIp" />
+    <result column="jcam_port" jdbcType="INTEGER" property="jcamPort" />
+    <result column="jcam_user" jdbcType="VARCHAR" property="jcamUser" />
+    <result column="jcam_password" jdbcType="VARCHAR" property="jcamPassword" />
+    <result column="jcam_chan" jdbcType="INTEGER" property="jcamChan" />
+    <result column="jcam_video" jdbcType="INTEGER" property="jcamVideo" />
+    <result column="jcam_sleep" jdbcType="INTEGER" property="jcamSleep" />
+    <result column="jcam_success" jdbcType="INTEGER" property="jcamSuccess" />
+    <result column="jcam_fail" jdbcType="INTEGER" property="jcamFail" />
+    <result column="jcam_warning" jdbcType="INTEGER" property="jcamWarning" />
+    <result column="jcam_other" jdbcType="INTEGER" property="jcamOther" />
+    <result column="jcam_cut_left" jdbcType="INTEGER" property="jcamCutLeft" />
+    <result column="jcam_cut_top" jdbcType="INTEGER" property="jcamCutTop" />
+    <result column="jcam_cut_weight" jdbcType="INTEGER" property="jcamCutWeight" />
+    <result column="jcam_cut_height" jdbcType="INTEGER" property="jcamCutHeight" />
+    <result column="jcam_zoom_per" jdbcType="INTEGER" property="jcamZoomPer" />
+    <result column="door_name" jdbcType="VARCHAR" property="doorName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    jid, Gate_bh, jdoor_fx, jcam_type, jcam_ip, jcam_port, jcam_user, jcam_password, 
+    jcam_chan, jcam_video, jcam_sleep, jcam_success, jcam_fail, jcam_warning, jcam_other, 
+    jcam_cut_left, jcam_cut_top, jcam_cut_weight, jcam_cut_height, jcam_zoom_per
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jreal_mj_camera
+    where jid = #{jid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jreal_mj_camera
+    where jid = #{jid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByGatebh" parameterType="java.lang.String">
+    DELETE  from jreal_mj_camera
+    where gate_bh=#{gateBh}
+  </delete>
+  <delete id="deleteByGatebhAndFx" parameterType="com.weds.edmj.entity.JrealMjCameraEntity">
+    DELETE  from jreal_mj_camera
+    where gate_bh=#{gateBh}
+    and jdoor_fx in
+    <foreach close=")" collection="fxList" index="index" item="item" open="(" separator=",">
+      (#{item})
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.weds.edmj.entity.JrealMjCameraEntity">
+    insert into jreal_mj_camera (jid, Gate_bh, jdoor_fx, 
+      jcam_type, jcam_ip, jcam_port, 
+      jcam_user, jcam_password, jcam_chan, 
+      jcam_video, jcam_sleep, jcam_success, 
+      jcam_fail, jcam_warning, jcam_other, 
+      jcam_cut_left, jcam_cut_top, jcam_cut_weight, 
+      jcam_cut_height, jcam_zoom_per)
+    values (#{jid,jdbcType=INTEGER}, #{gateBh,jdbcType=CHAR}, #{jdoorFx,jdbcType=INTEGER}, 
+      #{jcamType,jdbcType=INTEGER}, #{jcamIp,jdbcType=VARCHAR}, #{jcamPort,jdbcType=INTEGER}, 
+      #{jcamUser,jdbcType=VARCHAR}, #{jcamPassword,jdbcType=VARCHAR}, #{jcamChan,jdbcType=INTEGER}, 
+      #{jcamVideo,jdbcType=INTEGER}, #{jcamSleep,jdbcType=INTEGER}, #{jcamSuccess,jdbcType=INTEGER}, 
+      #{jcamFail,jdbcType=INTEGER}, #{jcamWarning,jdbcType=INTEGER}, #{jcamOther,jdbcType=INTEGER}, 
+      #{jcamCutLeft,jdbcType=INTEGER}, #{jcamCutTop,jdbcType=INTEGER}, #{jcamCutWeight,jdbcType=INTEGER}, 
+      #{jcamCutHeight,jdbcType=INTEGER}, #{jcamZoomPer,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    jreal_mj_camera
+    (jid,Gate_bh,jdoor_fx,jcam_type,jcam_ip,jcam_port,jcam_user,jcam_password,jcam_chan,jcam_video,jcam_sleep,jcam_success,jcam_fail,jcam_warning,jcam_other,jcam_cut_left,jcam_cut_top,jcam_cut_weight,jcam_cut_height,jcam_zoom_per)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.jid,jdbcType=INTEGER},#{item.gateBh,jdbcType=CHAR},#{item.jdoorFx,jdbcType=INTEGER},#{item.jcamType,jdbcType=INTEGER},#{item.jcamIp,jdbcType=VARCHAR},#{item.jcamPort,jdbcType=INTEGER},#{item.jcamUser,jdbcType=VARCHAR},#{item.jcamPassword,jdbcType=VARCHAR},#{item.jcamChan,jdbcType=INTEGER},#{item.jcamVideo,jdbcType=INTEGER},#{item.jcamSleep,jdbcType=INTEGER},#{item.jcamSuccess,jdbcType=INTEGER},#{item.jcamFail,jdbcType=INTEGER},#{item.jcamWarning,jdbcType=INTEGER},#{item.jcamOther,jdbcType=INTEGER},#{item.jcamCutLeft,jdbcType=INTEGER},#{item.jcamCutTop,jdbcType=INTEGER},#{item.jcamCutWeight,jdbcType=INTEGER},#{item.jcamCutHeight,jdbcType=INTEGER},#{item.jcamZoomPer,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.JrealMjCameraEntity">
+    insert into jreal_mj_camera
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jid != null">
+        jid,
+      </if>
+      <if test="gateBh != null">
+        Gate_bh,
+      </if>
+      <if test="jdoorFx != null">
+        jdoor_fx,
+      </if>
+      <if test="jcamType != null">
+        jcam_type,
+      </if>
+      <if test="jcamIp != null">
+        jcam_ip,
+      </if>
+      <if test="jcamPort != null">
+        jcam_port,
+      </if>
+      <if test="jcamUser != null">
+        jcam_user,
+      </if>
+      <if test="jcamPassword != null">
+        jcam_password,
+      </if>
+      <if test="jcamChan != null">
+        jcam_chan,
+      </if>
+      <if test="jcamVideo != null">
+        jcam_video,
+      </if>
+      <if test="jcamSleep != null">
+        jcam_sleep,
+      </if>
+      <if test="jcamSuccess != null">
+        jcam_success,
+      </if>
+      <if test="jcamFail != null">
+        jcam_fail,
+      </if>
+      <if test="jcamWarning != null">
+        jcam_warning,
+      </if>
+      <if test="jcamOther != null">
+        jcam_other,
+      </if>
+      <if test="jcamCutLeft != null">
+        jcam_cut_left,
+      </if>
+      <if test="jcamCutTop != null">
+        jcam_cut_top,
+      </if>
+      <if test="jcamCutWeight != null">
+        jcam_cut_weight,
+      </if>
+      <if test="jcamCutHeight != null">
+        jcam_cut_height,
+      </if>
+      <if test="jcamZoomPer != null">
+        jcam_zoom_per,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jid != null">
+        #{jid,jdbcType=INTEGER},
+      </if>
+      <if test="gateBh != null">
+        #{gateBh,jdbcType=CHAR},
+      </if>
+      <if test="jdoorFx != null">
+        #{jdoorFx,jdbcType=INTEGER},
+      </if>
+      <if test="jcamType != null">
+        #{jcamType,jdbcType=INTEGER},
+      </if>
+      <if test="jcamIp != null">
+        #{jcamIp,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamPort != null">
+        #{jcamPort,jdbcType=INTEGER},
+      </if>
+      <if test="jcamUser != null">
+        #{jcamUser,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamPassword != null">
+        #{jcamPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamChan != null">
+        #{jcamChan,jdbcType=INTEGER},
+      </if>
+      <if test="jcamVideo != null">
+        #{jcamVideo,jdbcType=INTEGER},
+      </if>
+      <if test="jcamSleep != null">
+        #{jcamSleep,jdbcType=INTEGER},
+      </if>
+      <if test="jcamSuccess != null">
+        #{jcamSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="jcamFail != null">
+        #{jcamFail,jdbcType=INTEGER},
+      </if>
+      <if test="jcamWarning != null">
+        #{jcamWarning,jdbcType=INTEGER},
+      </if>
+      <if test="jcamOther != null">
+        #{jcamOther,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutLeft != null">
+        #{jcamCutLeft,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutTop != null">
+        #{jcamCutTop,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutWeight != null">
+        #{jcamCutWeight,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutHeight != null">
+        #{jcamCutHeight,jdbcType=INTEGER},
+      </if>
+      <if test="jcamZoomPer != null">
+        #{jcamZoomPer,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.JrealMjCameraEntity">
+    update jreal_mj_camera
+    <set>
+      <if test="gateBh != null">
+        Gate_bh = #{gateBh,jdbcType=CHAR},
+      </if>
+      <if test="jdoorFx != null">
+        jdoor_fx = #{jdoorFx,jdbcType=INTEGER},
+      </if>
+      <if test="jcamType != null">
+        jcam_type = #{jcamType,jdbcType=INTEGER},
+      </if>
+      <if test="jcamIp != null">
+        jcam_ip = #{jcamIp,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamPort != null">
+        jcam_port = #{jcamPort,jdbcType=INTEGER},
+      </if>
+      <if test="jcamUser != null">
+        jcam_user = #{jcamUser,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamPassword != null">
+        jcam_password = #{jcamPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="jcamChan != null">
+        jcam_chan = #{jcamChan,jdbcType=INTEGER},
+      </if>
+      <if test="jcamVideo != null">
+        jcam_video = #{jcamVideo,jdbcType=INTEGER},
+      </if>
+      <if test="jcamSleep != null">
+        jcam_sleep = #{jcamSleep,jdbcType=INTEGER},
+      </if>
+      <if test="jcamSuccess != null">
+        jcam_success = #{jcamSuccess,jdbcType=INTEGER},
+      </if>
+      <if test="jcamFail != null">
+        jcam_fail = #{jcamFail,jdbcType=INTEGER},
+      </if>
+      <if test="jcamWarning != null">
+        jcam_warning = #{jcamWarning,jdbcType=INTEGER},
+      </if>
+      <if test="jcamOther != null">
+        jcam_other = #{jcamOther,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutLeft != null">
+        jcam_cut_left = #{jcamCutLeft,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutTop != null">
+        jcam_cut_top = #{jcamCutTop,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutWeight != null">
+        jcam_cut_weight = #{jcamCutWeight,jdbcType=INTEGER},
+      </if>
+      <if test="jcamCutHeight != null">
+        jcam_cut_height = #{jcamCutHeight,jdbcType=INTEGER},
+      </if>
+      <if test="jcamZoomPer != null">
+        jcam_zoom_per = #{jcamZoomPer,jdbcType=INTEGER},
+      </if>
+    </set>
+    where jid = #{jid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.JrealMjCameraEntity">
+    update jreal_mj_camera
+    set Gate_bh = #{gateBh,jdbcType=CHAR},
+      jdoor_fx = #{jdoorFx,jdbcType=INTEGER},
+      jcam_type = #{jcamType,jdbcType=INTEGER},
+      jcam_ip = #{jcamIp,jdbcType=VARCHAR},
+      jcam_port = #{jcamPort,jdbcType=INTEGER},
+      jcam_user = #{jcamUser,jdbcType=VARCHAR},
+      jcam_password = #{jcamPassword,jdbcType=VARCHAR},
+      jcam_chan = #{jcamChan,jdbcType=INTEGER},
+      jcam_video = #{jcamVideo,jdbcType=INTEGER},
+      jcam_sleep = #{jcamSleep,jdbcType=INTEGER},
+      jcam_success = #{jcamSuccess,jdbcType=INTEGER},
+      jcam_fail = #{jcamFail,jdbcType=INTEGER},
+      jcam_warning = #{jcamWarning,jdbcType=INTEGER},
+      jcam_other = #{jcamOther,jdbcType=INTEGER},
+      jcam_cut_left = #{jcamCutLeft,jdbcType=INTEGER},
+      jcam_cut_top = #{jcamCutTop,jdbcType=INTEGER},
+      jcam_cut_weight = #{jcamCutWeight,jdbcType=INTEGER},
+      jcam_cut_height = #{jcamCutHeight,jdbcType=INTEGER},
+      jcam_zoom_per = #{jcamZoomPer,jdbcType=INTEGER}
+    where jid = #{jid,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.JrealMjCameraEntity" resultMap="BaseResultMap">
+    select
+    a.jid,a.gate_bh,a.jdoor_fx,b.door_name,a.jcam_ip,a.jcam_port,a.jcam_chan,a.jcam_video,a.jcam_success,a.jcam_fail,a.jcam_warning,a.jcam_other,
+    a.jcam_type
+    from jreal_mj_camera a
+    inner join st_door_real b on a.gate_bh=b.bh
+    where
+      (a.Gate_bh in
+            (select x.gate_bh from st_doorfx_real x
+             inner join DT_GATE_REAL y on x.gate_bh = y.Gate_bh
+              <where>
+                <if test="acdepList != null">
+                  and y.acdep_serial in
+                  <foreach close=")" collection="acdepList" index="index" item="item" open="(" separator=",">
+                    (#{item})
+                  </foreach>
+                </if>
+                <if test="gateList != null">
+                  and x.gate_bh in
+                  <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+                    (#{item})
+                  </foreach>
+                </if>
+                <if test="keys != null">
+                  <bind name="keysLike" value="'%'+keys+'%'" />
+                  and( b.door_name like #{keysLike}
+                  or a.jcam_ip like #{keysLike})
+                </if>
+              </where>
+            )
+      )
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    jreal_mj_camera
+    where (jid) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.jid})
+    </foreach>
+  </delete>
+  <delete id="deleteBatchByGatebh" parameterType="List">
+    delete from
+    jreal_mj_camera
+    where (gate_bh) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.bh})
+    </foreach>
+  </delete>
+</mapper>

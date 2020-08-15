@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.WtMobileLogMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edmj.entity.WtMobileLogEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="user_no" jdbcType="NVARCHAR" property="userNo"/>
+        <result column="gate_bh" jdbcType="NVARCHAR" property="gateBh"/>
+        <result column="ph_mac" jdbcType="NVARCHAR" property="phMac"/>
+        <result column="ph_ip" jdbcType="NVARCHAR" property="phIp"/>
+        <result column="ph_imei" jdbcType="NVARCHAR" property="phImei"/>
+        <result column="ph_info" jdbcType="NVARCHAR" property="phInfo"/>
+        <result column="bz" jdbcType="NVARCHAR" property="bz"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="regserial" jdbcType="NVARCHAR" property="regserial"/>
+
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+        <result column="door_name" jdbcType="VARCHAR" property="doorName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, lx, state, user_no, gate_bh, ph_mac, ph_ip, ph_imei, ph_info, bz, sj, gly_no,
+            regserial
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from WT_mobile_log
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from WT_mobile_log
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edmj.entity.WtMobileLogEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into WT_mobile_log (lx, state, user_no,
+        gate_bh, ph_mac, ph_ip,
+        ph_imei, ph_info, bz,
+        sj, gly_no, regserial
+        )
+        values (#{lx,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{userNo,jdbcType=NVARCHAR},
+        #{gateBh,jdbcType=NVARCHAR}, #{phMac,jdbcType=NVARCHAR}, #{phIp,jdbcType=NVARCHAR},
+        #{phImei,jdbcType=NVARCHAR}, #{phInfo,jdbcType=NVARCHAR}, #{bz,jdbcType=NVARCHAR},
+        #{sj,jdbcType=TIMESTAMP}, #{glyNo,jdbcType=NVARCHAR}, #{regserial,jdbcType=NVARCHAR}
+        )
+    </insert>
+    <insert id="insertBatch" parameterType="List">
+        insert into
+        WT_mobile_log
+        (xh,lx,state,user_no,gate_bh,ph_mac,ph_ip,ph_imei,ph_info,bz,sj,gly_no,regserial)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.xh,jdbcType=INTEGER},#{item.lx,jdbcType=INTEGER},#{item.state,jdbcType=INTEGER},#{item.userNo,jdbcType=NVARCHAR},#{item.gateBh,jdbcType=NVARCHAR},#{item.phMac,jdbcType=NVARCHAR},#{item.phIp,jdbcType=NVARCHAR},#{item.phImei,jdbcType=NVARCHAR},#{item.phInfo,jdbcType=NVARCHAR},#{item.bz,jdbcType=NVARCHAR},#{item.sj,jdbcType=TIMESTAMP},#{item.glyNo,jdbcType=NVARCHAR},#{item.regserial,jdbcType=NVARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edmj.entity.WtMobileLogEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into WT_mobile_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lx != null">
+                lx,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="gateBh != null">
+                gate_bh,
+            </if>
+            <if test="phMac != null">
+                ph_mac,
+            </if>
+            <if test="phIp != null">
+                ph_ip,
+            </if>
+            <if test="phImei != null">
+                ph_imei,
+            </if>
+            <if test="phInfo != null">
+                ph_info,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="regserial != null">
+                regserial,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lx != null">
+                #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="userNo != null">
+                #{userNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="gateBh != null">
+                #{gateBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="phMac != null">
+                #{phMac,jdbcType=NVARCHAR},
+            </if>
+            <if test="phIp != null">
+                #{phIp,jdbcType=NVARCHAR},
+            </if>
+            <if test="phImei != null">
+                #{phImei,jdbcType=NVARCHAR},
+            </if>
+            <if test="phInfo != null">
+                #{phInfo,jdbcType=NVARCHAR},
+            </if>
+            <if test="bz != null">
+                #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="regserial != null">
+                #{regserial,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.WtMobileLogEntity">
+        update WT_mobile_log
+        <set>
+            <if test="lx != null">
+                lx = #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="userNo != null">
+                user_no = #{userNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="gateBh != null">
+                gate_bh = #{gateBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="phMac != null">
+                ph_mac = #{phMac,jdbcType=NVARCHAR},
+            </if>
+            <if test="phIp != null">
+                ph_ip = #{phIp,jdbcType=NVARCHAR},
+            </if>
+            <if test="phImei != null">
+                ph_imei = #{phImei,jdbcType=NVARCHAR},
+            </if>
+            <if test="phInfo != null">
+                ph_info = #{phInfo,jdbcType=NVARCHAR},
+            </if>
+            <if test="bz != null">
+                bz = #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="regserial != null">
+                regserial = #{regserial,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.WtMobileLogEntity">
+        update WT_mobile_log
+        set lx        = #{lx,jdbcType=INTEGER},
+            state     = #{state,jdbcType=INTEGER},
+            user_no   = #{userNo,jdbcType=NVARCHAR},
+            gate_bh   = #{gateBh,jdbcType=NVARCHAR},
+            ph_mac    = #{phMac,jdbcType=NVARCHAR},
+            ph_ip     = #{phIp,jdbcType=NVARCHAR},
+            ph_imei   = #{phImei,jdbcType=NVARCHAR},
+            ph_info   = #{phInfo,jdbcType=NVARCHAR},
+            bz        = #{bz,jdbcType=NVARCHAR},
+            sj        = #{sj,jdbcType=TIMESTAMP},
+            gly_no    = #{glyNo,jdbcType=NVARCHAR},
+            regserial = #{regserial,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edmj.entity.WtMobileLogEntity" resultMap="BaseResultMap">
+        select t1.xh, t1.lx, t1.state, t1.user_no, t1.gate_bh, t1.ph_mac, t1.ph_ip, t1.ph_imei, t1.ph_info, t1.bz,
+        t1.sj, t1.gly_no,
+        t1.regserial, t2.user_lname, t3.door_name
+        from WT_mobile_log t1 left join dt_user t2 on t1.user_no = t2.user_no left join st_door_real t3 on t1.gate_bh =
+        t3.bh
+        <where>
+            <if test="xh != null">
+                and t1.xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="lx != null">
+                and t1.lx = #{lx,jdbcType=INTEGER}
+            </if>
+            <if test="state != null">
+                and t1.state = #{state,jdbcType=INTEGER}
+            </if>
+            <if test="userNo != null">
+                <bind name="userNoLike" value="'%'+userNo+'%'"/>
+                and t1.user_no like #{userNoLike}
+                <!--and user_no = #{userNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="gateBh != null">
+                <bind name="gateBhLike" value="'%'+gateBh+'%'"/>
+                and t1.gate_bh like #{gateBhLike}
+                <!--and gate_bh = #{gateBh,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="phMac != null">
+                <bind name="phMacLike" value="'%'+phMac+'%'"/>
+                and t1.ph_mac like #{phMacLike}
+                <!--and ph_mac = #{phMac,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="phIp != null">
+                <bind name="phIpLike" value="'%'+phIp+'%'"/>
+                and t1.ph_ip like #{phIpLike}
+                <!--and ph_ip = #{phIp,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="phImei != null">
+                <bind name="phImeiLike" value="'%'+phImei+'%'"/>
+                and t1.ph_imei like #{phImeiLike}
+                <!--and ph_imei = #{phImei,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="phInfo != null">
+                <bind name="phInfoLike" value="'%'+phInfo+'%'"/>
+                and t1.ph_info like #{phInfoLike}
+                <!--and ph_info = #{phInfo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="bz != null">
+                <bind name="bzLike" value="'%'+bz+'%'"/>
+                and t1.bz like #{bzLike}
+                <!--and bz = #{bz,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and t1.sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and t1.gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="regserial != null">
+                <bind name="regserialLike" value="'%'+regserial+'%'"/>
+                and t1.regserial like #{regserialLike}
+                <!--and regserial = #{regserial,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="kssj != null">
+                and t1.sj >= #{kssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jssj != null">
+                <![CDATA[
+                and t1.sj <= #{jssj,jdbcType=TIMESTAMP}
+                ]]>
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (xh = #{keys} or
+                lx = #{keys} or
+                state = #{keys} or
+                user_no like #{keysLike} or
+                gate_bh like #{keysLike} or
+                ph_mac like #{keysLike} or
+                ph_ip like #{keysLike} or
+                ph_imei like #{keysLike} or
+                ph_info like #{keysLike} or
+                bz like #{keysLike} or
+                sj = #{keys} or
+                gly_no like #{keysLike} or
+                regserial like #{keysLike})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        WT_mobile_log
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

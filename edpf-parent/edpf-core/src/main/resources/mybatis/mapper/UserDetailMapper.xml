@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.UserDetailMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.UserDetailEntity">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_sex" jdbcType="VARCHAR" property="userSex"/>
+        <result column="user_birth" jdbcType="VARCHAR" property="userBirth"/>
+        <result column="user_addr" jdbcType="VARCHAR" property="userAddr"/>
+        <result column="user_school" jdbcType="VARCHAR" property="userSchool"/>
+        <result column="work_start" jdbcType="VARCHAR" property="workStart"/>
+        <result column="married" jdbcType="VARCHAR" property="married"/>
+        <result column="nation" jdbcType="VARCHAR" property="nation"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="politic" jdbcType="VARCHAR" property="politic"/>
+        <result column="adept" jdbcType="VARCHAR" property="adept"/>
+        <result column="remakr" jdbcType="VARCHAR" property="remakr"/>
+        <result column="spare_col11" jdbcType="VARCHAR" property="spareCol11"/>
+        <result column="spare_col12" jdbcType="VARCHAR" property="spareCol12"/>
+        <result column="spare_col13" jdbcType="VARCHAR" property="spareCol13"/>
+        <result column="spare_col14" jdbcType="VARCHAR" property="spareCol14"/>
+        <result column="spare_col15" jdbcType="VARCHAR" property="spareCol15"/>
+        <result column="spare_col16" jdbcType="VARCHAR" property="spareCol16"/>
+
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
+        <result column="pwd_loss_date" jdbcType="VARCHAR" property="pwdLossDate"/>
+        <result column="cred_type" jdbcType="VARCHAR" property="credType"/>
+        <result column="cred_no" jdbcType="VARCHAR" property="credNo"/>
+        <result column="user_tel" jdbcType="VARCHAR" property="userTel"/>
+        <result column="post" jdbcType="VARCHAR" property="post"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="user_state" jdbcType="VARCHAR" property="userState"/>
+        <result column="user_org" jdbcType="VARCHAR" property="userOrg"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="user_photo" jdbcType="VARCHAR" property="userPhoto"/>
+        <result column="user_face" jdbcType="VARCHAR" property="userFace"/>
+        <result column="user_finger" jdbcType="VARCHAR" property="userFinger"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, user_sex, user_birth, user_addr, user_school, work_start, married, nation,
+                 education, politic, adept, remakr, spare_col11, spare_col12, spare_col13, spare_col14,
+                 spare_col15, spare_col16
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select t1.*,
+               t2.user_no,
+               t2.user_name,
+               t2.user_pwd,
+               t2.pwd_loss_date,
+               t2.cred_type,
+               t2.cred_no,
+               t2.user_tel,
+               t2.post,
+               t2.user_type,
+               t2.user_state,
+               t2.user_org,
+               t2.user_card,
+               t2.user_photo,
+               t2.user_face,
+               t2.user_finger,
+               t2.ct_date,
+               t2.ct_user,
+               t2.lt_date,
+               t2.lt_user,
+               t2.spare_col1,
+               t2.spare_col2,
+               t2.spare_col3,
+               t2.spare_col4,
+               t2.spare_col5,
+               t2.spare_col6
+        from ed_user_detail t1
+                 join ed_user_info t2 on t1.user_id = t2.user_id
+        where t2.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_user_detail
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.UserDetailEntity">
+        insert into ed_user_detail (user_id,
+                                    user_sex,
+                                    user_birth,
+                                    user_addr,
+                                    user_school,
+                                    work_start,
+                                    married,
+                                    nation,
+                                    education,
+                                    politic,
+                                    adept,
+                                    remakr,
+                                    spare_col11,
+                                    spare_col12,
+                                    spare_col13,
+                                    spare_col14,
+                                    spare_col15,
+                                    spare_col16)
+        values (#{userId,jdbcType=VARCHAR},
+                #{userSex,jdbcType=VARCHAR},
+                #{userBirth,jdbcType=VARCHAR},
+                #{userAddr,jdbcType=VARCHAR},
+                #{userSchool,jdbcType=VARCHAR},
+                #{workStart,jdbcType=VARCHAR},
+                #{married,jdbcType=VARCHAR},
+                #{nation,jdbcType=VARCHAR},
+                #{education,jdbcType=VARCHAR},
+                #{politic,jdbcType=VARCHAR},
+                #{adept,jdbcType=VARCHAR},
+                #{remakr,jdbcType=VARCHAR},
+                #{spareCol11,jdbcType=VARCHAR},
+                #{spareCol12,jdbcType=VARCHAR},
+                #{spareCol13,jdbcType=VARCHAR},
+                #{spareCol14,jdbcType=VARCHAR},
+                #{spareCol15,jdbcType=VARCHAR},
+                #{spareCol16,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.UserDetailEntity">
+        insert into ed_user_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userBirth != null">
+                user_birth,
+            </if>
+            <if test="userAddr != null">
+                user_addr,
+            </if>
+            <if test="userSchool != null">
+                user_school,
+            </if>
+            <if test="workStart != null">
+                work_start,
+            </if>
+            <if test="married != null">
+                married,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="politic != null">
+                politic,
+            </if>
+            <if test="adept != null">
+                adept,
+            </if>
+            <if test="remakr != null">
+                remakr,
+            </if>
+            <if test="spareCol11 != null">
+                spare_col11,
+            </if>
+            <if test="spareCol12 != null">
+                spare_col12,
+            </if>
+            <if test="spareCol13 != null">
+                spare_col13,
+            </if>
+            <if test="spareCol14 != null">
+                spare_col14,
+            </if>
+            <if test="spareCol15 != null">
+                spare_col15,
+            </if>
+            <if test="spareCol16 != null">
+                spare_col16,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userBirth != null">
+                #{userBirth,jdbcType=VARCHAR},
+            </if>
+            <if test="userAddr != null">
+                #{userAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchool != null">
+                #{userSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="workStart != null">
+                #{workStart,jdbcType=VARCHAR},
+            </if>
+            <if test="married != null">
+                #{married,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="politic != null">
+                #{politic,jdbcType=VARCHAR},
+            </if>
+            <if test="adept != null">
+                #{adept,jdbcType=VARCHAR},
+            </if>
+            <if test="remakr != null">
+                #{remakr,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol11 != null">
+                #{spareCol11,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol12 != null">
+                #{spareCol12,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol13 != null">
+                #{spareCol13,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol14 != null">
+                #{spareCol14,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol15 != null">
+                #{spareCol15,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol16 != null">
+                #{spareCol16,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.UserDetailEntity">
+        update ed_user_detail
+        <set>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userBirth != null">
+                user_birth = #{userBirth,jdbcType=VARCHAR},
+            </if>
+            <if test="userAddr != null">
+                user_addr = #{userAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchool != null">
+                user_school = #{userSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="workStart != null">
+                work_start = #{workStart,jdbcType=VARCHAR},
+            </if>
+            <if test="married != null">
+                married = #{married,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                nation = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="politic != null">
+                politic = #{politic,jdbcType=VARCHAR},
+            </if>
+            <if test="adept != null">
+                adept = #{adept,jdbcType=VARCHAR},
+            </if>
+            <if test="remakr != null">
+                remakr = #{remakr,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol11 != null">
+                spare_col11 = #{spareCol11,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol12 != null">
+                spare_col12 = #{spareCol12,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol13 != null">
+                spare_col13 = #{spareCol13,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol14 != null">
+                spare_col14 = #{spareCol14,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol15 != null">
+                spare_col15 = #{spareCol15,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol16 != null">
+                spare_col16 = #{spareCol16,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.UserDetailEntity">
+        update ed_user_detail
+        set user_sex    = #{userSex,jdbcType=VARCHAR},
+            user_birth  = #{userBirth,jdbcType=VARCHAR},
+            user_addr   = #{userAddr,jdbcType=VARCHAR},
+            user_school = #{userSchool,jdbcType=VARCHAR},
+            work_start  = #{workStart,jdbcType=VARCHAR},
+            married     = #{married,jdbcType=VARCHAR},
+            nation      = #{nation,jdbcType=VARCHAR},
+            education   = #{education,jdbcType=VARCHAR},
+            politic     = #{politic,jdbcType=VARCHAR},
+            adept       = #{adept,jdbcType=VARCHAR},
+            remakr      = #{remakr,jdbcType=VARCHAR},
+            spare_col11 = #{spareCol11,jdbcType=VARCHAR},
+            spare_col12 = #{spareCol12,jdbcType=VARCHAR},
+            spare_col13 = #{spareCol13,jdbcType=VARCHAR},
+            spare_col14 = #{spareCol14,jdbcType=VARCHAR},
+            spare_col15 = #{spareCol15,jdbcType=VARCHAR},
+            spare_col16 = #{spareCol16,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.UserDetailEntity"
+            resultMap="BaseResultMap">
+        select
+        t1.*,
+        t2.user_no,
+        t2.user_name,
+        t2.user_pwd,
+        t2.pwd_loss_date,
+        t2.cred_type,
+        t2.cred_no,
+        t2.user_tel,
+        t2.post,
+        t2.user_type,
+        t2.user_state,
+        t2.user_org,
+        t2.user_card,
+        t2.user_photo,
+        t2.user_face,
+        t2.user_finger,
+        t2.ct_date,
+        t2.ct_user,
+        t2.lt_date,
+        t2.lt_user,
+        t2.spare_col1,
+        t2.spare_col2,
+        t2.spare_col3,
+        t2.spare_col4,
+        t2.spare_col5,
+        t2.spare_col6
+        from ed_user_detail t1 join ed_user_info t2 on t1.user_id = t2.user_id
+        <where>
+            <if test="userId != null">
+                <bind name="userIdLike" value="'%'+userId+'%'"/>
+                and t1.user_id like #{userIdLike}
+                <!--and user_id = #{userId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userSex != null">
+                <bind name="userSexLike" value="'%'+userSex+'%'"/>
+                and user_sex like #{userSexLike}
+                <!--and user_sex = #{userSex,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userBirth != null">
+                <bind name="userBirthLike" value="'%'+userBirth+'%'"/>
+                and user_birth like #{userBirthLike}
+                <!--and user_birth = #{userBirth,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userAddr != null">
+                <bind name="userAddrLike" value="'%'+userAddr+'%'"/>
+                and user_addr like #{userAddrLike}
+                <!--and user_addr = #{userAddr,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userSchool != null">
+                <bind name="userSchoolLike" value="'%'+userSchool+'%'"/>
+                and user_school like #{userSchoolLike}
+                <!--and user_school = #{userSchool,jdbcType=VARCHAR}-->
+            </if>
+            <if test="workStart != null">
+                <bind name="workStartLike" value="'%'+workStart+'%'"/>
+                and work_start like #{workStartLike}
+                <!--and work_start = #{workStart,jdbcType=VARCHAR}-->
+            </if>
+            <if test="married != null">
+                <bind name="marriedLike" value="'%'+married+'%'"/>
+                and married like #{marriedLike}
+                <!--and married = #{married,jdbcType=VARCHAR}-->
+            </if>
+            <if test="nation != null">
+                <bind name="nationLike" value="'%'+nation+'%'"/>
+                and nation like #{nationLike}
+                <!--and nation = #{nation,jdbcType=VARCHAR}-->
+            </if>
+            <if test="education != null">
+                <bind name="educationLike" value="'%'+education+'%'"/>
+                and education like #{educationLike}
+                <!--and education = #{education,jdbcType=VARCHAR}-->
+            </if>
+            <if test="politic != null">
+                <bind name="politicLike" value="'%'+politic+'%'"/>
+                and politic like #{politicLike}
+                <!--and politic = #{politic,jdbcType=VARCHAR}-->
+            </if>
+            <if test="adept != null">
+                <bind name="adeptLike" value="'%'+adept+'%'"/>
+                and adept like #{adeptLike}
+                <!--and adept = #{adept,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remakr != null">
+                <bind name="remakrLike" value="'%'+remakr+'%'"/>
+                and remakr like #{remakrLike}
+                <!--and remakr = #{remakr,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol11 != null">
+                <bind name="spareCol11Like" value="'%'+spareCol11+'%'"/>
+                and spare_col11 like #{spareCol11Like}
+                <!--and spare_col11 = #{spareCol11,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol12 != null">
+                <bind name="spareCol12Like" value="'%'+spareCol12+'%'"/>
+                and spare_col12 like #{spareCol12Like}
+                <!--and spare_col12 = #{spareCol12,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol13 != null">
+                <bind name="spareCol13Like" value="'%'+spareCol13+'%'"/>
+                and spare_col13 like #{spareCol13Like}
+                <!--and spare_col13 = #{spareCol13,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol14 != null">
+                <bind name="spareCol14Like" value="'%'+spareCol14+'%'"/>
+                and spare_col14 like #{spareCol14Like}
+                <!--and spare_col14 = #{spareCol14,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol15 != null">
+                <bind name="spareCol15Like" value="'%'+spareCol15+'%'"/>
+                and spare_col15 like #{spareCol15Like}
+                <!--and spare_col15 = #{spareCol15,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol16 != null">
+                <bind name="spareCol16Like" value="'%'+spareCol16+'%'"/>
+                and spare_col16 like #{spareCol16Like}
+                <!--and spare_col16 = #{spareCol16,jdbcType=VARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (user_id like #{keysLike} or
+                user_sex like #{keysLike} or
+                user_birth like #{keysLike} or
+                user_addr like #{keysLike} or
+                user_school like #{keysLike} or
+                work_start like #{keysLike} or
+                married like #{keysLike} or
+                nation like #{keysLike} or
+                education like #{keysLike} or
+                politic like #{keysLike} or
+                adept like #{keysLike} or
+                remakr like #{keysLike} or
+                spare_col11 like #{keysLike} or
+                spare_col12 like #{keysLike} or
+                spare_col13 like #{keysLike} or
+                spare_col14 like #{keysLike} or
+                spare_col15 like #{keysLike} or
+                spare_col16 like #{keysLike})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_user_detail
+        where (user_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.userId})
+        </foreach>
+    </delete>
+</mapper>

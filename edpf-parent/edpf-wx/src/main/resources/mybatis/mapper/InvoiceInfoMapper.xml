@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.InvoiceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.InvoiceInfoEntity">
+        <id column="XH" jdbcType="INTEGER" property="xh"/>
+        <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName"/>
+        <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="ACCT_BANK" jdbcType="VARCHAR" property="acctBank"/>
+        <result column="ACCT_NUM" jdbcType="VARCHAR" property="acctNum"/>
+        <result column="REMARK" jdbcType="NVARCHAR" property="remark"/>
+        <result column="SPARE_COL1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="SPARE_COL2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="SPARE_COL3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="SJ" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="GLY_NO" jdbcType="NVARCHAR" property="glyNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        XH, COMPANY_NAME, TAX_NUM, ADDRESS, PHONE, ACCT_BANK, ACCT_NUM, REMARK, SPARE_COL1,
+            SPARE_COL2, SPARE_COL3, SJ, GLY_NO
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from INVOICE_INFO
+        where XH = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from INVOICE_INFO
+        where XH = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.InvoiceInfoEntity">
+        insert into INVOICE_INFO (XH, COMPANY_NAME, TAX_NUM, ADDRESS,
+        PHONE, ACCT_BANK, ACCT_NUM,
+        REMARK, SPARE_COL1, SPARE_COL2,
+        SPARE_COL3, SJ, GLY_NO
+        )
+        values (#{xh,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{taxNum,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}, #{acctBank,jdbcType=VARCHAR}, #{acctNum,jdbcType=VARCHAR},
+        #{remark,jdbcType=NVARCHAR}, #{spareCol1,jdbcType=VARCHAR}, #{spareCol2,jdbcType=VARCHAR},
+        #{spareCol3,jdbcType=VARCHAR}, #{sj,jdbcType=TIMESTAMP}, #{glyNo,jdbcType=NVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.InvoiceInfoEntity">
+        insert into INVOICE_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                XH,
+            </if>
+            <if test="companyName != null">
+                COMPANY_NAME,
+            </if>
+            <if test="taxNum != null">
+                TAX_NUM,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="acctBank != null">
+                ACCT_BANK,
+            </if>
+            <if test="acctNum != null">
+                ACCT_NUM,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1,
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2,
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3,
+            </if>
+            <if test="sj != null">
+                SJ,
+            </if>
+            <if test="glyNo != null">
+                GLY_NO,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                #{xh,jdbcType=INTEGER},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="taxNum != null">
+                #{taxNum,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="acctBank != null">
+                #{acctBank,jdbcType=VARCHAR},
+            </if>
+            <if test="acctNum != null">
+                #{acctNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.InvoiceInfoEntity">
+        update INVOICE_INFO
+        <set>
+            <if test="companyName != null">
+                COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="taxNum != null">
+                TAX_NUM = #{taxNum,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="acctBank != null">
+                ACCT_BANK = #{acctBank,jdbcType=VARCHAR},
+            </if>
+            <if test="acctNum != null">
+                ACCT_NUM = #{acctNum,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                SJ = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                GLY_NO = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where XH = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.InvoiceInfoEntity">
+        update INVOICE_INFO
+        set COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+            TAX_NUM      = #{taxNum,jdbcType=VARCHAR},
+            ADDRESS      = #{address,jdbcType=VARCHAR},
+            PHONE        = #{phone,jdbcType=VARCHAR},
+            ACCT_BANK    = #{acctBank,jdbcType=VARCHAR},
+            ACCT_NUM     = #{acctNum,jdbcType=VARCHAR},
+            REMARK       = #{remark,jdbcType=NVARCHAR},
+            SPARE_COL1   = #{spareCol1,jdbcType=VARCHAR},
+            SPARE_COL2   = #{spareCol2,jdbcType=VARCHAR},
+            SPARE_COL3   = #{spareCol3,jdbcType=VARCHAR},
+            SJ           = #{sj,jdbcType=TIMESTAMP},
+            GLY_NO       = #{glyNo,jdbcType=NVARCHAR}
+        where XH = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.InvoiceInfoEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from INVOICE_INFO
+        <where>
+            <if test="xh != null">
+                and XH = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="companyName != null">
+                <bind name="companyNameLike" value="'%'+companyName+'%'"/>
+                and COMPANY_NAME like #{companyNameLike}
+                <!--and COMPANY_NAME = #{companyName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="taxNum != null">
+                <bind name="taxNumLike" value="'%'+taxNum+'%'"/>
+                and TAX_NUM like #{taxNumLike}
+                <!--and TAX_NUM = #{taxNum,jdbcType=VARCHAR}-->
+            </if>
+            <if test="address != null">
+                <bind name="addressLike" value="'%'+address+'%'"/>
+                and ADDRESS like #{addressLike}
+                <!--and ADDRESS = #{address,jdbcType=VARCHAR}-->
+            </if>
+            <if test="phone != null">
+                <bind name="phoneLike" value="'%'+phone+'%'"/>
+                and PHONE like #{phoneLike}
+                <!--and PHONE = #{phone,jdbcType=VARCHAR}-->
+            </if>
+            <if test="acctBank != null">
+                <bind name="acctBankLike" value="'%'+acctBank+'%'"/>
+                and ACCT_BANK like #{acctBankLike}
+                <!--and ACCT_BANK = #{acctBank,jdbcType=VARCHAR}-->
+            </if>
+            <if test="acctNum != null">
+                <bind name="acctNumLike" value="'%'+acctNum+'%'"/>
+                and ACCT_NUM like #{acctNumLike}
+                <!--and ACCT_NUM = #{acctNum,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remark != null">
+                and REMARK = #{remark,jdbcType=NVARCHAR}
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and SPARE_COL1 like #{spareCol1Like}
+                <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and SPARE_COL2 like #{spareCol2Like}
+                <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and SPARE_COL3 like #{spareCol3Like}
+                <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and SJ = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                and GLY_NO = #{glyNo,jdbcType=NVARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

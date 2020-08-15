@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.AccountRechargeLogMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.AccountRechargeLogEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_serial" jdbcType="VARCHAR" property="userSerial" />
+    <result column="user_idcard" jdbcType="VARCHAR" property="userIdcard" />
+    <result column="trans_amt" jdbcType="BIGINT" property="transAmt" />
+    <result column="trans_channel" jdbcType="VARCHAR" property="transChannel" />
+    <result column="trans_state" jdbcType="VARCHAR" property="transState" />
+    <result column="trans_date" jdbcType="TIMESTAMP" property="transDate" />
+    <result column="trans_ip" jdbcType="VARCHAR" property="transIp" />
+    <result column="trans_no" jdbcType="VARCHAR" property="transNo" />
+    <result column="trans_sj" jdbcType="VARCHAR" property="transSj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_serial, user_idcard, trans_amt, trans_channel, trans_state, trans_date, 
+    trans_ip, trans_no, trans_sj
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ed_account_recharge_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ed_account_recharge_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.AccountRechargeLogEntity">
+    insert into ed_account_recharge_log (id, user_serial, user_idcard, 
+      trans_amt, trans_channel, trans_state, 
+      trans_date, trans_ip, trans_no, 
+      trans_sj)
+    values (#{id,jdbcType=VARCHAR}, #{userSerial,jdbcType=VARCHAR}, #{userIdcard,jdbcType=VARCHAR}, 
+      #{transAmt,jdbcType=BIGINT}, #{transChannel,jdbcType=VARCHAR}, #{transState,jdbcType=VARCHAR}, 
+      #{transDate,jdbcType=TIMESTAMP}, #{transIp,jdbcType=VARCHAR}, #{transNo,jdbcType=VARCHAR}, 
+      #{transSj,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.AccountRechargeLogEntity">
+    insert into ed_account_recharge_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="userIdcard != null">
+        user_idcard,
+      </if>
+      <if test="transAmt != null">
+        trans_amt,
+      </if>
+      <if test="transChannel != null">
+        trans_channel,
+      </if>
+      <if test="transState != null">
+        trans_state,
+      </if>
+      <if test="transDate != null">
+        trans_date,
+      </if>
+      <if test="transIp != null">
+        trans_ip,
+      </if>
+      <if test="transNo != null">
+        trans_no,
+      </if>
+      <if test="transSj != null">
+        trans_sj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdcard != null">
+        #{userIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmt != null">
+        #{transAmt,jdbcType=BIGINT},
+      </if>
+      <if test="transChannel != null">
+        #{transChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="transState != null">
+        #{transState,jdbcType=VARCHAR},
+      </if>
+      <if test="transDate != null">
+        #{transDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transIp != null">
+        #{transIp,jdbcType=VARCHAR},
+      </if>
+      <if test="transNo != null">
+        #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transSj != null">
+        #{transSj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.AccountRechargeLogEntity">
+    update ed_account_recharge_log
+    <set>
+      <if test="userSerial != null">
+        user_serial = #{userSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdcard != null">
+        user_idcard = #{userIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="transAmt != null">
+        trans_amt = #{transAmt,jdbcType=BIGINT},
+      </if>
+      <if test="transChannel != null">
+        trans_channel = #{transChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="transState != null">
+        trans_state = #{transState,jdbcType=VARCHAR},
+      </if>
+      <if test="transDate != null">
+        trans_date = #{transDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transIp != null">
+        trans_ip = #{transIp,jdbcType=VARCHAR},
+      </if>
+      <if test="transNo != null">
+        trans_no = #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transSj != null">
+        trans_sj = #{transSj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.AccountRechargeLogEntity">
+    update ed_account_recharge_log
+    set user_serial = #{userSerial,jdbcType=VARCHAR},
+      user_idcard = #{userIdcard,jdbcType=VARCHAR},
+      trans_amt = #{transAmt,jdbcType=BIGINT},
+      trans_channel = #{transChannel,jdbcType=VARCHAR},
+      trans_state = #{transState,jdbcType=VARCHAR},
+      trans_date = #{transDate,jdbcType=TIMESTAMP},
+      trans_ip = #{transIp,jdbcType=VARCHAR},
+      trans_no = #{transNo,jdbcType=VARCHAR},
+      trans_sj = #{transSj,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.AccountRechargeLogEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ed_account_recharge_log
+    <where>
+      <if test="id != null">
+        <bind name="idLike" value="'%'+id+'%'" />
+        and id like #{idLike}
+        <!--and id = #{id,jdbcType=VARCHAR}-->
+      </if>
+      <if test="userSerial != null">
+        <bind name="userSerialLike" value="'%'+userSerial+'%'" />
+        and user_serial like #{userSerialLike}
+        <!--and user_serial = #{userSerial,jdbcType=VARCHAR}-->
+      </if>
+      <if test="userIdcard != null">
+        <bind name="userIdcardLike" value="'%'+userIdcard+'%'" />
+        and user_idcard like #{userIdcardLike}
+        <!--and user_idcard = #{userIdcard,jdbcType=VARCHAR}-->
+      </if>
+      <if test="transAmt != null">
+        and trans_amt = #{transAmt,jdbcType=BIGINT}
+      </if>
+      <if test="transChannel != null">
+        <bind name="transChannelLike" value="'%'+transChannel+'%'" />
+        and trans_channel like #{transChannelLike}
+        <!--and trans_channel = #{transChannel,jdbcType=VARCHAR}-->
+      </if>
+      <if test="transState != null">
+        <bind name="transStateLike" value="'%'+transState+'%'" />
+        and trans_state like #{transStateLike}
+        <!--and trans_state = #{transState,jdbcType=VARCHAR}-->
+      </if>
+      <if test="transDate != null">
+        and trans_date = #{transDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="transIp != null">
+        <bind name="transIpLike" value="'%'+transIp+'%'" />
+        and trans_ip like #{transIpLike}
+        <!--and trans_ip = #{transIp,jdbcType=VARCHAR}-->
+      </if>
+      <if test="transNo != null">
+        <bind name="transNoLike" value="'%'+transNo+'%'" />
+        and trans_no like #{transNoLike}
+        <!--and trans_no = #{transNo,jdbcType=VARCHAR}-->
+      </if>
+      <if test="transSj != null">
+        <bind name="transSjLike" value="'%'+transSj+'%'" />
+        and trans_sj like #{transSjLike}
+        <!--and trans_sj = #{transSj,jdbcType=VARCHAR}-->
+      </if>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        and (id like #{keysLike} or
+        user_serial like #{keysLike} or
+        user_idcard like #{keysLike} or
+        trans_amt = #{keys} or
+        trans_channel like #{keysLike} or
+        trans_state like #{keysLike} or
+        trans_date = #{keys} or
+        trans_ip like #{keysLike} or
+        trans_no like #{keysLike} or
+        trans_sj like #{keysLike})
+      </if>
+    </where>
+  </select>
+</mapper>

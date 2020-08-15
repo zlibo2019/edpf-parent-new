@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edhy.mapper.HyCardInfoMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edhy.entity.HyCardInfoEntity">
+        <id column="card_id" jdbcType="VARCHAR" property="cardId"/>
+        <result column="card_name" jdbcType="VARCHAR" property="cardName"/>
+        <result column="card_type" jdbcType="VARCHAR" property="cardType"/>
+        <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
+        <result column="term_type" jdbcType="VARCHAR" property="termType"/>
+        <result column="end_date" jdbcType="VARCHAR" property="endDate"/>
+        <result column="fix_days" jdbcType="INTEGER" property="fixDays"/>
+        <result column="leave_days" jdbcType="INTEGER" property="leaveDays"/>
+        <result column="sell_price" jdbcType="DECIMAL" property="sellPrice"/>
+        <result column="once_price" jdbcType="DECIMAL" property="oncePrice"/>
+        <result column="low_flag" jdbcType="VARCHAR" property="lowFlag"/>
+        <result column="all_flag" jdbcType="VARCHAR" property="allFlag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        card_id, card_name, card_type, card_num, term_type, end_date, fix_days, leave_days,
+                 sell_price, once_price, low_flag, all_flag, remark, ct_date, ct_user, lt_date, lt_user,
+                 spare_col1, spare_col2, spare_col3, spare_col4, spare_col5, spare_col6
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_hy_card_info
+        where card_id = #{cardId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_hy_card_info
+        where card_id = #{cardId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edhy.entity.HyCardInfoEntity">
+        insert into ed_hy_card_info (card_id,
+                                     card_name,
+                                     card_type,
+                                     card_num,
+                                     term_type,
+                                     end_date,
+                                     fix_days,
+                                     leave_days,
+                                     sell_price,
+                                     once_price,
+                                     low_flag,
+                                     all_flag,
+                                     remark,
+                                     ct_date,
+                                     ct_user,
+                                     lt_date,
+                                     lt_user,
+                                     spare_col1,
+                                     spare_col2,
+                                     spare_col3,
+                                     spare_col4,
+                                     spare_col5,
+                                     spare_col6)
+        values (#{cardId,jdbcType=VARCHAR},
+                #{cardName,jdbcType=VARCHAR},
+                #{cardType,jdbcType=VARCHAR},
+                #{cardNum,jdbcType=INTEGER},
+                #{termType,jdbcType=VARCHAR},
+                #{endDate,jdbcType=VARCHAR},
+                #{fixDays,jdbcType=INTEGER},
+                #{leaveDays,jdbcType=INTEGER},
+                #{sellPrice,jdbcType=DECIMAL},
+                #{oncePrice,jdbcType=DECIMAL},
+                #{lowFlag,jdbcType=VARCHAR},
+                #{allFlag,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edhy.entity.HyCardInfoEntity">
+        insert into ed_hy_card_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="cardName != null">
+                card_name,
+            </if>
+            <if test="cardType != null">
+                card_type,
+            </if>
+            <if test="cardNum != null">
+                card_num,
+            </if>
+            <if test="termType != null">
+                term_type,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="fixDays != null">
+                fix_days,
+            </if>
+            <if test="leaveDays != null">
+                leave_days,
+            </if>
+            <if test="sellPrice != null">
+                sell_price,
+            </if>
+            <if test="oncePrice != null">
+                once_price,
+            </if>
+            <if test="lowFlag != null">
+                low_flag,
+            </if>
+            <if test="allFlag != null">
+                all_flag,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardId != null">
+                #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardName != null">
+                #{cardName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+                #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum,jdbcType=INTEGER},
+            </if>
+            <if test="termType != null">
+                #{termType,jdbcType=VARCHAR},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=VARCHAR},
+            </if>
+            <if test="fixDays != null">
+                #{fixDays,jdbcType=INTEGER},
+            </if>
+            <if test="leaveDays != null">
+                #{leaveDays,jdbcType=INTEGER},
+            </if>
+            <if test="sellPrice != null">
+                #{sellPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="oncePrice != null">
+                #{oncePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="lowFlag != null">
+                #{lowFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="allFlag != null">
+                #{allFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edhy.entity.HyCardInfoEntity">
+        update ed_hy_card_info
+        <set>
+            <if test="cardName != null">
+                card_name = #{cardName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+                card_type = #{cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNum != null">
+                card_num = #{cardNum,jdbcType=INTEGER},
+            </if>
+            <if test="termType != null">
+                term_type = #{termType,jdbcType=VARCHAR},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=VARCHAR},
+            </if>
+            <if test="fixDays != null">
+                fix_days = #{fixDays,jdbcType=INTEGER},
+            </if>
+            <if test="leaveDays != null">
+                leave_days = #{leaveDays,jdbcType=INTEGER},
+            </if>
+            <if test="sellPrice != null">
+                sell_price = #{sellPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="oncePrice != null">
+                once_price = #{oncePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="lowFlag != null">
+                low_flag = #{lowFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="allFlag != null">
+                all_flag = #{allFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where card_id = #{cardId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edhy.entity.HyCardInfoEntity">
+        update ed_hy_card_info
+        set card_name  = #{cardName,jdbcType=VARCHAR},
+            card_type  = #{cardType,jdbcType=VARCHAR},
+            card_num   = #{cardNum,jdbcType=INTEGER},
+            term_type  = #{termType,jdbcType=VARCHAR},
+            end_date   = #{endDate,jdbcType=VARCHAR},
+            fix_days   = #{fixDays,jdbcType=INTEGER},
+            leave_days = #{leaveDays,jdbcType=INTEGER},
+            sell_price = #{sellPrice,jdbcType=DECIMAL},
+            once_price = #{oncePrice,jdbcType=DECIMAL},
+            low_flag   = #{lowFlag,jdbcType=VARCHAR},
+            all_flag   = #{allFlag,jdbcType=VARCHAR},
+            remark     = #{remark,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=TIMESTAMP},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            lt_date    = #{ltDate,jdbcType=TIMESTAMP},
+            lt_user    = #{ltUser,jdbcType=VARCHAR},
+            spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6 = #{spareCol6,jdbcType=VARCHAR}
+        where card_id = #{cardId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edhy.entity.HyCardInfoEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_hy_card_info
+        <where>
+            <if test="cardId != null">
+                <bind name="cardIdLike" value="'%'+cardId+'%'"/>
+                and card_id like #{cardIdLike}
+                <!--and card_id = #{cardId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="cardName != null">
+                <bind name="cardNameLike" value="'%'+cardName+'%'"/>
+                and card_name like #{cardNameLike}
+                <!--and card_name = #{cardName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="cardType != null">
+                <bind name="cardTypeLike" value="'%'+cardType+'%'"/>
+                and card_type like #{cardTypeLike}
+                <!--and card_type = #{cardType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="cardNum != null">
+                and card_num = #{cardNum,jdbcType=INTEGER}
+            </if>
+            <if test="termType != null">
+                <bind name="termTypeLike" value="'%'+termType+'%'"/>
+                and term_type like #{termTypeLike}
+                <!--and term_type = #{termType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="endDate != null">
+                <bind name="endDateLike" value="'%'+endDate+'%'"/>
+                and end_date like #{endDateLike}
+                <!--and end_date = #{endDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="fixDays != null">
+                and fix_days = #{fixDays,jdbcType=INTEGER}
+            </if>
+            <if test="leaveDays != null">
+                and leave_days = #{leaveDays,jdbcType=INTEGER}
+            </if>
+            <if test="sellPrice != null">
+                and sell_price = #{sellPrice,jdbcType=DECIMAL}
+            </if>
+            <if test="oncePrice != null">
+                and once_price = #{oncePrice,jdbcType=DECIMAL}
+            </if>
+            <if test="lowFlag != null">
+                <bind name="lowFlagLike" value="'%'+lowFlag+'%'"/>
+                and low_flag like #{lowFlagLike}
+                <!--and low_flag = #{lowFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="allFlag != null">
+                <bind name="allFlagLike" value="'%'+allFlag+'%'"/>
+                and all_flag like #{allFlagLike}
+                <!--and all_flag = #{allFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and lt_date = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol4 != null">
+                <bind name="spareCol4Like" value="'%'+spareCol4+'%'"/>
+                and spare_col4 like #{spareCol4Like}
+                <!--and spare_col4 = #{spareCol4,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol5 != null">
+                <bind name="spareCol5Like" value="'%'+spareCol5+'%'"/>
+                and spare_col5 like #{spareCol5Like}
+                <!--and spare_col5 = #{spareCol5,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol6 != null">
+                <bind name="spareCol6Like" value="'%'+spareCol6+'%'"/>
+                and spare_col6 like #{spareCol6Like}
+                <!--and spare_col6 = #{spareCol6,jdbcType=VARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (card_id like #{keysLike} or
+                card_name like #{keysLike} or
+                card_type like #{keysLike} or
+                card_num = #{keys} or
+                term_type like #{keysLike} or
+                end_date like #{keysLike} or
+                fix_days = #{keys} or
+                leave_days = #{keys} or
+                sell_price = #{keys} or
+                once_price = #{keys} or
+                low_flag like #{keysLike} or
+                all_flag like #{keysLike} or
+                remark like #{keysLike} or
+                ct_date = #{keys} or
+                ct_user like #{keysLike} or
+                lt_date = #{keys} or
+                lt_user like #{keysLike} or
+                spare_col1 like #{keysLike} or
+                spare_col2 like #{keysLike} or
+                spare_col3 like #{keysLike} or
+                spare_col4 like #{keysLike} or
+                spare_col5 like #{keysLike} or
+                spare_col6 like #{keysLike})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_hy_card_info
+        where (card_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.cardId})
+        </foreach>
+    </delete>
+</mapper>

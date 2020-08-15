@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.EdDineMenuDetailMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.EdDineMenuDetailEntity">
+        <id column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <id column="food_id" jdbcType="VARCHAR" property="foodId"/>
+        <result column="food_num" jdbcType="INTEGER" property="foodNum"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        menu_id, food_id, food_num, spare_col1, spare_col2, spare_col3, spare_col4, spare_col5,
+                 spare_col6, ct_user, ct_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_menu_detail
+        where menu_id = #{menuId,jdbcType=VARCHAR} and food_id = #{foodId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_dine_menu_detail
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+          and food_id = #{foodId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.EdDineMenuDetailEntity">
+        insert into ed_dine_menu_detail (menu_id,
+                                         food_id,
+                                         food_num,
+                                         spare_col1,
+                                         spare_col2,
+                                         spare_col3,
+                                         spare_col4,
+                                         spare_col5,
+                                         spare_col6,
+                                         ct_user,
+                                         ct_date)
+        values (#{menuId,jdbcType=VARCHAR},
+                #{foodId,jdbcType=VARCHAR},
+                #{foodNum,jdbcType=INTEGER},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.EdDineMenuDetailEntity">
+        insert into ed_dine_menu_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="foodId != null">
+                food_id,
+            </if>
+            <if test="foodNum != null">
+                food_num,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                #{menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="foodId != null">
+                #{foodId,jdbcType=VARCHAR},
+            </if>
+            <if test="foodNum != null">
+                #{foodNum,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.EdDineMenuDetailEntity">
+        update ed_dine_menu_detail
+        <set>
+            <if test="foodNum != null">
+                food_num = #{foodNum,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=VARCHAR} and food_id = #{foodId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.EdDineMenuDetailEntity">
+        update ed_dine_menu_detail
+        set food_num   = #{foodNum,jdbcType=INTEGER},
+            spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=TIMESTAMP}
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+          and food_id = #{foodId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.EdDineMenuDetailEntity"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_menu_detail
+        <where>
+            <if test="menuId != null">
+                <bind name="menuIdLike" value="'%'+menuId+'%'"/>
+                and menu_id like #{menuIdLike}
+                <!--and menu_id = #{menuId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="foodId != null">
+                <bind name="foodIdLike" value="'%'+foodId+'%'"/>
+                and food_id like #{foodIdLike}
+                <!--and food_id = #{foodId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="foodNum != null">
+                and food_num = #{foodNum,jdbcType=INTEGER}
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol4 != null">
+                <bind name="spareCol4Like" value="'%'+spareCol4+'%'"/>
+                and spare_col4 like #{spareCol4Like}
+                <!--and spare_col4 = #{spareCol4,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol5 != null">
+                <bind name="spareCol5Like" value="'%'+spareCol5+'%'"/>
+                and spare_col5 like #{spareCol5Like}
+                <!--and spare_col5 = #{spareCol5,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol6 != null">
+                <bind name="spareCol6Like" value="'%'+spareCol6+'%'"/>
+                and spare_col6 like #{spareCol6Like}
+                <!--and spare_col6 = #{spareCol6,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_menu_detail
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or menu_id like #{keysLike}
+                or food_id like #{keysLike}
+                or food_num == #{keys}
+                or spare_col1 like #{keysLike}
+                or spare_col2 like #{keysLike}
+                or spare_col3 like #{keysLike}
+                or spare_col4 like #{keysLike}
+                or spare_col5 like #{keysLike}
+                or spare_col6 like #{keysLike}
+                or ct_user like #{keysLike}
+                or ct_date == #{keys}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_dine_menu_detail
+        where (menu_id, food_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.menuId},#{item.foodId})
+        </foreach>
+    </delete>
+</mapper>

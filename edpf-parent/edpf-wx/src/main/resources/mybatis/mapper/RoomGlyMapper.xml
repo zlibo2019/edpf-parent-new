@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.RoomGlyMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.RoomGlyEntity">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="room_serial" jdbcType="INTEGER" property="roomSerial"/>
+        <result column="room_lx" jdbcType="INTEGER" property="roomLx"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.weds.edwx.entity.RoomGlyEntity">
+        insert into room_gly (id, user_serial, room_serial, room_lx, gly_no, ip, sj)
+        values (#{id,jdbcType=INTEGER},
+                #{userSerial,jdbcType=BIGINT},
+                #{roomSerial,jdbcType=INTEGER},
+                #{roomLx,jdbcType=INTEGER},
+                #{glyNo,jdbcType=NVARCHAR},
+                #{ip,jdbcType=VARCHAR},
+                #{sj,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.RoomGlyEntity">
+        insert into room_gly
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="roomSerial != null">
+                room_serial,
+            </if>
+            <if test="roomLx != null">
+                room_lx,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="roomSerial != null">
+                #{roomSerial,jdbcType=INTEGER},
+            </if>
+            <if test="roomLx != null">
+                #{roomLx,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.RoomGlyEntity" resultMap="BaseResultMap">
+        select
+        t1.*, t2.user_lname
+        from room_gly t1 join dt_user t2 on t1.user_serial = t2.user_serial
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="roomSerial != null">
+                and room_serial = #{roomSerial,jdbcType=INTEGER}
+            </if>
+            <if test="roomLx != null">
+                and room_lx = #{roomLx,jdbcType=INTEGER}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="ip != null">
+                <bind name="ipLike" value="'%'+ip+'%'"/>
+                and ip like #{ipLike}
+                <!--and ip = #{ip,jdbcType=VARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (id = #{keys} or
+                user_serial = #{keys} or
+                room_serial = #{keys} or
+                room_lx = #{keys} or
+                gly_no like #{keysLike} or
+                ip like #{keysLike} or
+                sj = #{keys})
+            </if>
+        </where>
+    </select>
+</mapper>

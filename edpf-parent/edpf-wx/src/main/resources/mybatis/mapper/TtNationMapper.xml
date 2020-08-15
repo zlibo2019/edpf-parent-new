@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.TtNationMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.TtNationEntity">
+        <id column="tt_order" jdbcType="SMALLINT" property="ttOrder"/>
+        <result column="tt_name" jdbcType="NVARCHAR" property="ttName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        tt_order, tt_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tt_nation
+        where tt_order = #{ttOrder,jdbcType=SMALLINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+        delete from tt_nation
+        where tt_order = #{ttOrder,jdbcType=SMALLINT}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.TtNationEntity">
+        insert into tt_nation (tt_order, tt_name)
+        values (#{ttOrder,jdbcType=SMALLINT}, #{ttName,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.TtNationEntity">
+        insert into tt_nation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ttOrder != null">
+                tt_order,
+            </if>
+            <if test="ttName != null">
+                tt_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ttOrder != null">
+                #{ttOrder,jdbcType=SMALLINT},
+            </if>
+            <if test="ttName != null">
+                #{ttName,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.TtNationEntity">
+        update tt_nation
+        <set>
+            <if test="ttName != null">
+                tt_name = #{ttName,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where tt_order = #{ttOrder,jdbcType=SMALLINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.TtNationEntity">
+        update tt_nation
+        set tt_name = #{ttName,jdbcType=NVARCHAR}
+        where tt_order = #{ttOrder,jdbcType=SMALLINT}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.TtNationEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tt_nation
+        <where>
+            <if test="ttOrder != null">
+                and tt_order = #{ttOrder,jdbcType=SMALLINT}
+            </if>
+            <if test="ttName != null">
+                <bind name="ttNameLike" value="'%'+ttName+'%'"/>
+                and tt_name like #{ttNameLike}
+                <!--and tt_name = #{ttName,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tt_nation
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or tt_order == #{keys}
+                or tt_name like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        tt_nation
+        where (tt_order) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.ttOrder})
+        </foreach>
+    </delete>
+</mapper>

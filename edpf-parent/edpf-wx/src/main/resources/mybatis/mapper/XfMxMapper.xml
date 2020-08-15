@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.XfMxMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.XfMxEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="jl_bh" jdbcType="VARCHAR" property="jlBh"/>
+        <result column="dev_serial" jdbcType="CHAR" property="devSerial"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="card_serial" jdbcType="CHAR" property="cardSerial"/>
+        <result column="old_money" jdbcType="DECIMAL" property="oldMoney"/>
+        <result column="new_money" jdbcType="DECIMAL" property="newMoney"/>
+        <result column="new_sub" jdbcType="DECIMAL" property="newSub"/>
+        <result column="new_add" jdbcType="DECIMAL" property="newAdd"/>
+        <result column="save_money" jdbcType="DECIMAL" property="saveMoney"/>
+        <result column="jl_sj" jdbcType="TIMESTAMP" property="jlSj"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="money_count" jdbcType="INTEGER" property="moneyCount"/>
+        <result column="sub_count" jdbcType="INTEGER" property="subCount"/>
+        <result column="add_count" jdbcType="INTEGER" property="addCount"/>
+        <result column="new_del" jdbcType="DECIMAL" property="newDel"/>
+        <result column="del_count" jdbcType="INTEGER" property="delCount"/>
+        <result column="jl_count" jdbcType="INTEGER" property="jlCount"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="card_lx" jdbcType="INTEGER" property="cardLx"/>
+        <result column="new_zero" jdbcType="DECIMAL" property="newZero"/>
+        <result column="del_zero" jdbcType="INTEGER" property="delZero"/>
+        <result column="new_edit" jdbcType="DECIMAL" property="newEdit"/>
+        <result column="del_edit" jdbcType="INTEGER" property="delEdit"/>
+        <result column="time_no" jdbcType="CHAR" property="timeNo"/>
+        <result column="new_each" jdbcType="INTEGER" property="newEach"/>
+        <result column="each_count" jdbcType="INTEGER" property="eachCount"/>
+        <result column="dev_time_no" jdbcType="CHAR" property="devTimeNo"/>
+        <result column="rq" jdbcType="TIMESTAMP" property="rq"/>
+        <result column="more_money" jdbcType="DECIMAL" property="moreMoney"/>
+        <result column="rate_money" jdbcType="DECIMAL" property="rateMoney"/>
+        <result column="discount_rate" jdbcType="INTEGER" property="discountRate"/>
+        <result column="each_unit" jdbcType="DECIMAL" property="eachUnit"/>
+        <result column="mould" jdbcType="INTEGER" property="mould"/>
+        <result column="dep_serial" jdbcType="INTEGER" property="depSerial"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="acdep_serial" jdbcType="BIGINT" property="acdepSerial"/>
+        <result column="cor_count" jdbcType="INTEGER" property="corCount"/>
+        <result column="cor_money" jdbcType="DECIMAL" property="corMoney"/>
+        <result column="cor_sub" jdbcType="DECIMAL" property="corSub"/>
+        <result column="cor_add" jdbcType="DECIMAL" property="corAdd"/>
+        <result column="del_cash" jdbcType="DECIMAL" property="delCash"/>
+        <result column="del_sub" jdbcType="DECIMAL" property="delSub"/>
+        <result column="del_each" jdbcType="INTEGER" property="delEach"/>
+        <result column="old_add" jdbcType="DECIMAL" property="oldAdd"/>
+        <result column="old_sub" jdbcType="DECIMAL" property="oldSub"/>
+        <result column="save_add" jdbcType="DECIMAL" property="saveAdd"/>
+        <result column="save_sub" jdbcType="DECIMAL" property="saveSub"/>
+        <result column="xf_add" jdbcType="DECIMAL" property="xfAdd"/>
+        <result column="xf_sub" jdbcType="DECIMAL" property="xfSub"/>
+        <result column="add_type" jdbcType="INTEGER" property="addType"/>
+        <result column="dep_name" jdbcType="VARCHAR" property="depName"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+    </resultMap>
+    <resultMap id="AccountMap" type="com.weds.edwx.entity.AccountInfoEntity">
+        <id column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="ac_money" jdbcType="VARCHAR" property="acMoney"/>
+        <result column="ac_addo" jdbcType="VARCHAR" property="acAddo"/>
+        <result column="ac_subo" jdbcType="VARCHAR" property="acSubo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, jl_bh, dev_serial, user_serial, user_card, card_serial, old_money, new_money,
+            new_sub, new_add, save_money, jl_sj, sj, money_count, sub_count, add_count, new_del,
+            del_count, jl_count, lx, gly_no, card_lx, new_zero, del_zero, new_edit, del_edit,
+            time_no, new_each, each_count, dev_time_no, rq, more_money, rate_money, discount_rate,
+            each_unit, mould, dep_serial, type, acdep_serial, cor_count, cor_money, cor_sub,
+            cor_add, del_cash, del_sub, del_each, old_add, old_sub, save_add, save_sub, xf_add,
+            xf_sub, add_type
+    </sql>
+    <select id="selectCollectSum" parameterType="com.weds.edwx.entity.XfTimeEntity" resultMap="BaseResultMap">
+    <![CDATA[
+        select convert(varchar, isnull(a.new_money, 0))as new_money,
+               convert(varchar, isnull(b.new_add, 0))as   new_add,
+               convert(varchar, isnull(c.new_sub, 0))as   new_sub
+        from (select SUM(new_money / 100)as new_money
+              from xf_mx
+              where (lx = 1 or lx = 51)
+                and user_serial = #{userSerial}
+                and jl_sj > #{beginDate}
+                and jl_sj < #{endDate}) a,
+             (select SUM(new_add / 100)as new_add
+              from xf_mx
+              where (lx = 2 or lx = 3 or lx = 12 or lx = 13)
+                and user_serial = #{userSerial}
+                and jl_sj > #{beginDate}
+                and jl_sj < #{endDate}) b,
+             (select SUM(new_sub / 100)as new_sub
+              from xf_mx
+              where (lx = 4 or lx = 5 or lx = 6 or lx = 34 or lx = 35)
+                and user_serial = #{userSerial}
+                and jl_sj > #{beginDate}
+                and jl_sj < #{endDate}) c
+        ]]>
+  </select>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.XfTimeEntity" resultMap="BaseResultMap">
+        select a.jl_sj,a.new_money,b.dep_name,a.lx,a.add_type from (
+        select jl_sj,case when lx=1 or lx=51 then convert(varchar,isnull((new_money/100),0))
+        when lx=2 then convert(varchar,isnull((new_add/100),0))
+        when lx=4 then convert(varchar,isnull((new_sub/100),0)) end as new_money,acdep_serial,lx,add_type
+        from xf_mx
+        <where>
+            user_serial=#{userSerial} and mould=0
+            <![CDATA[ and jl_sj>#{beginDate} and jl_sj<#{endDate}]]>
+            <if test="type==0">
+                and (lx = 1 or lx = 51)
+            </if>
+            <if test="type==1">
+                and lx = 2
+            </if>
+            <if test="type==2">
+                and lx = 4
+            </if>
+        </where>
+        )a
+        left join dt_ac_dep b on a.acdep_serial=b.dep_serial
+
+        order by a.jl_sj desc
+
+    </select>
+    <select id="getAccountSum" parameterType="com.weds.edwx.entity.XfTimeEntity" resultMap="AccountMap">
+        select convert(varchar, Ac_money / 100) as ac_money,
+               convert(varchar, Ac_addo / 100)  as ac_addo,
+               convert(varchar, Ac_subo / 100)  as ac_subo,
+               user_serial,
+               card_serial
+        from dt_ac_link
+        where user_serial = #{userSerial}
+    </select>
+    <select id="selectAccountBal" parameterType="java.lang.String" resultMap="AccountMap">
+        select convert(varchar, Ac_money / 100) as ac_money,
+               convert(varchar, Ac_addo / 100)  as ac_addo,
+               convert(varchar, Ac_subo / 100)  as ac_subo,
+               t1.user_serial
+        from dt_ac_link t1
+                 join dt_user t2 on t1.user_serial = t2.user_serial
+        where t2.user_id = #{userId,jdbcType=VARCHAR}
+          and t2.user_type &lt; 51
+    </select>
+    <select id="selectAccountRecordList" parameterType="com.weds.edwx.entity.XfTimeEntity" resultMap="BaseResultMap">
+        select aa.jl_sj,
+               aa.lx                                                                 as type,
+               case
+                   when aa.lx = 1 then '消费'
+                   when aa.lx = 2 then '充值'
+                   when aa.lx = 3 then '补贴'
+                   when aa.lx = 4 then '补贴清零'
+                   when aa.lx = 5 then '金额消费纠错' end                                  as type_name,
+               case
+                   when aa.lx = 1 then convert(varchar, isnull(-money / 100, 0))
+                   when aa.lx = 2 then '+' + convert(varchar, isnull(money / 100, 0))
+                   when aa.lx = 3 then '+' + convert(varchar, isnull(money / 100, 0))
+                   when aa.lx = 4 then convert(varchar, isnull(-money / 100, 0))
+                   when aa.lx = 5 then convert(varchar, isnull(-money / 100, 0)) end as new_money,
+               case
+                   when b.dep_name is null and aa.add_type = 0 then '电脑端'
+                   when b.dep_name is null and aa.add_type = 1 then '手机端'
+                   else b.dep_name end                                               as dep_name
+        from (select a.jl_sj,
+                     case
+                         when a.lx in (1, 8, 51) then a.new_money
+                         when a.lx in(2) then a.new_add
+                         when a.lx in (4, 5, 6, 34, 35) then a.new_sub
+                         when a.lx in(16) then a.new_sub
+                         when a.lx in(31) then a.new_money end as money,
+                     case
+                         when a.lx in (1, 8, 51) then 1
+                         when a.lx = 2 then 2
+                         when a.lx in (4, 5, 6, 34, 35) then 3
+                         when a.lx = 16 then 4
+                         when a.lx = 31 then 5
+                         else convert(varchar, a.lx) end       as lx,
+                     a.acdep_serial,
+                     a.add_type
+              from xf_mx a
+              where user_serial = #{userSerial}) aa
+                 left join dt_ac_dep b on aa.acdep_serial = b.dep_serial
+        where <![CDATA[aa.money <> 0]]>
+        order by aa.jl_sj desc
+    </select>
+    <select id="selectRechargeRecord" parameterType="com.weds.edwx.entity.XfTimeEntity" resultMap="BaseResultMap">
+        select jl_sj, convert(varchar, isnull(new_add / 100, 0)) as new_add, save_money / 100 as save_money, add_type
+        from xf_mx
+        where mould = 0
+          and lx in (2, 12, 13)
+          and user_serial = #{userSerial}
+          and <![CDATA[new_add <> 0]]>
+        order by jl_sj desc
+    </select>
+</mapper>

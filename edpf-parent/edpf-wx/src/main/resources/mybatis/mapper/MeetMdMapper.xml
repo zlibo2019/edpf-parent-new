@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MeetMdMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MeetMdEntity">
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="meet_bh" jdbcType="INTEGER" property="meetBh" />
+    <result column="ry_state" jdbcType="INTEGER" property="ryState" />
+    <result column="ry_zwh" jdbcType="NVARCHAR" property="ryZwh" />
+    <result column="md_state" jdbcType="INTEGER" property="mdState" />
+    <result column="tqry" jdbcType="VARCHAR" property="tqry" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+    <result column="group_bh" jdbcType="INTEGER" property="groupBh" />
+    <result column="user_lname" jdbcType="VARCHAR" property="userLname" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    xh, user_serial, meet_bh, ry_state, ry_zwh, md_state, tqry, bz, group_bh
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meet_md
+    where xh = #{xh,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from meet_md
+    where xh = #{xh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.MeetEntity">
+    insert into meet_md (user_serial, meet_bh)
+      select user_serial,#{bh} from dt_user where user_type &lt; 51 and user_serial in
+
+    <foreach collection="meetUsersStr.split(',')" item="item" index="index" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+      <!--<foreach collection="meetUsers" open="(" close=")" item="item"  separator=",">
+          #{item.userSerial}
+      </foreach>-->
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.MeetMdEntity">
+    insert into meet_md
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="meetBh != null">
+        meet_bh,
+      </if>
+      <if test="ryState != null">
+        ry_state,
+      </if>
+      <if test="ryZwh != null">
+        ry_zwh,
+      </if>
+      <if test="mdState != null">
+        md_state,
+      </if>
+      <if test="tqry != null">
+        tqry,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="groupBh != null">
+        group_bh,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="meetBh != null">
+        #{meetBh,jdbcType=INTEGER},
+      </if>
+      <if test="ryState != null">
+        #{ryState,jdbcType=INTEGER},
+      </if>
+      <if test="ryZwh != null">
+        #{ryZwh,jdbcType=NVARCHAR},
+      </if>
+      <if test="mdState != null">
+        #{mdState,jdbcType=INTEGER},
+      </if>
+      <if test="tqry != null">
+        #{tqry,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="groupBh != null">
+        #{groupBh,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.MeetMdEntity">
+    update meet_md
+    <set>
+      <if test="userSerial != null">
+        user_serial = #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="meetBh != null">
+        meet_bh = #{meetBh,jdbcType=INTEGER},
+      </if>
+      <if test="ryState != null">
+        ry_state = #{ryState,jdbcType=INTEGER},
+      </if>
+      <if test="ryZwh != null">
+        ry_zwh = #{ryZwh,jdbcType=NVARCHAR},
+      </if>
+      <if test="mdState != null">
+        md_state = #{mdState,jdbcType=INTEGER},
+      </if>
+      <if test="tqry != null">
+        tqry = #{tqry,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="groupBh != null">
+        group_bh = #{groupBh,jdbcType=INTEGER},
+      </if>
+    </set>
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.MeetMdEntity">
+    update meet_md
+    set user_serial = #{userSerial,jdbcType=BIGINT},
+      meet_bh = #{meetBh,jdbcType=INTEGER},
+      ry_state = #{ryState,jdbcType=INTEGER},
+      ry_zwh = #{ryZwh,jdbcType=NVARCHAR},
+      md_state = #{mdState,jdbcType=INTEGER},
+      tqry = #{tqry,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR},
+      group_bh = #{groupBh,jdbcType=INTEGER}
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.MeetMdEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from meet_md
+    <where>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="userSerial != null">
+        and user_serial = #{userSerial,jdbcType=BIGINT}
+      </if>
+      <if test="meetBh != null">
+        and meet_bh = #{meetBh,jdbcType=INTEGER}
+      </if>
+      <if test="ryState != null">
+        and ry_state = #{ryState,jdbcType=INTEGER}
+      </if>
+      <if test="ryZwh != null">
+        and ry_zwh = #{ryZwh,jdbcType=NVARCHAR}
+      </if>
+      <if test="mdState != null">
+        and md_state = #{mdState,jdbcType=INTEGER}
+      </if>
+      <if test="tqry != null">
+        <bind name="tqryLike" value="'%'+tqry+'%'" />
+        and tqry like #{tqryLike}
+        <!--and tqry = #{tqry,jdbcType=VARCHAR}-->
+      </if>
+      <if test="bz != null">
+        <bind name="bzLike" value="'%'+bz+'%'" />
+        and bz like #{bzLike}
+        <!--and bz = #{bz,jdbcType=VARCHAR}-->
+      </if>
+      <if test="groupBh != null">
+        and group_bh = #{groupBh,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectUserListByBh" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select a.user_serial,b.user_lname,'' as img_url
+    from meet_md a
+    inner join dt_user b on a.user_serial=b.user_serial and b.user_type &lt;51
+    where meet_bh=#{meetBh}
+  </select>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.InfoFeedbackMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.InfoFeedbackEntity">
+        <id column="XH" jdbcType="INTEGER" property="xh"/>
+        <result column="USER_SERIAL" jdbcType="INTEGER" property="userSerial"/>
+        <result column="INFO_TITLE" jdbcType="VARCHAR" property="infoTitle"/>
+        <result column="INFO_CONTENT" jdbcType="VARCHAR" property="infoContent"/>
+        <result column="SPARE_COL1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="SPARE_COL2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="SPARE_COL3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="DINE_BZ" jdbcType="NVARCHAR" property="dineBz"/>
+        <result column="SJ" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="GLY_NO" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="USER_LNAME" jdbcType="NVARCHAR" property="userLname"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        XH, USER_SERIAL, INFO_TITLE, INFO_CONTENT, SPARE_COL1, SPARE_COL2, SPARE_COL3, DINE_BZ,
+            SJ, GLY_NO
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select t1.XH,
+               t1.USER_SERIAL,
+               t1.INFO_TITLE,
+               t1.INFO_CONTENT,
+               t1.SPARE_COL1,
+               t1.SPARE_COL2,
+               t1.SPARE_COL3,
+               t1.DINE_BZ,
+               t1.SJ,
+               t1.GLY_NO,
+               t2.USER_LNAME
+        from INFO_FEEDBACK t1
+                 left join dt_user t2 on t1.USER_SERIAL = t2.user_serial
+        where XH = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from INFO_FEEDBACK
+        where XH = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.InfoFeedbackEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into INFO_FEEDBACK (USER_SERIAL, INFO_TITLE, INFO_CONTENT,
+        SPARE_COL1, SPARE_COL2, SPARE_COL3,
+        DINE_BZ, SJ, GLY_NO
+        )
+        values (#{userSerial,jdbcType=INTEGER}, #{infoTitle,jdbcType=VARCHAR}, #{infoContent,jdbcType=VARCHAR},
+        #{spareCol1,jdbcType=VARCHAR}, #{spareCol2,jdbcType=VARCHAR}, #{spareCol3,jdbcType=VARCHAR},
+        #{dineBz,jdbcType=NVARCHAR}, #{sj,jdbcType=TIMESTAMP}, #{glyNo,jdbcType=NVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.InfoFeedbackEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into INFO_FEEDBACK
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                USER_SERIAL,
+            </if>
+            <if test="infoTitle != null">
+                INFO_TITLE,
+            </if>
+            <if test="infoContent != null">
+                INFO_CONTENT,
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1,
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2,
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3,
+            </if>
+            <if test="dineBz != null">
+                DINE_BZ,
+            </if>
+            <if test="sj != null">
+                SJ,
+            </if>
+            <if test="glyNo != null">
+                GLY_NO,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="infoTitle != null">
+                #{infoTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="infoContent != null">
+                #{infoContent,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="dineBz != null">
+                #{dineBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.InfoFeedbackEntity">
+        update INFO_FEEDBACK
+        <set>
+            <if test="userSerial != null">
+                USER_SERIAL = #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="infoTitle != null">
+                INFO_TITLE = #{infoTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="infoContent != null">
+                INFO_CONTENT = #{infoContent,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="dineBz != null">
+                DINE_BZ = #{dineBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                SJ = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                GLY_NO = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where XH = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.InfoFeedbackEntity">
+        update INFO_FEEDBACK
+        set USER_SERIAL  = #{userSerial,jdbcType=INTEGER},
+            INFO_TITLE   = #{infoTitle,jdbcType=VARCHAR},
+            INFO_CONTENT = #{infoContent,jdbcType=VARCHAR},
+            SPARE_COL1   = #{spareCol1,jdbcType=VARCHAR},
+            SPARE_COL2   = #{spareCol2,jdbcType=VARCHAR},
+            SPARE_COL3   = #{spareCol3,jdbcType=VARCHAR},
+            DINE_BZ      = #{dineBz,jdbcType=NVARCHAR},
+            SJ           = #{sj,jdbcType=TIMESTAMP},
+            GLY_NO       = #{glyNo,jdbcType=NVARCHAR}
+        where XH = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.InfoFeedbackEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from INFO_FEEDBACK
+        <where>
+            <if test="xh != null">
+                and XH = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="userSerial != null">
+                and USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+            </if>
+            <if test="infoTitle != null">
+                <bind name="infoTitleLike" value="'%'+infoTitle+'%'"/>
+                and INFO_TITLE like #{infoTitleLike}
+                <!--and INFO_TITLE = #{infoTitle,jdbcType=VARCHAR}-->
+            </if>
+            <if test="infoContent != null">
+                <bind name="infoContentLike" value="'%'+infoContent+'%'"/>
+                and INFO_CONTENT like #{infoContentLike}
+                <!--and INFO_CONTENT = #{infoContent,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and SPARE_COL1 like #{spareCol1Like}
+                <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and SPARE_COL2 like #{spareCol2Like}
+                <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and SPARE_COL3 like #{spareCol3Like}
+                <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="dineBz != null">
+                and DINE_BZ = #{dineBz,jdbcType=NVARCHAR}
+            </if>
+            <if test="sj != null">
+                and SJ = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                and GLY_NO = #{glyNo,jdbcType=NVARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

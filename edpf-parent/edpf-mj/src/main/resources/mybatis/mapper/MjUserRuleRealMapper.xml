@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.MjUserRuleRealMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edmj.entity.MjUserRuleRealEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="Gate_bh" jdbcType="CHAR" property="gateBh"/>
+        <result column="FX" jdbcType="INTEGER" property="fx"/>
+        <result column="rule_no" jdbcType="INTEGER" property="ruleNo"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+        <result column="user_depname" jdbcType="VARCHAR" property="userDepname"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="door_name" jdbcType="NVARCHAR" property="doorName"/>
+        <result column="rule_name" jdbcType="NVARCHAR" property="ruleName"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+
+        <result column="dev_serial" jdbcType="VARCHAR" property="devSerial"/>
+        <result column="dev_order" jdbcType="INTEGER" property="devOrder"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, user_serial, Gate_bh, FX, rule_no, sj, gly_no
+    </sql>
+    <select id="selectUserRules" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select xh,gate_bh,rule_no,fx
+        FROM mj_user_rule_real
+        <where>
+            <!-- <if test="userSerial!=null">
+                and user_serial=#{userSerial}
+            </if> -->
+            <if test="userList!=null and userList.size()>0">
+            and user_serial in
+            <foreach close=")" collection="userList" index="index" item="item"  open="(" separator=",">
+                #{item}
+            </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from MJ_USER_RULE_REAL
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <select id="selectUserRuleInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select b.user_lname,d.door_name,a.user_serial,a.gate_bh,e.dev_serial,e.dev_order,e.fx,b.user_card,a.rule_no
+        from mj_user_rule_real a
+        inner join dt_user b on a.user_serial=b.user_serial
+        inner join st_door_real d on a.gate_bh=d.bh
+        LEFT join st_doorfx_real e on e.gate_bh=d.bh and e.fx=a.fx
+        where a.xh=#{xh}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from MJ_USER_RULE_REAL
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByGateBh" parameterType="java.lang.String">
+        DELETE from MJ_USER_RULE_REAL
+        WHERE gate_bh = #{gateBh}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into MJ_USER_RULE_REAL (xh, user_serial, Gate_bh, FX, rule_no, sj, gly_no)
+        values (#{xh,jdbcType=INTEGER},
+                #{userSerial,jdbcType=BIGINT},
+                #{gateBh,jdbcType=CHAR},
+                #{fx,jdbcType=INTEGER},
+                #{ruleNo,jdbcType=INTEGER},
+                #{sj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertByUserGate" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into
+        MJ_USER_RULE_REAL
+        (user_serial,Gate_bh,FX,rule_no,sj,gly_no)
+          select a.user_serial,b.bh,#{fx}, #{ruleNo,jdbcType=INTEGER},#{sj}, #{glyNo,jdbcType=NVARCHAR}
+        from (
+          select user_serial from dt_user  where user_type &lt;51 and user_serial in
+        <foreach  close=")" collection="userList" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+        )a
+        join (
+         select bh from st_door_real where bh in
+        <foreach  close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+        ) b on 1=1
+    </insert>
+    <insert id="insertRulesCopyDoor" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into MJ_USER_RULE_REAL(user_serial,Gate_bh,fx,rule_no,sj,gly_no)
+        select a.user_serial,b.bh,a.fx,a.rule_no,#{sj},#{glyNo}
+        from (select * from MJ_USER_RULE_REAL where Gate_bh=#{gateBh}) a
+        inner join (
+        select bh from st_door_real where bh in
+        <foreach  close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+        ) b on 1=1
+    </insert>
+    <insert id="insertRulesCopyUser" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into MJ_USER_RULE_REAL(user_serial,Gate_bh,fx,rule_no,sj,gly_no)
+        select b.user_serial,a.gate_bh,a.fx,a.rule_no,#{sj},#{glyNo}
+        from (select * from MJ_USER_RULE_REAL where user_serial=#{userSerial}) a
+        inner join (
+        select user_serial from dt_user where user_type &lt;51
+        and user_serial in
+        <foreach  close=")" collection="userList" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+        ) b on 1=1
+    </insert>
+    <delete id="deleteByUserGate" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+       DELETE  from Mj_user_rule_real
+       <where>
+        <if test="userList!=null and userList.size()>0">
+             and user_serial in
+            <foreach close=")" collection="userList" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="gateList!=null and gateList.size()>0">
+        and gate_bh in
+        <foreach close=")" collection="gateList" index="index" item="item"  open="(" separator=",">
+            #{item}
+        </foreach>
+        </if>
+       </where>
+    </delete>
+    <insert id="insertBatch" parameterType="List">
+        insert into
+        MJ_USER_RULE_REAL
+        (xh,user_serial,Gate_bh,FX,rule_no,sj,gly_no)
+        values
+        <foreach  open="(" close=")" collection="list" index="index" item="item" separator=",">
+            (#{item.xh,jdbcType=INTEGER},#{item.userSerial,jdbcType=BIGINT},#{item.gateBh,jdbcType=CHAR},#{item.fx,jdbcType=INTEGER},#{item.ruleNo,jdbcType=INTEGER},#{item.sj,jdbcType=TIMESTAMP},#{item.glyNo,jdbcType=NVARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into MJ_USER_RULE_REAL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                xh,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="gateBh != null">
+                Gate_bh,
+            </if>
+            <if test="fx != null">
+                FX,
+            </if>
+            <if test="ruleNo != null">
+                rule_no,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                #{xh,jdbcType=INTEGER},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="gateBh != null">
+                #{gateBh,jdbcType=CHAR},
+            </if>
+            <if test="fx != null">
+                #{fx,jdbcType=INTEGER},
+            </if>
+            <if test="ruleNo != null">
+                #{ruleNo,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        update MJ_USER_RULE_REAL
+        <set>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="gateBh != null">
+                Gate_bh = #{gateBh,jdbcType=CHAR},
+            </if>
+            <if test="fx != null">
+                FX = #{fx,jdbcType=INTEGER},
+            </if>
+            <if test="ruleNo != null">
+                rule_no = #{ruleNo,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        update MJ_USER_RULE_REAL
+        set user_serial = #{userSerial,jdbcType=BIGINT},
+            Gate_bh     = #{gateBh,jdbcType=CHAR},
+            FX          = #{fx,jdbcType=INTEGER},
+            rule_no     = #{ruleNo,jdbcType=INTEGER},
+            sj          = #{sj,jdbcType=TIMESTAMP},
+            gly_no      = #{glyNo,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity" resultMap="BaseResultMap">
+        select a.xh, d.dep_name, c.door_name, e.user_lname, e.user_no, e.user_card, e.user_depname, f.rule_name, a.fx
+        from
+        mj_user_rule_real a left join DT_GATE_real b on a.Gate_bh = b.Gate_bh left join st_door_real c on b.gate_bh =
+        c.bh
+        left join dt_ac_dep d on b.Acdep_serial = d.dep_serial left join dt_user e on a.user_serial = e.user_serial left
+        join mj_rule_real f on a.rule_no = f.rule_no
+        <where>
+            c.fx_flg = 0
+            <if test="depList != null and depList.size() != 0">
+                and d.dep_serial in
+                <foreach collection="depList" close=")" open="(" separator="," item="item">
+                    #{item, jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="depList == null or depList.size() == 0">
+                and 1 = 2
+            </if>
+            <if test="doorList != null and doorList.size() != 0">
+                and c.bh in
+                <foreach collection="doorList" close=")" open="(" separator="," item="item">
+                    #{item.bh, jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="xh != null">
+                and a.xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="userSerial != null">
+                and a.user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="gateBh != null">
+                <bind name="gateBhLike" value="'%'+gateBh+'%'"/>
+                and a.Gate_bh like #{gateBhLike}
+                <!--and Gate_bh = #{gateBh,jdbcType=CHAR}-->
+            </if>
+            <if test="fx != null">
+                and a.FX = #{fx,jdbcType=INTEGER}
+            </if>
+            <if test="ruleNo != null">
+                and a.rule_no = #{ruleNo,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and a.sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and a.gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (c.door_name like #{keysLike}
+                or e.user_lname like #{keysLike}
+                or e.user_no like #{keysLike}
+                or e.user_card like #{keysLike})
+            </if>
+        </where>
+        order by a.user_serial
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from MJ_USER_RULE_REAL
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or xh = #{keys}
+                or user_serial = #{keys}
+                or Gate_bh like #{keysLike}
+                or FX = #{keys}
+                or rule_no = #{keys}
+                or sj = #{keys}
+                or gly_no like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        MJ_USER_RULE_REAL
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+    <delete id="deleteBatchByGateBh" parameterType="List">
+        delete from
+        MJ_USER_RULE_REAL
+        where (gate_bh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.bh})
+        </foreach>
+    </delete>
+</mapper>

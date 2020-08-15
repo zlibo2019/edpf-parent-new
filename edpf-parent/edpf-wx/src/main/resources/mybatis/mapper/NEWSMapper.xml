@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.NEWSMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.NEWSEntity">
+        <id column="Xh" jdbcType="INTEGER" property="xh"/>
+        <result column="Lx" jdbcType="INTEGER" property="lx"/>
+        <result column="News_state" jdbcType="INTEGER" property="newsState"/>
+        <result column="News_title" jdbcType="NVARCHAR" property="newsTitle"/>
+        <result column="News_values" jdbcType="NVARCHAR" property="newsValues"/>
+        <result column="News_date" jdbcType="TIMESTAMP" property="newsDate"/>
+        <result column="Gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="is_read" jdbcType="INTEGER" property="isRead"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        Xh, Lx, News_state, News_title, News_values, News_date, Gly_no
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TT_NEWS
+        where Xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.NEWSEntity" resultMap="BaseResultMap">
+        select c.Xh, c.lx, c.News_title, c.News_date, c.news_values, c.is_read
+        from (select a.Xh,
+                     a.lx,
+                     a.News_title,
+                     a.News_date,
+                     a.news_values,
+                     case when ISNULL(b.xh, 0) = 0 then 0 else 1 end as is_read
+              from TT_NEWS a
+                       left join user_message_halfbridge b on a.Xh = b.message_id and b.user_serial = #{userSerial}
+              where a.News_state = 0) c
+        order by c.is_read, c.News_date desc
+    </select>
+    <select id="selectReadCount" parameterType="com.weds.edwx.entity.NEWSEntity" resultType="java.lang.Integer">
+        select count(message_id) message_id
+        from user_message_halfbridge
+        where user_serial = #{userSerial}
+          and message_id = #{xh}
+    </select>
+    <insert id="insert" parameterType="com.weds.edwx.entity.NEWSEntity">
+        insert into user_message_halfbridge (message_id, user_serial)
+        values (#{xh}, #{userSerial})
+    </insert>
+
+
+    <select id="selectByPrimaryKeyNew" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TT_NEWS_permission
+        where Xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <select id="selectListByEntityNew" parameterType="com.weds.edwx.entity.NEWSEntity" resultMap="BaseResultMap">
+        select *
+        from (select a.Xh,
+                     a.lx,
+                     a.News_title,
+                     a.News_date,
+                     a.news_values,
+                     case when ISNULL(b.xh, 0) = 0 then 0 else 1 end as is_read
+              from (select a.*
+                    from TT_NEWS_permission a
+                             inner join TT_NEWS_users b
+                                 on a.Xh = b.new_xh and a.view_lx = 1 and b.userOrDep = #{userSerial}
+                    union all
+                    select a.* from TT_NEWS_permission a where a.view_lx = 0
+                    union all
+                    select a.*
+                    from TT_NEWS_permission a
+                             inner join TT_NEWS_users b on a.Xh = b.new_xh and a.view_lx = 2
+                             inner join dt_user c on b.userOrDep = c.user_dep and c.user_serial = #{userSerial}) a
+                       left join tt_news_permi_read b on a.Xh = b.message_id and b.user_serial = #{userSerial}
+              where a.News_state = 0) as tt
+        order by is_read, News_date desc
+    </select>
+    <select id="selectReadCountNew" parameterType="com.weds.edwx.entity.NEWSEntity" resultType="java.lang.Integer">
+        select count(message_id) message_id
+        from tt_news_permi_read
+        where user_serial = #{userSerial}
+          and message_id = #{xh}
+    </select>
+    <insert id="insertNew" parameterType="com.weds.edwx.entity.NEWSEntity">
+        insert into tt_news_permi_read (message_id, user_serial)
+        values (#{xh}, #{userSerial})
+    </insert>
+</mapper>

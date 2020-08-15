@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.UserMenusMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.UserMenusEntity">
+        <id column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <id column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <result column="home_flag" jdbcType="INTEGER" property="homeFlag"/>
+        <result column="menu_idx" jdbcType="INTEGER" property="menuIdx"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="VARCHAR" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="VARCHAR" property="ltDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        company_id, user_id, menu_id, home_flag, menu_idx, remark, spare_col1, spare_col2,
+                    spare_col3, spare_col4, ct_user, ct_date, lt_user, lt_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_menus
+        where company_id = #{companyId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+        and menu_id = #{menuId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete from user_menus
+        where company_id = #{companyId,jdbcType=VARCHAR}
+          and user_id = #{userId,jdbcType=VARCHAR}
+          and menu_id = #{menuId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.UserMenusEntity">
+        insert into user_menus (company_id,
+                                user_id,
+                                menu_id,
+                                home_flag,
+                                menu_idx,
+                                remark,
+                                spare_col1,
+                                spare_col2,
+                                spare_col3,
+                                spare_col4,
+                                ct_user,
+                                ct_date,
+                                lt_user,
+                                lt_date)
+        values (#{companyId,jdbcType=VARCHAR},
+                #{userId,jdbcType=VARCHAR},
+                #{menuId,jdbcType=VARCHAR},
+                #{homeFlag,jdbcType=INTEGER},
+                #{menuIdx,jdbcType=INTEGER},
+                #{remark,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=VARCHAR},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.UserMenusEntity">
+        insert into user_menus
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="homeFlag != null">
+                home_flag,
+            </if>
+            <if test="menuIdx != null">
+                menu_idx,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="homeFlag != null">
+                #{homeFlag,jdbcType=INTEGER},
+            </if>
+            <if test="menuIdx != null">
+                #{menuIdx,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=VARCHAR},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.UserMenusEntity">
+        update user_menus
+        <set>
+            <if test="homeFlag != null">
+                home_flag = #{homeFlag,jdbcType=INTEGER},
+            </if>
+            <if test="menuIdx != null">
+                menu_idx = #{menuIdx,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=VARCHAR},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where company_id = #{companyId,jdbcType=VARCHAR}
+        and user_id = #{userId,jdbcType=VARCHAR}
+        and menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.UserMenusEntity">
+        update user_menus
+        set home_flag  = #{homeFlag,jdbcType=INTEGER},
+            menu_idx   = #{menuIdx,jdbcType=INTEGER},
+            remark     = #{remark,jdbcType=VARCHAR},
+            spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=VARCHAR},
+            lt_user    = #{ltUser,jdbcType=VARCHAR},
+            lt_date    = #{ltDate,jdbcType=VARCHAR}
+        where company_id = #{companyId,jdbcType=VARCHAR}
+          and user_id = #{userId,jdbcType=VARCHAR}
+          and menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+
+    <resultMap id="BaseResultMapExtend" type="com.weds.edwx.entity.UserMenusEntity" extends="BaseResultMap">
+        <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName"/>
+        <result column="ICON_ID" jdbcType="VARCHAR" property="iconId"/>
+        <result column="ICON_URL_ID" jdbcType="VARCHAR" property="iconUrlId"/>
+    </resultMap>
+
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.UserMenusEntity"
+            resultMap="BaseResultMapExtend">
+        select
+        t1.company_id, t1.user_id, t1.menu_id, t1.home_flag, t1.menu_idx, t1.remark, t2.spare_col1, t2.spare_col2,
+        t2.spare_col3, t2.spare_col4,
+        t1.ct_user, t1.ct_date, t1.lt_user, t1.lt_date, t2.MENU_NAME, t2.ICON_ID, t2.ICON_URL_ID
+        from user_menus t1 join SYSTEM_MENUS t2 on t1.COMPANY_ID = t2.COMPANY_ID and t1.MENU_ID = t2.MENU_ID
+        <where>
+            <if test="companyId != null">
+                <bind name="companyIdLike" value="'%'+companyId+'%'"/>
+                and t1.company_id like #{companyIdLike}
+                <!--and company_id = #{companyId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userId != null">
+                <bind name="userIdLike" value="'%'+userId+'%'"/>
+                and t1.user_id like #{userIdLike}
+                <!--and user_id = #{userId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="menuId != null">
+                <bind name="menuIdLike" value="'%'+menuId+'%'"/>
+                and t1.menu_id like #{menuIdLike}
+                <!--and menu_id = #{menuId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="homeFlag != null">
+                and t1.home_flag = #{homeFlag,jdbcType=INTEGER}
+            </if>
+            <if test="menuIdx != null">
+                and t1.menu_idx = #{menuIdx,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and t1.remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and t2.spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and t2.spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and t2.spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and t1.ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                <bind name="ctDateLike" value="'%'+ctDate+'%'"/>
+                and t1.ct_date like #{ctDateLike}
+                <!--and ct_date = #{ctDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and t1.lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                <bind name="ltDateLike" value="'%'+ltDate+'%'"/>
+                and t1.lt_date like #{ltDateLike}
+                <!--and lt_date = #{ltDate,jdbcType=VARCHAR}-->
+            </if>
+            and t1.menu_id in (select t1.function_id from ed_sys_function t1
+            join ed_role_function t2
+            on t1.use_flag = '1' and t1.function_id = t2.function_id
+            join ed_user_role t3
+            on t2.role_id = t3.role_id
+            where t3.user_serial = #{userId})
+        </where>
+        order by t1.spare_col1, t1.spare_col2, t1.menu_idx
+    </select>
+    <delete id="deleteByUserId" parameterType="map">
+        delete from user_menus
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+</mapper>

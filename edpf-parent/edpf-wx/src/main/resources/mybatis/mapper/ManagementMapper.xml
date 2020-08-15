@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.ManagementMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.ManagementEntity">
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userName"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+    </resultMap>
+
+    <select id="selectApprovalUser" resultMap="BaseResultMap">
+        select user_serial, user_lname
+        from dt_user
+        where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectApprovalSerial" resultType="java.lang.String">
+        select approval_serial
+        from kt_user_approval
+        where user_serial = #{userSerial}
+    </select>
+
+    <select id="findUserApproval" resultType="java.lang.String">
+        select lx
+        from kt_user_approval
+        where user_serial = #{userSerial}
+    </select>
+
+    <insert id="insertApproval">
+        insert into kt_user_approval (user_serial, approval_serial, lx)
+        values (#{userSerial}, #{approval}, 0)
+    </insert>
+
+    <select id="seletCopyUser" resultMap="BaseResultMap">
+        select b.user_serial, b.user_lname, a.flag
+        from (select t1.user_serial, t1.flag
+              from wx_copy_user t1
+                       join dt_user t2 on t1.lx = 1 and t1.dep_serial = t2.user_dep
+              where t2.user_serial = #{userSerial}
+                and t1.copy_type = #{lx}
+              union
+              select user_serial, flag from wx_copy_user where lx = 0
+                                                           and copy_type = #{lx}) a
+                 join dt_user b on a.user_serial =
+                                   b.user_serial and b.user_type
+                                                         &lt; 51
+        order by flag asc, b.user_dep asc, b.user_no asc
+    </select>
+
+    <select id="existsCopyUser" resultType="java.lang.Integer">
+        select count(*)
+        from wx_copy_user
+        where copy_type = #{lx}
+          and user_serial = #{userSerial}
+    </select>
+
+    <update id="updateApprovalLx" parameterType="java.lang.String">
+        update kt_user_approval
+        <set>
+            <if test="lx != null">
+                lx = #{lx},
+            </if>
+            <if test="approvalSerial != '' and approvalSerial != null">
+                approval_serial = #{approvalSerial},
+            </if>
+        </set>
+        where user_serial = #{userSerial}
+    </update>
+
+    <select id="getTravelPeople" resultMap="BaseResultMap">
+        exec getTravelPeople #{userSerial}
+    </select>
+
+    <select id="findCopyUser" resultType="java.lang.Integer">
+        select count(1)
+        from (select t1.user_serial, t1.flag
+              from wx_copy_user t1
+                       join dt_user t2 on t1.lx = 1 and t1.dep_serial = t2.user_dep
+              where t2.user_serial = #{userSerial}
+                and t1.copy_type = #{lx}
+              union
+              select user_serial, flag from wx_copy_user where lx = 0
+                                                           and copy_type = #{lx}) a
+                 join dt_user b on a.user_serial = b.user_serial and b.user_type &lt; 51
+    </select>
+
+    <select id="findUserName" resultType="java.lang.String">
+        select user_lname
+        from dt_user
+        where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectLrJl" resultType="java.lang.String">
+        select user_serial
+        from lr_jl_more
+        where xh = #{xh}
+    </select>
+
+    <select id="selectKtTiao" resultType="java.lang.String">
+        select user_serial
+        from kt_tiao_more
+        where xh = #{xh}
+    </select>
+
+    <select id="selectJiaBan" resultType="java.lang.String">
+        select user_serial
+        from lr_jiaba_more
+        where xh = #{xh}
+    </select>
+
+    <select id="selectQingJia" resultType="java.lang.String">
+        select user_serial
+        from lr_kqingj_more
+        where xh = #{xh}
+    </select>
+
+
+    <select id="selectCheckProgress" resultType="java.lang.String">
+        select check_progress
+        from kt_qingj_more
+        where waich_xh = #{xh}
+    </select>
+
+    <insert id="insertMsgSend">
+        insert into MSG_SEND (USER_SERIAL, MSG_STATE, RECORD_DATE, INSERT_DATE, TEMPLET_ID, MES_CONTENT, MSG_XH)
+        values (#{userSerial}, #{msgState}, #{recordDate}, #{insertDate}, #{templetId}, #{mesContent}, #{msgXh});
+    </insert>
+
+
+    <insert id="insertCopyUser">
+        insert into copy_user(xh,copy_user,sj)
+        select #{xh},user_serial,#{sj} from dt_user where user_serial in
+        (
+        <foreach collection="copyUser.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        ) and user_type <![CDATA[<]]>  51
+
+    </insert>
+
+    <delete id="deleteCopyUser">
+        delete copy_user
+        where xh = #{xh}
+    </delete>
+
+    <select id="selectCustomCopyUser" resultMap="BaseResultMap">
+        select b.user_serial, b.user_lname
+        from copy_user a
+                 left join dt_user b on a.copy_user = b.user_serial
+        where a.xh = #{xh}
+    </select>
+
+    <select id="getTravelPeopleName" resultType="java.lang.String">
+        select user_lname from dt_user where
+        user_serial in (
+        <foreach collection="userSerials.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+</mapper>

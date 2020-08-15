@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.LoginOpenidMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.LoginOpenidEntity">
+        <result column="xh" jdbcType="BIGINT" property="xh"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="send_status" jdbcType="INTEGER" property="sendStatus"/>
+        <result column="UNIONID" jdbcType="VARCHAR" property="unionId"/>
+    </resultMap>
+    <select id="checkBindState" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select user_serial, openid, UNIONID
+        from wx_login_openid
+        where user_serial = #{userSerial}
+    </select>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select * from wx_login_openid
+    </select>
+    <insert id="insertBindRelation" parameterType="com.weds.edwx.entity.UserEntity">
+        insert into wx_login_openid
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="openId != null">
+                openid,
+            </if>
+            <if test="userSj != null">
+                sj,
+            </if>
+            send_status,
+            <if test="unionId != null">
+                UNIONID,
+            </if>
+            <if test="appletOpenId != null">
+                applet_openid,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                #{userSerial},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="userSj != null">
+                #{userSj,jdbcType=TIMESTAMP},
+            </if>
+            0,
+            <if test="unionId != null">
+                #{unionId},
+            </if>
+            <if test="appletOpenId != null">
+                #{appletOpenId},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectByOpendId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT user_serial
+        from wx_login_openid
+        where openid = #{openId}
+    </select>
+    <select id="selectBindStatus" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        SELECT user_serial
+        from wx_login_openid
+        where user_serial = #{userSerial}
+          and openid = #{openId}
+    </select>
+    <insert id="insert" parameterType="com.weds.edwx.entity.LoginOpenidEntity">
+        insert into wx_login_openid (xh, user_serial, openid, sj, send_status, UNIONID)
+        values (#{xh,jdbcType=BIGINT},
+                #{userSerial,jdbcType=BIGINT},
+                #{openid,jdbcType=VARCHAR},
+                #{sj,jdbcType=TIMESTAMP},
+                #{sendStatus,jdbcType=INTEGER},
+                #{unionId})
+    </insert>
+    <delete id="deleteBindStatus" parameterType="com.weds.edwx.entity.UserEntity">
+        DELETE from wx_login_openid
+        where user_serial = #{userSerial}
+          and openId = #{openId}
+    </delete>
+    <select id="getBindUserByUnionId" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select user_serial, openid
+        from wx_login_openid
+        where UNIONID = #{unionId};
+    </select>
+    <update id="updateUserInfoByUnionId" parameterType="com.weds.edwx.entity.UserEntity">
+        update wx_login_openid
+        set openid      = #{openId},
+            user_serial = #{userSerial}
+        where UNIONID = #{unionId}
+    </update>
+    <update id="updateOpenIdByUnionId" parameterType="com.weds.edwx.entity.UserEntity">
+        update wx_login_openid
+        set openid = #{openId}
+        where UNIONID = #{unionId}
+    </update>
+    <update id="updateSendState" parameterType="com.weds.edwx.entity.LoginOpenidEntity">
+        update wx_login_openid
+        set send_status = #{sendStatus}
+        where user_serial = #{userSerial}
+    </update>
+    <select id="selectSendState" parameterType="com.weds.edwx.entity.LoginOpenidEntity" resultMap="BaseResultMap">
+        select isnull(send_status, 0) send_status
+        from wx_login_openid
+        where user_serial = #{userSerial}
+    </select>
+</mapper>

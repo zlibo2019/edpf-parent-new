@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edhy.mapper.HyUserCardRelaMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edhy.entity.HyUserCardRelaEntity">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <id column="card_id" jdbcType="VARCHAR" property="cardId"/>
+        <result column="card_num" jdbcType="INTEGER" property="cardNum"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="card_state" jdbcType="VARCHAR" property="cardState"/>
+        <result column="receive_sum" jdbcType="DECIMAL" property="receiveSum"/>
+        <result column="tail_money" jdbcType="DECIMAL" property="tailMoney"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, card_id, card_num, start_date, end_date, card_state, receive_sum, tail_money,
+                 remark, ct_date, ct_user, lt_date, lt_user, spare_col1, spare_col2, spare_col3, spare_col4,
+                 spare_col5, spare_col6
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_hy_user_card_rela
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and card_id = #{cardId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete from ed_hy_user_card_rela
+        where user_id = #{userId,jdbcType=VARCHAR}
+          and card_id = #{cardId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edhy.entity.HyUserCardRelaEntity">
+        insert into ed_hy_user_card_rela (user_id,
+                                          card_id,
+                                          card_num,
+                                          start_date,
+                                          end_date,
+                                          card_state,
+                                          receive_sum,
+                                          tail_money,
+                                          remark,
+                                          ct_date,
+                                          ct_user,
+                                          lt_date,
+                                          lt_user,
+                                          spare_col1,
+                                          spare_col2,
+                                          spare_col3,
+                                          spare_col4,
+                                          spare_col5,
+                                          spare_col6)
+        values (#{userId,jdbcType=VARCHAR},
+                #{cardId,jdbcType=VARCHAR},
+                #{cardNum,jdbcType=INTEGER},
+                #{startDate,jdbcType=TIMESTAMP},
+                #{endDate,jdbcType=TIMESTAMP},
+                #{cardState,jdbcType=VARCHAR},
+                #{receiveSum,jdbcType=DECIMAL},
+                #{tailMoney,jdbcType=DECIMAL},
+                #{remark,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edhy.entity.HyUserCardRelaEntity">
+        insert into ed_hy_user_card_rela
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="cardNum != null">
+                card_num,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="cardState != null">
+                card_state,
+            </if>
+            <if test="receiveSum != null">
+                receive_sum,
+            </if>
+            <if test="tailMoney != null">
+                tail_money,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardId != null">
+                #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cardState != null">
+                #{cardState,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveSum != null">
+                #{receiveSum,jdbcType=DECIMAL},
+            </if>
+            <if test="tailMoney != null">
+                #{tailMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edhy.entity.HyUserCardRelaEntity">
+        update ed_hy_user_card_rela
+        <set>
+            <if test="cardNum != null">
+                card_num = #{cardNum,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cardState != null">
+                card_state = #{cardState,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveSum != null">
+                receive_sum = #{receiveSum,jdbcType=DECIMAL},
+            </if>
+            <if test="tailMoney != null">
+                tail_money = #{tailMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and card_id = #{cardId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edhy.entity.HyUserCardRelaEntity">
+        update ed_hy_user_card_rela
+        set card_num    = #{cardNum,jdbcType=INTEGER},
+            start_date  = #{startDate,jdbcType=TIMESTAMP},
+            end_date    = #{endDate,jdbcType=TIMESTAMP},
+            card_state  = #{cardState,jdbcType=VARCHAR},
+            receive_sum = #{receiveSum,jdbcType=DECIMAL},
+            tail_money  = #{tailMoney,jdbcType=DECIMAL},
+            remark      = #{remark,jdbcType=VARCHAR},
+            ct_date     = #{ctDate,jdbcType=TIMESTAMP},
+            ct_user     = #{ctUser,jdbcType=VARCHAR},
+            lt_date     = #{ltDate,jdbcType=TIMESTAMP},
+            lt_user     = #{ltUser,jdbcType=VARCHAR},
+            spare_col1  = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2  = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3  = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4  = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5  = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6  = #{spareCol6,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
+          and card_id = #{cardId,jdbcType=VARCHAR}
+    </update>
+</mapper>

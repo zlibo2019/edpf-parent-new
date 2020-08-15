@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisFailMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisFailEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="vis_serial" jdbcType="BIGINT" property="visSerial"/>
+        <result column="vis_no" jdbcType="NVARCHAR" property="visNo"/>
+        <result column="dep_no" jdbcType="CHAR" property="depNo"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="vis_card" jdbcType="NVARCHAR" property="visCard"/>
+        <result column="vis_nums" jdbcType="INTEGER" property="visNums"/>
+        <result column="vis_cars" jdbcType="NVARCHAR" property="visCars"/>
+        <result column="vis_kssj" jdbcType="TIMESTAMP" property="visKssj"/>
+        <result column="vis_jssj" jdbcType="TIMESTAMP" property="visJssj"/>
+        <result column="vis_time" jdbcType="INTEGER" property="visTime"/>
+        <result column="vis_thing" jdbcType="CHAR" property="visThing"/>
+        <result column="vis_fail" jdbcType="INTEGER" property="visFail"/>
+        <result column="vis_bz" jdbcType="NVARCHAR" property="visBz"/>
+        <result column="vis_ok" jdbcType="INTEGER" property="visOk"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, vis_serial, vis_no, dep_no, user_serial, vis_card, vis_nums, vis_cars, vis_kssj,
+            vis_jssj, vis_time, vis_thing, vis_fail, vis_bz, vis_ok, sj, gly_no
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_fail
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from Vis_fail
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisFailEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_fail (vis_serial, vis_no, dep_no,
+        user_serial, vis_card, vis_nums,
+        vis_cars, vis_kssj, vis_jssj,
+        vis_time, vis_thing, vis_fail,
+        vis_bz, vis_ok, sj,
+        gly_no)
+        values (#{visSerial,jdbcType=BIGINT}, #{visNo,jdbcType=NVARCHAR}, #{depNo,jdbcType=CHAR},
+        #{userSerial,jdbcType=BIGINT}, #{visCard,jdbcType=NVARCHAR}, #{visNums,jdbcType=INTEGER},
+        #{visCars,jdbcType=NVARCHAR}, #{visKssj,jdbcType=TIMESTAMP}, #{visJssj,jdbcType=TIMESTAMP},
+        #{visTime,jdbcType=INTEGER}, #{visThing,jdbcType=CHAR}, #{visFail,jdbcType=INTEGER},
+        #{visBz,jdbcType=NVARCHAR}, #{visOk,jdbcType=INTEGER}, #{sj,jdbcType=TIMESTAMP},
+        #{glyNo,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisFailEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_fail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                vis_serial,
+            </if>
+            <if test="visNo != null">
+                vis_no,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="visCard != null">
+                vis_card,
+            </if>
+            <if test="visNums != null">
+                vis_nums,
+            </if>
+            <if test="visCars != null">
+                vis_cars,
+            </if>
+            <if test="visKssj != null">
+                vis_kssj,
+            </if>
+            <if test="visJssj != null">
+                vis_jssj,
+            </if>
+            <if test="visTime != null">
+                vis_time,
+            </if>
+            <if test="visThing != null">
+                vis_thing,
+            </if>
+            <if test="visFail != null">
+                vis_fail,
+            </if>
+            <if test="visBz != null">
+                vis_bz,
+            </if>
+            <if test="visOk != null">
+                vis_ok,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visNo != null">
+                #{visNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visCard != null">
+                #{visCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNums != null">
+                #{visNums,jdbcType=INTEGER},
+            </if>
+            <if test="visCars != null">
+                #{visCars,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssj != null">
+                #{visKssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssj != null">
+                #{visJssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTime != null">
+                #{visTime,jdbcType=INTEGER},
+            </if>
+            <if test="visThing != null">
+                #{visThing,jdbcType=CHAR},
+            </if>
+            <if test="visFail != null">
+                #{visFail,jdbcType=INTEGER},
+            </if>
+            <if test="visBz != null">
+                #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visOk != null">
+                #{visOk,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisFailEntity">
+        update Vis_fail
+        <set>
+            <if test="visSerial != null">
+                vis_serial = #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visNo != null">
+                vis_no = #{visNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visCard != null">
+                vis_card = #{visCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNums != null">
+                vis_nums = #{visNums,jdbcType=INTEGER},
+            </if>
+            <if test="visCars != null">
+                vis_cars = #{visCars,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssj != null">
+                vis_kssj = #{visKssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssj != null">
+                vis_jssj = #{visJssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTime != null">
+                vis_time = #{visTime,jdbcType=INTEGER},
+            </if>
+            <if test="visThing != null">
+                vis_thing = #{visThing,jdbcType=CHAR},
+            </if>
+            <if test="visFail != null">
+                vis_fail = #{visFail,jdbcType=INTEGER},
+            </if>
+            <if test="visBz != null">
+                vis_bz = #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visOk != null">
+                vis_ok = #{visOk,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisFailEntity">
+        update Vis_fail
+        set vis_serial  = #{visSerial,jdbcType=BIGINT},
+            vis_no      = #{visNo,jdbcType=NVARCHAR},
+            dep_no      = #{depNo,jdbcType=CHAR},
+            user_serial = #{userSerial,jdbcType=BIGINT},
+            vis_card    = #{visCard,jdbcType=NVARCHAR},
+            vis_nums    = #{visNums,jdbcType=INTEGER},
+            vis_cars    = #{visCars,jdbcType=NVARCHAR},
+            vis_kssj    = #{visKssj,jdbcType=TIMESTAMP},
+            vis_jssj    = #{visJssj,jdbcType=TIMESTAMP},
+            vis_time    = #{visTime,jdbcType=INTEGER},
+            vis_thing   = #{visThing,jdbcType=CHAR},
+            vis_fail    = #{visFail,jdbcType=INTEGER},
+            vis_bz      = #{visBz,jdbcType=NVARCHAR},
+            vis_ok      = #{visOk,jdbcType=INTEGER},
+            sj          = #{sj,jdbcType=TIMESTAMP},
+            gly_no      = #{glyNo,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisFailEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_fail
+        <where>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="visSerial != null">
+                and vis_serial = #{visSerial,jdbcType=BIGINT}
+            </if>
+            <if test="visNo != null">
+                <bind name="visNoLike" value="'%'+visNo+'%'"/>
+                and vis_no like #{visNoLike}
+                <!--and vis_no = #{visNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=CHAR}-->
+            </if>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="visCard != null">
+                <bind name="visCardLike" value="'%'+visCard+'%'"/>
+                and vis_card like #{visCardLike}
+                <!--and vis_card = #{visCard,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visNums != null">
+                and vis_nums = #{visNums,jdbcType=INTEGER}
+            </if>
+            <if test="visCars != null">
+                <bind name="visCarsLike" value="'%'+visCars+'%'"/>
+                and vis_cars like #{visCarsLike}
+                <!--and vis_cars = #{visCars,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visKssj != null">
+                and vis_kssj = #{visKssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visJssj != null">
+                and vis_jssj = #{visJssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visTime != null">
+                and vis_time = #{visTime,jdbcType=INTEGER}
+            </if>
+            <if test="visThing != null">
+                <bind name="visThingLike" value="'%'+visThing+'%'"/>
+                and vis_thing like #{visThingLike}
+                <!--and vis_thing = #{visThing,jdbcType=CHAR}-->
+            </if>
+            <if test="visFail != null">
+                and vis_fail = #{visFail,jdbcType=INTEGER}
+            </if>
+            <if test="visBz != null">
+                <bind name="visBzLike" value="'%'+visBz+'%'"/>
+                and vis_bz like #{visBzLike}
+                <!--and vis_bz = #{visBz,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visOk != null">
+                and vis_ok = #{visOk,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_fail
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or vis_no like #{keysLike}
+                or dep_no like #{keysLike}
+                or vis_card like #{keysLike}
+                or vis_cars like #{keysLike}
+                or vis_thing like #{keysLike}
+                or vis_bz like #{keysLike}
+                or gly_no like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        Vis_fail
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

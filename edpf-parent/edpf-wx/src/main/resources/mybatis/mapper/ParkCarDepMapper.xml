@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.ParkCarDepMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.ParkCarDepEntity">
+        <id column="park_serial" jdbcType="INTEGER" property="parkSerial" />
+        <result column="park_parent" jdbcType="INTEGER" property="parkParent" />
+        <result column="park_no" jdbcType="INTEGER" property="parkNo" />
+        <result column="park_name" jdbcType="VARCHAR" property="parkName" />
+        <result column="is_public" jdbcType="INTEGER" property="isPublic" />
+        <result column="is_kq" jdbcType="INTEGER" property="isKq" />
+        <result column="is_vis" jdbcType="INTEGER" property="isVis" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        park_serial, park_parent, park_no,cast(park_serial as varchar)  park_name, is_public, is_kq, is_vis
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from park_car_dep
+        where park_serial = #{parkSerial,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from park_car_dep
+        where park_serial = #{parkSerial,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.ParkCarDepEntity">
+        insert into park_car_dep (park_serial, park_parent, park_no,
+        park_name, is_public, is_kq,
+        is_vis)
+        values (#{parkSerial,jdbcType=INTEGER}, #{parkParent,jdbcType=INTEGER}, #{parkNo,jdbcType=INTEGER},
+        #{parkName,jdbcType=VARCHAR}, #{isPublic,jdbcType=INTEGER}, #{isKq,jdbcType=INTEGER},
+        #{isVis,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.ParkCarDepEntity">
+        insert into park_car_dep
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parkSerial != null">
+                park_serial,
+            </if>
+            <if test="parkParent != null">
+                park_parent,
+            </if>
+            <if test="parkNo != null">
+                park_no,
+            </if>
+            <if test="parkName != null">
+                park_name,
+            </if>
+            <if test="isPublic != null">
+                is_public,
+            </if>
+            <if test="isKq != null">
+                is_kq,
+            </if>
+            <if test="isVis != null">
+                is_vis,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parkSerial != null">
+                #{parkSerial,jdbcType=INTEGER},
+            </if>
+            <if test="parkParent != null">
+                #{parkParent,jdbcType=INTEGER},
+            </if>
+            <if test="parkNo != null">
+                #{parkNo,jdbcType=INTEGER},
+            </if>
+            <if test="parkName != null">
+                #{parkName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                #{isPublic,jdbcType=INTEGER},
+            </if>
+            <if test="isKq != null">
+                #{isKq,jdbcType=INTEGER},
+            </if>
+            <if test="isVis != null">
+                #{isVis,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.ParkCarDepEntity">
+        update park_car_dep
+        <set>
+            <if test="parkParent != null">
+                park_parent = #{parkParent,jdbcType=INTEGER},
+            </if>
+            <if test="parkNo != null">
+                park_no = #{parkNo,jdbcType=INTEGER},
+            </if>
+            <if test="parkName != null">
+                park_name = #{parkName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                is_public = #{isPublic,jdbcType=INTEGER},
+            </if>
+            <if test="isKq != null">
+                is_kq = #{isKq,jdbcType=INTEGER},
+            </if>
+            <if test="isVis != null">
+                is_vis = #{isVis,jdbcType=INTEGER},
+            </if>
+        </set>
+        where park_serial = #{parkSerial,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.ParkCarDepEntity">
+        update park_car_dep
+        set park_parent = #{parkParent,jdbcType=INTEGER},
+        park_no = #{parkNo,jdbcType=INTEGER},
+        park_name = #{parkName,jdbcType=VARCHAR},
+        is_public = #{isPublic,jdbcType=INTEGER},
+        is_kq = #{isKq,jdbcType=INTEGER},
+        is_vis = #{isVis,jdbcType=INTEGER}
+        where park_serial = #{parkSerial,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.ParkCarDepEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from park_car_dep
+        <where>
+            <if test="parkSerial != null">
+                and park_serial = #{parkSerial,jdbcType=INTEGER}
+            </if>
+            <if test="parkParent != null">
+                and park_parent = #{parkParent,jdbcType=INTEGER}
+            </if>
+            <if test="parkNo != null">
+                and park_no = #{parkNo,jdbcType=INTEGER}
+            </if>
+            <if test="parkName != null">
+                <bind name="parkNameLike" value="'%'+parkName+'%'" />
+                and park_name like #{parkNameLike}
+                <!--and park_name = #{parkName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="isPublic != null">
+                and is_public = #{isPublic,jdbcType=INTEGER}
+            </if>
+            <if test="isKq != null">
+                and is_kq = #{isKq,jdbcType=INTEGER}
+            </if>
+            <if test="isVis != null">
+                and is_vis = #{isVis,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+</mapper>

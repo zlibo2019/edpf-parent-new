@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.OrgRelaMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.OrgRelaEntity">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="parent_org_id" jdbcType="VARCHAR" property="parentOrgId"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, org_id, parent_org_id, start_date, end_date, spare_col1, spare_col2, spare_col3,
+            spare_col4, spare_col5, spare_col6
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_org_rela
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_org_rela
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.OrgRelaEntity">
+        insert into ed_org_rela (id,
+                                 org_id,
+                                 parent_org_id,
+                                 start_date,
+                                 end_date,
+                                 spare_col1,
+                                 spare_col2,
+                                 spare_col3,
+                                 spare_col4,
+                                 spare_col5,
+                                 spare_col6)
+        values (#{id,jdbcType=VARCHAR},
+                #{orgId,jdbcType=VARCHAR},
+                #{parentOrgId,jdbcType=VARCHAR},
+                #{startDate,jdbcType=TIMESTAMP},
+                #{endDate,jdbcType=TIMESTAMP},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.OrgRelaEntity">
+        insert into ed_org_rela
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orgId != null">
+                org_id,
+            </if>
+            <if test="parentOrgId != null">
+                parent_org_id,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="parentOrgId != null">
+                #{parentOrgId,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.OrgRelaEntity">
+        update ed_org_rela
+        <set>
+            <if test="orgId != null">
+                org_id = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="parentOrgId != null">
+                parent_org_id = #{parentOrgId,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.OrgRelaEntity">
+        update ed_org_rela
+        set org_id        = #{orgId,jdbcType=VARCHAR},
+            parent_org_id = #{parentOrgId,jdbcType=VARCHAR},
+            start_date    = #{startDate,jdbcType=TIMESTAMP},
+            end_date      = #{endDate,jdbcType=TIMESTAMP},
+            spare_col1    = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2    = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3    = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4    = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5    = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6    = #{spareCol6,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

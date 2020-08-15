@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.RepairInfoMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.RepairInfoEntity">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="COMPANY_ID" jdbcType="INTEGER" property="companyId"/>
+        <result column="INITIATOR_USER" jdbcType="INTEGER" property="initiatorUser"/>
+        <result column="REPAIR_TYPE" jdbcType="VARCHAR" property="repairType"/>
+        <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="REPAIR_ADDRESS" jdbcType="VARCHAR" property="repairAddress"/>
+        <result column="REPAIR_STATE" jdbcType="VARCHAR" property="repairState"/>
+        <result column="REPAIR_PHOTO" jdbcType="VARCHAR" property="repairPhoto"/>
+        <result column="INITIATOR_REMARK" jdbcType="VARCHAR" property="initiatorRemark"/>
+        <result column="READ_FLAG" jdbcType="VARCHAR" property="readFlag"/>
+        <result column="REPAIR_USER" jdbcType="INTEGER" property="repairUser"/>
+        <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="REPAIR_REMARK" jdbcType="VARCHAR" property="repairRemark"/>
+        <result column="SPARE_COL1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="SPARE_COL2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="SPARE_COL3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="CT_USER" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="CT_DATE" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="LT_USER" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="LT_DATE" jdbcType="TIMESTAMP" property="ltDate"/>
+        <result column="INITIATOR_USER_NAME" jdbcType="VARCHAR" property="initiatorUserName"/>
+        <result column="REPAIR_USER_NAME" jdbcType="VARCHAR" property="repairUserName"/>
+        <result column="INITIATOR_TEL" jdbcType="VARCHAR" property="initiatorTel"/>
+        <result column="REPAIR_RESULT" jdbcType="VARCHAR" property="repairResult"/>
+        <result column="RESULT_REMARK" jdbcType="VARCHAR" property="resultRemark"/>
+        <result column="REPAIR_TYPE_NAME" jdbcType="VARCHAR" property="repairTypeName"/>
+        <result column="RESULT_PHOTO" jdbcType="VARCHAR" property="resultPhoto"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, COMPANY_ID, INITIATOR_USER, REPAIR_TYPE, START_DATE, REPAIR_ADDRESS, REPAIR_STATE,
+            REPAIR_PHOTO, INITIATOR_REMARK, READ_FLAG, REPAIR_USER, END_DATE, REPAIR_REMARK,
+            SPARE_COL1, SPARE_COL2, SPARE_COL3, CT_USER, CT_DATE, LT_USER, LT_DATE, INITIATOR_TEL,
+            REPAIR_RESULT, RESULT_REMARK, RESULT_PHOTO
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT t1.*,
+               t3.user_lname as INITIATOR_USER_NAME,
+               t2.user_lname as REPAIR_USER_NAME,
+               t4.type_name  as REPAIR_TYPE_NAME
+        FROM REPAIR_INFO t1
+                 left join dt_user t2 on t1.REPAIR_USER = t2.user_serial
+                 left join dt_user t3 on t1.INITIATOR_USER = t3.user_serial
+                 left join repair_type_param t4 on t1.repair_type = t4.type_id
+        where t1.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from REPAIR_INFO
+        where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.RepairInfoEntity">
+        insert into REPAIR_INFO (ID,
+                                 COMPANY_ID,
+                                 INITIATOR_USER,
+                                 REPAIR_TYPE,
+                                 START_DATE,
+                                 REPAIR_ADDRESS,
+                                 REPAIR_STATE,
+                                 REPAIR_PHOTO,
+                                 INITIATOR_REMARK,
+                                 READ_FLAG,
+                                 REPAIR_USER,
+                                 END_DATE,
+                                 REPAIR_REMARK,
+                                 INITIATOR_TEL,
+                                 REPAIR_RESULT,
+                                 RESULT_REMARK,
+                                 RESULT_PHOTO,
+                                 SPARE_COL1,
+                                 SPARE_COL2,
+                                 SPARE_COL3,
+                                 CT_USER,
+                                 CT_DATE,
+                                 LT_USER,
+                                 LT_DATE)
+        values (#{id,jdbcType=VARCHAR},
+                #{companyId,jdbcType=INTEGER},
+                #{initiatorUser,jdbcType=INTEGER},
+                #{repairType,jdbcType=VARCHAR},
+                #{startDate,jdbcType=TIMESTAMP},
+                #{repairAddress,jdbcType=VARCHAR},
+                #{repairState,jdbcType=VARCHAR},
+                #{repairPhoto,jdbcType=VARCHAR},
+                #{initiatorRemark,jdbcType=VARCHAR},
+                #{readFlag,jdbcType=VARCHAR},
+                #{repairUser,jdbcType=INTEGER},
+                #{endDate,jdbcType=TIMESTAMP},
+                #{repairRemark,jdbcType=VARCHAR},
+                #{initiatorTel,jdbcType=VARCHAR},
+                #{repairResult,jdbcType=VARCHAR},
+                #{resultRemark,jdbcType=VARCHAR},
+                #{resultPhoto,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.RepairInfoEntity">
+        insert into REPAIR_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="initiatorUser != null">
+                INITIATOR_USER,
+            </if>
+            <if test="repairType != null">
+                REPAIR_TYPE,
+            </if>
+            <if test="startDate != null">
+                START_DATE,
+            </if>
+            <if test="repairAddress != null">
+                REPAIR_ADDRESS,
+            </if>
+            <if test="repairState != null">
+                REPAIR_STATE,
+            </if>
+            <if test="repairPhoto != null">
+                REPAIR_PHOTO,
+            </if>
+            <if test="initiatorRemark != null">
+                INITIATOR_REMARK,
+            </if>
+            <if test="readFlag != null">
+                READ_FLAG,
+            </if>
+            <if test="repairUser != null">
+                REPAIR_USER,
+            </if>
+            <if test="endDate != null">
+                END_DATE,
+            </if>
+            <if test="repairRemark != null">
+                REPAIR_REMARK,
+            </if>
+            <if test="initiatorTel != null">
+                INITIATOR_TEL,
+            </if>
+            <if test="repairResult != null">
+                REPAIR_RESULT,
+            </if>
+            <if test="resultRemark != null">
+                RESULT_REMARK,
+            </if>
+            <if test="resultPhoto != null">
+                RESULT_PHOTO,
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1,
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2,
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3,
+            </if>
+            <if test="ctUser != null">
+                CT_USER,
+            </if>
+            <if test="ctDate != null">
+                CT_DATE,
+            </if>
+            <if test="ltUser != null">
+                LT_USER,
+            </if>
+            <if test="ltDate != null">
+                LT_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="initiatorUser != null">
+                #{initiatorUser,jdbcType=INTEGER},
+            </if>
+            <if test="repairType != null">
+                #{repairType,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="repairAddress != null">
+                #{repairAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="repairState != null">
+                #{repairState,jdbcType=VARCHAR},
+            </if>
+            <if test="repairPhoto != null">
+                #{repairPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="initiatorRemark != null">
+                #{initiatorRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="readFlag != null">
+                #{readFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="repairUser != null">
+                #{repairUser,jdbcType=INTEGER},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="repairRemark != null">
+                #{repairRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="initiatorTel != null">
+                #{initiatorTel,jdbcType=VARCHAR},
+            </if>
+            <if test="repairResult != null">
+                #{repairResult,jdbcType=VARCHAR},
+            </if>
+            <if test="resultRemark != null">
+                #{resultRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="resultPhoto != null">
+                #{resultPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.RepairInfoEntity">
+        update REPAIR_INFO
+        <set>
+            <if test="companyId != null">
+                COMPANY_ID = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="initiatorUser != null">
+                INITIATOR_USER = #{initiatorUser,jdbcType=INTEGER},
+            </if>
+            <if test="repairType != null">
+                REPAIR_TYPE = #{repairType,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="repairAddress != null">
+                REPAIR_ADDRESS = #{repairAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="repairState != null">
+                REPAIR_STATE = #{repairState,jdbcType=VARCHAR},
+            </if>
+            <if test="repairPhoto != null">
+                REPAIR_PHOTO = #{repairPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="initiatorRemark != null">
+                INITIATOR_REMARK = #{initiatorRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="readFlag != null">
+                READ_FLAG = #{readFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="repairUser != null">
+                REPAIR_USER = #{repairUser,jdbcType=INTEGER},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="repairRemark != null">
+                REPAIR_REMARK = #{repairRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="initiatorTel != null">
+                INITIATOR_TEL = #{initiatorTel,jdbcType=VARCHAR},
+            </if>
+            <if test="repairResult != null">
+                REPAIR_RESULT = #{repairResult,jdbcType=VARCHAR},
+            </if>
+            <if test="resultRemark != null">
+                RESULT_REMARK = #{resultRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="resultPhoto != null">
+                RESULT_PHOTO = #{resultPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                CT_USER = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                CT_DATE = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                LT_USER = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                LT_DATE = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.RepairInfoEntity">
+        update REPAIR_INFO
+        set COMPANY_ID       = #{companyId,jdbcType=INTEGER},
+            INITIATOR_USER   = #{initiatorUser,jdbcType=INTEGER},
+            REPAIR_TYPE      = #{repairType,jdbcType=VARCHAR},
+            START_DATE       = #{startDate,jdbcType=TIMESTAMP},
+            REPAIR_ADDRESS   = #{repairAddress,jdbcType=VARCHAR},
+            REPAIR_STATE     = #{repairState,jdbcType=VARCHAR},
+            REPAIR_PHOTO     = #{repairPhoto,jdbcType=VARCHAR},
+            INITIATOR_REMARK = #{initiatorRemark,jdbcType=VARCHAR},
+            READ_FLAG        = #{readFlag,jdbcType=VARCHAR},
+            REPAIR_USER      = #{repairUser,jdbcType=INTEGER},
+            END_DATE         = #{endDate,jdbcType=TIMESTAMP},
+            REPAIR_REMARK    = #{repairRemark,jdbcType=VARCHAR},
+            INITIATOR_TEL    = #{initiatorTel,jdbcType=VARCHAR},
+            REPAIR_RESULT    = #{repairResult,jdbcType=VARCHAR},
+            REPAIR_RESULT    = #{repairResult,jdbcType=VARCHAR},
+            RESULT_PHOTO     = #{resultPhoto,jdbcType=VARCHAR},
+            SPARE_COL1       = #{spareCol1,jdbcType=VARCHAR},
+            SPARE_COL2       = #{spareCol2,jdbcType=VARCHAR},
+            SPARE_COL3       = #{spareCol3,jdbcType=VARCHAR},
+            CT_USER          = #{ctUser,jdbcType=VARCHAR},
+            CT_DATE          = #{ctDate,jdbcType=TIMESTAMP},
+            LT_USER          = #{ltUser,jdbcType=VARCHAR},
+            LT_DATE          = #{ltDate,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.RepairInfoEntity" resultMap="BaseResultMap">
+        SELECT t1.*, t3.user_lname as INITIATOR_USER_NAME, t2.user_lname as REPAIR_USER_NAME
+        FROM REPAIR_INFO t1
+        left join dt_user t2 on t1.REPAIR_USER = t2.user_serial
+        left join dt_user t3 on t1.INITIATOR_USER = t3.user_serial
+        <where>
+            <if test="id != null">
+                <bind name="idLike" value="'%'+id+'%'"/>
+                and t1.ID like #{idLike}
+                <!--and ID = #{id,jdbcType=VARCHAR}-->
+            </if>
+            <if test="companyId != null">
+                and t1.COMPANY_ID = #{companyId,jdbcType=INTEGER}
+            </if>
+            <if test="initiatorUser != null">
+                and t1.INITIATOR_USER = #{initiatorUser,jdbcType=INTEGER}
+            </if>
+            <if test="repairType != null">
+                <bind name="repairTypeLike" value="'%'+repairType+'%'"/>
+                and t1.REPAIR_TYPE like #{repairTypeLike}
+                <!--and REPAIR_TYPE = #{repairType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="startDate != null">
+                and t1.START_DATE = #{startDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="repairAddress != null">
+                <bind name="repairAddressLike" value="'%'+repairAddress+'%'"/>
+                and t1.REPAIR_ADDRESS like #{repairAddressLike}
+                <!--and REPAIR_ADDRESS = #{repairAddress,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repairState != null">
+                and t1.REPAIR_STATE = #{repairState,jdbcType=VARCHAR}
+            </if>
+            <if test="repairPhoto != null">
+                <bind name="repairPhotoLike" value="'%'+repairPhoto+'%'"/>
+                and t1.REPAIR_PHOTO like #{repairPhotoLike}
+                <!--and REPAIR_PHOTO = #{repairPhoto,jdbcType=VARCHAR}-->
+            </if>
+            <if test="initiatorRemark != null">
+                <bind name="initiatorRemarkLike" value="'%'+initiatorRemark+'%'"/>
+                and t1.INITIATOR_REMARK like #{initiatorRemarkLike}
+                <!--and INITIATOR_REMARK = #{initiatorRemark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="readFlag != null">
+                <bind name="readFlagLike" value="'%'+readFlag+'%'"/>
+                and t1.READ_FLAG like #{readFlagLike}
+                <!--and READ_FLAG = #{readFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repairUser != null">
+                and t1.REPAIR_USER = #{repairUser,jdbcType=INTEGER}
+            </if>
+            <if test="endDate != null">
+                and t1.END_DATE = #{endDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="repairRemark != null">
+                <bind name="repairRemarkLike" value="'%'+repairRemark+'%'"/>
+                and t1.REPAIR_REMARK like #{repairRemarkLike}
+                <!--and REPAIR_REMARK = #{repairRemark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and t1.SPARE_COL1 like #{spareCol1Like}
+                <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and t1.SPARE_COL2 like #{spareCol2Like}
+                <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and t1.SPARE_COL3 like #{spareCol3Like}
+                <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and t1.CT_USER like #{ctUserLike}
+                <!--and CT_USER = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and t1.CT_DATE = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and t1.LT_USER like #{ltUserLike}
+                <!--and LT_USER = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and t1.LT_DATE = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+            <!--<if test='repairState == "0"'>-->
+            <if test="start != null">
+                and t1.START_DATE >= #{start,jdbcType=TIMESTAMP}
+            </if>
+            <if test="end != null">
+                <![CDATA[and t1.START_DATE < #{end,jdbcType=TIMESTAMP}]]>
+            </if>
+            <!--</if>-->
+            <!--<if test='repairState == "1"'>-->
+            <!--<if test="start != null">-->
+            <!--and END_DATE >= #{start,jdbcType=TIMESTAMP}-->
+            <!--</if>-->
+            <!--<if test="end != null">-->
+            <!--<![CDATA[and END_DATE < #{end,jdbcType=TIMESTAMP}]]>-->
+            <!--</if>-->
+            <!--</if>-->
+        </where>
+        order by t1.START_DATE desc
+    </select>
+
+    <select id="selectSumInfoByEntity" parameterType="com.weds.edwx.entity.RepairInfoEntity" resultType="Map">
+        SELECT REPAIR_STATE as repairState, count(1) as num from REPAIR_INFO
+        <where>
+            <if test="id != null">
+                <bind name="idLike" value="'%'+id+'%'"/>
+                and ID like #{idLike}
+                <!--and ID = #{id,jdbcType=VARCHAR}-->
+            </if>
+            <if test="companyId != null">
+                and COMPANY_ID = #{companyId,jdbcType=INTEGER}
+            </if>
+            <if test="initiatorUser != null">
+                and INITIATOR_USER = #{initiatorUser,jdbcType=INTEGER}
+            </if>
+            <if test="repairType != null">
+                <bind name="repairTypeLike" value="'%'+repairType+'%'"/>
+                and REPAIR_TYPE like #{repairTypeLike}
+                <!--and REPAIR_TYPE = #{repairType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="startDate != null">
+                and START_DATE = #{startDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="repairAddress != null">
+                <bind name="repairAddressLike" value="'%'+repairAddress+'%'"/>
+                and REPAIR_ADDRESS like #{repairAddressLike}
+                <!--and REPAIR_ADDRESS = #{repairAddress,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repairState != null">
+                and REPAIR_STATE = #{repairState,jdbcType=VARCHAR}
+            </if>
+            <if test="repairPhoto != null">
+                <bind name="repairPhotoLike" value="'%'+repairPhoto+'%'"/>
+                and REPAIR_PHOTO like #{repairPhotoLike}
+                <!--and REPAIR_PHOTO = #{repairPhoto,jdbcType=VARCHAR}-->
+            </if>
+            <if test="initiatorRemark != null">
+                <bind name="initiatorRemarkLike" value="'%'+initiatorRemark+'%'"/>
+                and INITIATOR_REMARK like #{initiatorRemarkLike}
+                <!--and INITIATOR_REMARK = #{initiatorRemark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="readFlag != null">
+                <bind name="readFlagLike" value="'%'+readFlag+'%'"/>
+                and READ_FLAG like #{readFlagLike}
+                <!--and READ_FLAG = #{readFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repairUser != null">
+                and REPAIR_USER = #{repairUser,jdbcType=INTEGER}
+            </if>
+            <if test="endDate != null">
+                and END_DATE = #{endDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="repairRemark != null">
+                <bind name="repairRemarkLike" value="'%'+repairRemark+'%'"/>
+                and REPAIR_REMARK like #{repairRemarkLike}
+                <!--and REPAIR_REMARK = #{repairRemark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and SPARE_COL1 like #{spareCol1Like}
+                <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and SPARE_COL2 like #{spareCol2Like}
+                <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and SPARE_COL3 like #{spareCol3Like}
+                <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and CT_USER like #{ctUserLike}
+                <!--and CT_USER = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and CT_DATE = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and LT_USER like #{ltUserLike}
+                <!--and LT_USER = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and LT_DATE = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+            <!--<if test='repairState == "0"'>-->
+            <if test="start != null">
+                and START_DATE >= #{start,jdbcType=TIMESTAMP}
+            </if>
+            <if test="end != null">
+                <![CDATA[and START_DATE < #{end,jdbcType=TIMESTAMP}]]>
+            </if>
+        </where>
+        group by REPAIR_STATE
+    </select>
+</mapper>

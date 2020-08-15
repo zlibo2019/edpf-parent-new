@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MoveShiftMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MoveShiftEntity">
+        <result column="xh" jdbcType="VARCHAR" property="xh"/>
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userName"/>
+        <result column="check_progress" jdbcType="VARCHAR" property="checkProgress"/>
+        <result column="user_depname" jdbcType="VARCHAR" property="userDepname"/>
+        <result column="mc" jdbcType="VARCHAR" property="mc"/>
+        <result column="bh" jdbcType="VARCHAR" property="bh"/>
+        <result column="rq" jdbcType="TIMESTAMP" property="tbrq"/>
+        <result column="ybc" jdbcType="VARCHAR" property="ybc"/>
+        <result column="xbc" jdbcType="VARCHAR" property="xbc"/>
+        <result column="bz" jdbcType="VARCHAR" property="bz"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+        <result column="check_id" jdbcType="VARCHAR" property="checkId"/>
+        <result column="img_path" jdbcType="VARCHAR" property="imgPath"/>
+    </resultMap>
+
+    <select id="selectUserDep" resultType="java.lang.String">
+        select user_dep
+        from dt_user
+        where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectUserRole" resultType="java.lang.String">
+        select len(dep_no) / 2 as dep_cust
+        from dt_user
+        where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectMoveShiftByXh" resultMap="BaseResultMap">
+        <![CDATA[
+        select a.xh,
+               a.img_path,
+               a.user_serial,
+               c.user_lname,
+               c.user_depname,
+               b.check_progress,
+               d.mc,
+               CONVERT(datetime, rq, 23) as rq,
+               dbo.getBCname(ybc)        as ybc,
+               dbo.getbcname(xbc)           xbc,
+               bz,
+               Flag,
+               b.check_id,
+               a.bh
+        from kt_tiao_more a
+                 left join kt_qingj_more b on a.Xh = b.waich_xh
+                 left join dt_user c on a.user_serial = c.user_serial
+                 left join kt_leave_more d on a.bh = d.bh
+        where b.waich_xh = #{xh}
+        union all
+        select a.xh,
+               a.img_path,
+               a.user_serial,
+               c.user_lname,
+               c.user_depname,
+               b.check_progress,
+               d.mc,
+               CONVERT(datetime, rq, 23) as rq,
+               dbo.getBCname(ybc)        as ybc,
+               dbo.getbcname(xbc)           xbc,
+               bz,
+               Flag,
+               b.check_id,
+               a.bh
+        from kt_paiban_revoke a
+                 left join kt_qingj_more b on a.Xh = b.waich_xh
+                 left join dt_user c on a.user_serial = c.user_serial
+                 left join kt_leave_more d on a.bh = d.bh
+        where b.waich_xh = #{xh}
+        ]]>
+    </select>
+
+    <select id="findMoveShift" resultType="java.lang.Integer">
+        select count(user_serial)
+        from kt_tiao_more t1
+                 join kt_qingj_more t2 on t1.bh = t2.waich_xh
+        where t2.flag != 3
+          and user_serial = #{userSerial}
+          and rq = #{tbrq}
+    </select>
+
+    <insert id="insertMoveShift" parameterType="com.weds.edwx.entity.MoveShiftParamEntity">
+        insert into kt_tiao_more (Xh, user_serial, rq, bh, ybc, xbc, bz, gly_no, sj, img_path)
+        select #{xh},
+               #{userSerial},
+               #{tbrq},
+               #{bh},
+               #{ybc},
+               #{xbc},
+               #{bz},
+               user_lname,
+               GETDATE(),
+               #{imgPath}
+        from dt_user
+        where user_serial = #{userSerial}
+        insert into kt_qingj_more (waich_xh, check_progress, check_pp, Shjb, Flag, qjlx)
+        values (#{xh}, #{checkProgress}, #{checkPp}, 0, 0, #{qjlx});
+    </insert>
+
+    <select id="selectApprovalName" resultType="java.lang.String">
+        select user_lname from dt_user where user_serial in (
+        <foreach collection="userSerials.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <insert id="insertKtTiao">
+        insert into kt_tiao (a_user, b_user, a_rq, b_rq, bz, gly_no, shenhe)
+        select b1.user_serial, b1.user_serial, b1.rq, b1.rq, b1.bz, b1.gly_no, #{shenhe}
+        from kt_qingj_more a1
+                 inner join kt_tiao_more b1 on a1.waich_xh = b1.xh
+        where check_id = #{checkId}
+    </insert>
+
+    <insert id="insertKtTiaoB">
+        insert into kt_tiaob (user_serial, sj, a_bc, b_bc, bz, lrsj, gly_no, shenhe)
+        select user_serial,
+               rq,
+               ybc,
+               xbc,
+               bz,
+               sj,
+               gly_no,
+               #{shenhe}
+        from kt_qingj_more a1
+                 inner join kt_tiao_more b1 on a1.waich_xh = b1.xh
+        where check_id = #{checkId}
+    </insert>
+
+    <update id="updateKtQingjMore">
+        update kt_qingj_more
+        <set>
+            check_pp = #{checkPp},
+            check_progress = #{checkProgress},
+            <if test="shjb != null and shjb != '' ">
+                shjb = #{shjb},
+            </if>
+            <if test="flag != null and flag != '' ">
+                flag = #{flag},
+            </if>
+            <if test="shenhe != '' and shenhe != null">
+                shenhe${num} = #{shenhe},
+            </if>
+            <if test="shsj != '' and shsj != null ">
+                shsj${num} = #{shsj},
+            </if>
+            <if test="shyj != '' and shyj != null ">
+                shyj${num} = #{shyj},
+            </if>
+            <if test="reason != null and reason != ''">
+                reason${num} = #{reason},
+            </if>
+        </set>
+        where waich_xh = #{xh}
+    </update>
+
+    <select id="selectMoveShiftShjb" resultType="java.lang.Integer">
+        select shjb
+        from kt_qingj_more
+        where waich_xh = #{xh}
+    </select>
+
+    <delete id="deleteTiaoMore">
+        delete kt_tiao_more
+        where xh = #{xh}
+    </delete>
+
+    <insert id="insertPaiBanRevoke">
+        insert into kt_paiban_revoke (xh, user_serial, bh, rq, ybc, xbc, bz, gly_no, shenhe, sj, kqlx, img_path)
+        select xh,
+               user_serial,
+               bh,
+               rq,
+               ybc,
+               xbc,
+               bz,
+               user_serial,
+               shenhe,
+               getdate(),
+               '1',
+               img_path
+        from kt_tiao_more
+        where xh = #{xh}
+    </insert>
+
+    <select id="getPaiba" resultType="java.lang.String">
+        select ${paiba}
+        from kt_paiba
+        where user_serial = #{userSerial}
+          and rq = #{rq}
+    </select>
+
+    <select id="getBanci" resultMap="BaseResultMap">
+        select bh, mc
+        from zt_banci
+        where bh = #{banci}
+    </select>
+
+    <select id="getBanciAll" resultMap="BaseResultMap">
+        select bh, mc
+        from zt_banci
+    </select>
+
+
+    <update id="updateKtTiaoMore">
+        update kt_tiao_more
+        SET shenhe = #{userName}
+        WHERE Xh = #{xh}
+    </update>
+
+    <update id="updatePaiba">
+        exec update_paiba #{xh}
+    </update>
+</mapper>

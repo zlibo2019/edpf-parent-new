@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.KtJlMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.KtJlEntity">
+    <id column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <id column="user_serial" jdbcType="INTEGER" property="userSerial" />
+    <id column="bh" jdbcType="INTEGER" property="bh" />
+    <result column="fx" jdbcType="SMALLINT" property="fx" />
+    <result column="lx" jdbcType="INTEGER" property="lx" />
+    <result column="yich" jdbcType="INTEGER" property="yich" />
+    <result column="iden" jdbcType="NVARCHAR" property="iden" />
+    <result column="dev_serial" jdbcType="NVARCHAR" property="devSerial" />
+    <result column="dev_state" jdbcType="SMALLINT" property="devState" />
+    <result column="jlzp_serial" jdbcType="INTEGER" property="jlzpSerial" />
+    <result column="gly_no" jdbcType="NVARCHAR" property="glyNo" />
+    <result column="shenhe" jdbcType="INTEGER" property="shenhe" />
+    <result column="dev_logic_bh" jdbcType="BIGINT" property="devLogicBh" />
+    <result column="deal_state" jdbcType="SMALLINT" property="dealState" />
+    <result column="recordno" jdbcType="VARCHAR" property="recordno" />
+    <result column="jcard" jdbcType="VARCHAR" property="jcard" />
+    <result column="door_state" jdbcType="VARCHAR" property="doorState" />
+    <result column="jl_type" jdbcType="INTEGER" property="jlType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sj, user_serial, bh, fx, lx, yich, iden, dev_serial, dev_state, jlzp_serial, gly_no, 
+    shenhe, dev_logic_bh, deal_state, recordno, jcard, door_state, jl_type
+  </sql>
+  <select id="selectDepUser" parameterType="com.weds.edwx.entity.DeviceEntity" resultType="java.lang.Integer">
+    select count(1) from dt_ac_dep_user where dep_serial=#{depSerial}
+  </select>
+  <select id="selectDepPlace" parameterType="com.weds.edwx.entity.DeviceEntity" resultType="java.lang.Integer">
+    select count(1) from dt_dep_place where acdep_serial=#{depSerial}
+  </select>
+  <select id="selectDepUserByUserSerial" parameterType="com.weds.edwx.entity.DeviceEntity" resultType="java.lang.Integer">
+    select count(1) from dt_ac_dep_user where dep_serial=#{depSerial} and user_serial=#{userSerial}
+  </select>
+  <select id="selectDepPlaceByUserSerial" parameterType="com.weds.edwx.entity.DeviceEntity" resultType="java.lang.Integer">
+   select count(1) from dt_dep_place a
+   inner join dt_user b on a.dep_serial=b.user_dep
+   and b.user_serial=#{userSerial} and a.acdep_serial=#{depSerial}
+  </select>
+  <insert id="insert" parameterType="com.weds.edwx.entity.KtJlEntity">
+    insert into kt_jl (sj,user_serial,fx,lx,dev_serial,shenhe,dev_logic_bh,deal_state,jl_type,iden)
+    values (#{sj}, #{userSerial}, 0, 0, #{devSerial}, 0, #{devSerial},0,3,'scan')
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.KtJlEntity">
+    insert into kt_jl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sj != null">
+        sj,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="bh != null">
+        bh,
+      </if>
+      <if test="fx != null">
+        fx,
+      </if>
+      <if test="lx != null">
+        lx,
+      </if>
+      <if test="yich != null">
+        yich,
+      </if>
+      <if test="iden != null">
+        iden,
+      </if>
+      <if test="devSerial != null">
+        dev_serial,
+      </if>
+      <if test="devState != null">
+        dev_state,
+      </if>
+      <if test="jlzpSerial != null">
+        jlzp_serial,
+      </if>
+      <if test="glyNo != null">
+        gly_no,
+      </if>
+      <if test="shenhe != null">
+        shenhe,
+      </if>
+      <if test="devLogicBh != null">
+        dev_logic_bh,
+      </if>
+      <if test="dealState != null">
+        deal_state,
+      </if>
+      <if test="recordno != null">
+        recordno,
+      </if>
+      <if test="jcard != null">
+        jcard,
+      </if>
+      <if test="doorState != null">
+        door_state,
+      </if>
+      <if test="jlType != null">
+        jl_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=INTEGER},
+      </if>
+      <if test="bh != null">
+        #{bh,jdbcType=INTEGER},
+      </if>
+      <if test="fx != null">
+        #{fx,jdbcType=SMALLINT},
+      </if>
+      <if test="lx != null">
+        #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="yich != null">
+        #{yich,jdbcType=INTEGER},
+      </if>
+      <if test="iden != null">
+        #{iden,jdbcType=NVARCHAR},
+      </if>
+      <if test="devSerial != null">
+        #{devSerial,jdbcType=NVARCHAR},
+      </if>
+      <if test="devState != null">
+        #{devState,jdbcType=SMALLINT},
+      </if>
+      <if test="jlzpSerial != null">
+        #{jlzpSerial,jdbcType=INTEGER},
+      </if>
+      <if test="glyNo != null">
+        #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="shenhe != null">
+        #{shenhe,jdbcType=INTEGER},
+      </if>
+      <if test="devLogicBh != null">
+        #{devLogicBh,jdbcType=BIGINT},
+      </if>
+      <if test="dealState != null">
+        #{dealState,jdbcType=SMALLINT},
+      </if>
+      <if test="recordno != null">
+        #{recordno,jdbcType=VARCHAR},
+      </if>
+      <if test="jcard != null">
+        #{jcard,jdbcType=VARCHAR},
+      </if>
+      <if test="doorState != null">
+        #{doorState,jdbcType=VARCHAR},
+      </if>
+      <if test="jlType != null">
+        #{jlType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.KtJlEntity">
+    update kt_jl
+    <set>
+      <if test="fx != null">
+        fx = #{fx,jdbcType=SMALLINT},
+      </if>
+      <if test="lx != null">
+        lx = #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="yich != null">
+        yich = #{yich,jdbcType=INTEGER},
+      </if>
+      <if test="iden != null">
+        iden = #{iden,jdbcType=NVARCHAR},
+      </if>
+      <if test="devSerial != null">
+        dev_serial = #{devSerial,jdbcType=NVARCHAR},
+      </if>
+      <if test="devState != null">
+        dev_state = #{devState,jdbcType=SMALLINT},
+      </if>
+      <if test="jlzpSerial != null">
+        jlzp_serial = #{jlzpSerial,jdbcType=INTEGER},
+      </if>
+      <if test="glyNo != null">
+        gly_no = #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="shenhe != null">
+        shenhe = #{shenhe,jdbcType=INTEGER},
+      </if>
+      <if test="devLogicBh != null">
+        dev_logic_bh = #{devLogicBh,jdbcType=BIGINT},
+      </if>
+      <if test="dealState != null">
+        deal_state = #{dealState,jdbcType=SMALLINT},
+      </if>
+      <if test="recordno != null">
+        recordno = #{recordno,jdbcType=VARCHAR},
+      </if>
+      <if test="jcard != null">
+        jcard = #{jcard,jdbcType=VARCHAR},
+      </if>
+      <if test="doorState != null">
+        door_state = #{doorState,jdbcType=VARCHAR},
+      </if>
+      <if test="jlType != null">
+        jl_type = #{jlType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sj = #{sj,jdbcType=TIMESTAMP}
+      and user_serial = #{userSerial,jdbcType=INTEGER}
+      and bh = #{bh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.KtJlEntity">
+    update kt_jl
+    set fx = #{fx,jdbcType=SMALLINT},
+      lx = #{lx,jdbcType=INTEGER},
+      yich = #{yich,jdbcType=INTEGER},
+      iden = #{iden,jdbcType=NVARCHAR},
+      dev_serial = #{devSerial,jdbcType=NVARCHAR},
+      dev_state = #{devState,jdbcType=SMALLINT},
+      jlzp_serial = #{jlzpSerial,jdbcType=INTEGER},
+      gly_no = #{glyNo,jdbcType=NVARCHAR},
+      shenhe = #{shenhe,jdbcType=INTEGER},
+      dev_logic_bh = #{devLogicBh,jdbcType=BIGINT},
+      deal_state = #{dealState,jdbcType=SMALLINT},
+      recordno = #{recordno,jdbcType=VARCHAR},
+      jcard = #{jcard,jdbcType=VARCHAR},
+      door_state = #{doorState,jdbcType=VARCHAR},
+      jl_type = #{jlType,jdbcType=INTEGER}
+    where sj = #{sj,jdbcType=TIMESTAMP}
+      and user_serial = #{userSerial,jdbcType=INTEGER}
+      and bh = #{bh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.KtJlEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from kt_jl
+    <where>
+      <if test="sj != null">
+        and sj = #{sj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="userSerial != null">
+        and user_serial = #{userSerial,jdbcType=INTEGER}
+      </if>
+      <if test="bh != null">
+        and bh = #{bh,jdbcType=INTEGER}
+      </if>
+      <if test="fx != null">
+        and fx = #{fx,jdbcType=SMALLINT}
+      </if>
+      <if test="lx != null">
+        and lx = #{lx,jdbcType=INTEGER}
+      </if>
+      <if test="yich != null">
+        and yich = #{yich,jdbcType=INTEGER}
+      </if>
+      <if test="iden != null">
+        <bind name="idenLike" value="'%'+iden+'%'" />
+        and iden like #{idenLike}
+        <!--and iden = #{iden,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="devSerial != null">
+        <bind name="devSerialLike" value="'%'+devSerial+'%'" />
+        and dev_serial like #{devSerialLike}
+        <!--and dev_serial = #{devSerial,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="devState != null">
+        and dev_state = #{devState,jdbcType=SMALLINT}
+      </if>
+      <if test="jlzpSerial != null">
+        and jlzp_serial = #{jlzpSerial,jdbcType=INTEGER}
+      </if>
+      <if test="glyNo != null">
+        <bind name="glyNoLike" value="'%'+glyNo+'%'" />
+        and gly_no like #{glyNoLike}
+        <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="shenhe != null">
+        and shenhe = #{shenhe,jdbcType=INTEGER}
+      </if>
+      <if test="devLogicBh != null">
+        and dev_logic_bh = #{devLogicBh,jdbcType=BIGINT}
+      </if>
+      <if test="dealState != null">
+        and deal_state = #{dealState,jdbcType=SMALLINT}
+      </if>
+      <if test="recordno != null">
+        <bind name="recordnoLike" value="'%'+recordno+'%'" />
+        and recordno like #{recordnoLike}
+        <!--and recordno = #{recordno,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jcard != null">
+        <bind name="jcardLike" value="'%'+jcard+'%'" />
+        and jcard like #{jcardLike}
+        <!--and jcard = #{jcard,jdbcType=VARCHAR}-->
+      </if>
+      <if test="doorState != null">
+        <bind name="doorStateLike" value="'%'+doorState+'%'" />
+        and door_state like #{doorStateLike}
+        <!--and door_state = #{doorState,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jlType != null">
+        and jl_type = #{jlType,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

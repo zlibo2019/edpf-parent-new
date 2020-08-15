@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.EdMealAppraiseMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.EdMealAppraiseEntity">
+        <id column="bh" jdbcType="VARCHAR" property="bh"/>
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="meal_id" jdbcType="VARCHAR" property="mealId"/>
+        <result column="meal_name" jdbcType="VARCHAR" property="mealName"/>
+        <result column="meal_date" jdbcType="TIMESTAMP" property="mealDate"/>
+        <result column="meal_appraise" jdbcType="VARCHAR" property="mealAppraise"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+
+        <result column="meal_money" jdbcType="DECIMAL" property="mealMoney"/>
+        <result column="jl_bh" jdbcType="VARCHAR" property="jlBh"/>
+        <result column="dev_serial" jdbcType="VARCHAR" property="devSerial"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        bh, user_serial, meal_id, meal_name, meal_date, meal_appraise, remark, spare_col1,
+            spare_col2, spare_col3, spare_col4, spare_col5, spare_col6, ct_user, ct_date, lt_user,
+            lt_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select t1.xh          as bh,
+               t1.jl_bh,
+               t1.dev_serial,
+               t1.user_serial as user_serial,
+               t1.dev_time_no as meal_id,
+               t3.lname       as meal_name,
+               t1.jl_sj       as meal_date,
+               t1.flag        as meal_appraise,
+               t1.new_money   as meal_money
+        from xf_mx t1
+                 join xf_time t3 on t1.dev_time_no = t3.bh
+        where t1.xh = #{bh,jdbcType=VARCHAR}
+        --                 exists(select 1
+        --                 from xf_menu_jl t2
+        --                 where t1.dev_serial = t2.dev_serial
+        --                 and t1.user_serial = t2.user_serial
+        --                 and t1.jl_bh = t2.jl_serial)
+        --                 and
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_meal_appraise
+        where bh = #{bh,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.EdMealAppraiseEntity">
+        insert into ed_meal_appraise (bh,
+                                      user_serial,
+                                      meal_id,
+                                      meal_name,
+                                      meal_date,
+                                      meal_appraise,
+                                      remark,
+                                      spare_col1,
+                                      spare_col2,
+                                      spare_col3,
+                                      spare_col4,
+                                      spare_col5,
+                                      spare_col6,
+                                      ct_user,
+                                      ct_date,
+                                      lt_user,
+                                      lt_date)
+        values (#{bh,jdbcType=VARCHAR},
+                #{userSerial,jdbcType=VARCHAR},
+                #{mealId,jdbcType=VARCHAR},
+                #{mealName,jdbcType=VARCHAR},
+                #{mealDate,jdbcType=TIMESTAMP},
+                #{mealAppraise,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.EdMealAppraiseEntity">
+        insert into ed_meal_appraise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="mealId != null">
+                meal_id,
+            </if>
+            <if test="mealName != null">
+                meal_name,
+            </if>
+            <if test="mealDate != null">
+                meal_date,
+            </if>
+            <if test="mealAppraise != null">
+                meal_appraise,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                #{bh,jdbcType=VARCHAR},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="mealId != null">
+                #{mealId,jdbcType=VARCHAR},
+            </if>
+            <if test="mealName != null">
+                #{mealName,jdbcType=VARCHAR},
+            </if>
+            <if test="mealDate != null">
+                #{mealDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mealAppraise != null">
+                #{mealAppraise,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.EdMealAppraiseEntity">
+        update xf_mx
+        set flag = #{mealAppraise,jdbcType=VARCHAR}
+        where xh = #{bh,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.EdMealAppraiseEntity">
+        update ed_meal_appraise
+        set user_serial   = #{userSerial,jdbcType=VARCHAR},
+            meal_id       = #{mealId,jdbcType=VARCHAR},
+            meal_name     = #{mealName,jdbcType=VARCHAR},
+            meal_date     = #{mealDate,jdbcType=TIMESTAMP},
+            meal_appraise = #{mealAppraise,jdbcType=VARCHAR},
+            remark        = #{remark,jdbcType=VARCHAR},
+            spare_col1    = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2    = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3    = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4    = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5    = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6    = #{spareCol6,jdbcType=VARCHAR},
+            ct_user       = #{ctUser,jdbcType=VARCHAR},
+            ct_date       = #{ctDate,jdbcType=TIMESTAMP},
+            lt_user       = #{ltUser,jdbcType=VARCHAR},
+            lt_date       = #{ltDate,jdbcType=TIMESTAMP}
+        where bh = #{bh,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.EdMealAppraiseEntity" resultMap="BaseResultMap">
+        select t1.xh          as bh,
+               t1.user_serial as user_serial,
+               t1.dev_time_no as meal_id,
+               t3.lname       as meal_name,
+               t1.jl_sj       as meal_date,
+               t1.new_money   as meal_money,
+               t1.flag        as meal_appraise
+        from xf_mx t1
+                 join xf_time t3 on t1.dev_time_no = t3.bh
+        where convert(varchar(12), t1.jl_sj, 112) between #{startDate} and #{endDate}
+          and t1.user_serial = #{userSerial}
+          and t1.flag is not null
+          and t1.lx in (1, 51)
+        order by t1.jl_sj desc
+        --                 exists(select 1
+        --                 from xf_menu_jl t2
+        --                 where t1.dev_serial = t2.dev_serial
+        --                 and t1.user_serial = t2.user_serial
+        --                 and t1.jl_bh = t2.jl_serial)
+        --                 and
+    </select>
+</mapper>

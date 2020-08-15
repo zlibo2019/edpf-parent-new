@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.RightTempMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.RightTempEntity">
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="gate_bh" jdbcType="CHAR" property="gateBh" />
+    <result column="fx" jdbcType="INTEGER" property="fx" />
+    <result column="kssj" jdbcType="TIMESTAMP" property="kssj" />
+    <result column="jssj" jdbcType="TIMESTAMP" property="jssj" />
+    <result column="ks_sj" jdbcType="VARCHAR" property="ksSj" />
+    <result column="js_sj" jdbcType="VARCHAR" property="jsSj" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <result column="gly_no" jdbcType="NVARCHAR" property="glyNo" />
+    <result column="dep_name" jdbcType="VARCHAR" property="depName" />
+    <result column="door_name" jdbcType="VARCHAR" property="doorName" />
+    <result column="user_lname" jdbcType="VARCHAR" property="userLname" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="user_card" jdbcType="VARCHAR" property="userCard" />
+    <result column="user_depname" jdbcType="VARCHAR" property="userDepName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    xh, user_serial, gate_bh, fx, kssj, jssj, ks_sj, js_sj, sj, gly_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mj_right_temp
+    where xh = #{xh,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mj_right_temp
+    where xh = #{xh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertBatch" parameterType="com.weds.edmj.entity.RightTempEntity">
+    insert into mj_right_temp(user_serial,gate_bh,fx,kssj,jssj,ks_sj,js_sj,sj,gly_no)
+    select a.user_serial ,b.gate_bh ,#{fx},#{kssj},#{jssj},#{ksSj},#{jsSj},#{sj},#{glyNo}
+    from
+    (select user_serial from dt_user
+      <where>
+        <![CDATA[  user_type < 51 ]]>
+        <if test="depList!=null and depList.size()>0">
+           and user_dep in
+          <foreach collection="depList" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+        </if>
+        <if test="userList!=null and userList.size()>0">
+          and user_serial in
+          <foreach collection="userList" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+        </if>
+      </where>
+    ) a,
+    (
+      select gate_bh from DT_GATE_REAL
+      <where>
+        <if test="placeList!=null and placeList.size()>0">
+          and acdep_serial in
+          <foreach collection="placeList" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+        </if>
+        <if test="gateList!=null and gateList.size()>0">
+          and gate_bh in
+          <foreach collection="gateList" close=")" open="(" separator="," item="item">
+            #{item}
+          </foreach>
+        </if>
+      </where>
+    )b
+  </insert>
+  <insert id="insertUpdate1MjBatch" parameterType="com.weds.edmj.entity.RightTempEntity">
+    insert into jreal_update_1(jdev_bh,jdata_str)
+    select b.dev_serial as jdev_bh,
+    '110,2,0,'+cast(b.dev_order as varchar)+',3,'+a.user_card
+    +','+cast(#{kssj} as varchar)+','+cast(#{jssj} as varchar)+',0,255,'+#{ksSj}+','+#{jsSj}
+    +',00:00,00:00' as jdata_str
+    from
+    (select user_serial,user_card from dt_user
+    <where>
+      <![CDATA[  user_type < 51
+      and isnull(user_card,'') !='' ]]>
+      <if test="depList!=null and depList.size()>0">
+        and user_dep in
+        <foreach collection="depList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="userList!=null and userList.size()>0">
+        and user_serial in
+        <foreach collection="userList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    ) a,
+    (
+    select m.dev_serial,m.dev_order
+    from  st_doorfx_real m inner join DT_GATE_REAL n on m.gate_bh=n.gate_bh and m.fx=0
+    inner join st_door_real s on m.gate_bh=s.bh
+    <where>
+      isnull(s.door_lx,0)=0
+      <if test="placeList!=null and placeList.size()>0">
+        and n.acdep_serial in
+        <foreach collection="placeList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="gateList!=null and gateList.size()>0">
+        and m.gate_bh in
+        <foreach collection="gateList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    )b
+  </insert>
+  <insert id="insertUpdate4KqBatch" parameterType="com.weds.edmj.entity.RightTempEntity">
+    insert into jreal_update_4(jdev_bh,jdodata)
+    select distinct(m.dev_serial) as jdev_bh,'1073741824'
+    from  st_doorfx_real m inner join DT_GATE_REAL n on m.gate_bh=n.gate_bh and m.fx=0
+    inner join st_door_real s on m.gate_bh=s.bh
+    <where>
+      isnull(s.door_lx,0)=0
+      <if test="placeList!=null and placeList.size()>0">
+        and n.acdep_serial in
+        <foreach collection="placeList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+      <if test="gateList!=null and gateList.size()>0">
+        and m.gate_bh in
+        <foreach collection="gateList" close=")" open="(" separator="," item="item">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.RightTempEntity">
+    insert into mj_right_temp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="gateBh != null">
+        gate_bh,
+      </if>
+      <if test="fx != null">
+        fx,
+      </if>
+      <if test="kssj != null">
+        kssj,
+      </if>
+      <if test="jssj != null">
+        jssj,
+      </if>
+      <if test="ksSj != null">
+        ks_sj,
+      </if>
+      <if test="jsSj != null">
+        js_sj,
+      </if>
+      <if test="sj != null">
+        sj,
+      </if>
+      <if test="glyNo != null">
+        gly_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="gateBh != null">
+        #{gateBh,jdbcType=CHAR},
+      </if>
+      <if test="fx != null">
+        #{fx,jdbcType=INTEGER},
+      </if>
+      <if test="kssj != null">
+        #{kssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jssj != null">
+        #{jssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ksSj != null">
+        #{ksSj,jdbcType=VARCHAR},
+      </if>
+      <if test="jsSj != null">
+        #{jsSj,jdbcType=VARCHAR},
+      </if>
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glyNo != null">
+        #{glyNo,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.RightTempEntity">
+    update mj_right_temp
+    <set>
+      <if test="userSerial != null">
+        user_serial = #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="gateBh != null">
+        gate_bh = #{gateBh,jdbcType=CHAR},
+      </if>
+      <if test="fx != null">
+        fx = #{fx,jdbcType=INTEGER},
+      </if>
+      <if test="kssj != null">
+        kssj = #{kssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jssj != null">
+        jssj = #{jssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ksSj != null">
+        ks_sj = #{ksSj,jdbcType=VARCHAR},
+      </if>
+      <if test="jsSj != null">
+        js_sj = #{jsSj,jdbcType=VARCHAR},
+      </if>
+      <if test="sj != null">
+        sj = #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="glyNo != null">
+        gly_no = #{glyNo,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.RightTempEntity">
+    update mj_right_temp
+    set user_serial = #{userSerial,jdbcType=BIGINT},
+      gate_bh = #{gateBh,jdbcType=CHAR},
+      fx = #{fx,jdbcType=INTEGER},
+      kssj = #{kssj,jdbcType=TIMESTAMP},
+      jssj = #{jssj,jdbcType=TIMESTAMP},
+      ks_sj = #{ksSj,jdbcType=VARCHAR},
+      js_sj = #{jsSj,jdbcType=VARCHAR},
+      sj = #{sj,jdbcType=TIMESTAMP},
+      gly_no = #{glyNo,jdbcType=NVARCHAR}
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.RightTempEntity" resultMap="BaseResultMap">
+    select
+    a.xh,f.dep_name,b.door_name,c.user_lname,c.user_no,c.user_card,c.user_depname,a.kssj,a.jssj
+    from mj_right_temp a
+    inner join st_door_real b on a.gate_bh=b.bh
+    inner join dt_user c on a.user_serial=c.user_serial
+    inner join dt_gate_real e on a.gate_bh=e.gate_bh
+    inner join dt_ac_dep f on e.Acdep_serial=f.dep_serial
+    <where>
+      <if test="placeList !=null">
+        and e.acdep_serial in
+        <foreach close=")" collection="placeList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+      <if test="gateList !=null">
+        and b.bh in
+        <foreach close=")" collection="gateList" index="index" item="item" open="(" separator=",">
+          (#{item})
+        </foreach>
+      </if>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        and (
+        b.door_name like #{keysLike} or
+        c.user_lname like #{keysLike} or
+        c.user_no like #{keysLike} or
+        c.user_card like #{keysLike} or
+        c.user_depname like #{keysLike})
+      </if>
+    </where>
+  </select>
+  <insert id="insertUpdateDelMjBatch" parameterType="List">
+    insert into jreal_update_1(jdev_bh,jdata_str)
+    select b.dev_serial as jdev_bh,'110,4,0,'+cast(b.dev_order as varchar)+',3,'
+    +c.user_card+','+CONVERT(varchar(100),a.kssj,20)+','+CONVERT(varchar(100),a.jssj,20)
+    +',0,255,'+a.ks_sj+','+a.js_sj+',00:00,00:00' as jdata_str
+    from mj_right_temp a
+    inner join st_doorfx_real b on a.gate_bh=b.gate_bh and b.fx=0
+    inner join dt_user c on a.user_serial=c.user_serial
+    inner join st_door_real s on a.gate_bh=s.bh
+    where isnull(s.door_lx,0)=0 and isnull(c.user_card,'') !=''
+    and a.xh in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.xh}
+    </foreach>
+  </insert>
+  <insert id="insertUpdateDelKqBatch" parameterType="list">
+    insert into jreal_update_4(jdev_bh,jdodata)
+    select distinct(b.dev_serial) as jdev_bh,'1073741824' as jdodata
+    from mj_right_temp a
+    inner join st_doorfx_real b on a.gate_bh=b.gate_bh and b.fx=0
+    inner join st_door_real s on a.gate_bh=s.bh
+    where isnull(s.door_lx,0)=1 and a.xh in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+    (#{item.xh})
+    </foreach>
+  </insert>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    mj_right_temp
+    where (xh) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.xh})
+    </foreach>
+  </delete>
+</mapper>

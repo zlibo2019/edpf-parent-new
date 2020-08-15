@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.DoorfxRealMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.DoorfxRealEntity">
+    <id column="gate_bh" jdbcType="VARCHAR" property="gateBh" />
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="fx" jdbcType="INTEGER" property="fx" />
+    <result column="dev_serial" jdbcType="CHAR" property="devSerial" />
+    <result column="dev_order" jdbcType="INTEGER" property="devOrder" />
+    <result column="dev_head" jdbcType="INTEGER" property="devHead" />
+    <result column="c_first" jdbcType="INTEGER" property="cFirst" />
+    <result column="Mjgz_sk" jdbcType="INTEGER" property="mjgzSk" />
+    <result column="c_more" jdbcType="INTEGER" property="cMore" />
+    <result column="migz_more" jdbcType="INTEGER" property="migzMore" />
+    <result column="d_more_user1" jdbcType="INTEGER" property="dMoreUser1" />
+    <result column="d_more_user2" jdbcType="INTEGER" property="dMoreUser2" />
+    <result column="d_more_user3" jdbcType="INTEGER" property="dMoreUser3" />
+    <result column="d_more_user4" jdbcType="INTEGER" property="dMoreUser4" />
+    <result column="c_stress_m" jdbcType="INTEGER" property="cStressM" />
+    <result column="c_super_m" jdbcType="INTEGER" property="cSuperM" />
+    <result column="c_type" jdbcType="INTEGER" property="cType" />
+    <result column="c_super_c" jdbcType="INTEGER" property="cSuperC" />
+    <result column="c_pass_key" jdbcType="INTEGER" property="cPassKey" />
+    <result column="C_simcard" jdbcType="INTEGER" property="cSimcard" />
+    <result column="C_direction" jdbcType="INTEGER" property="cDirection" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <result column="Dev_head2" jdbcType="INTEGER" property="devHead2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    gate_bh, xh, fx, dev_serial, dev_order, dev_head, c_first, Mjgz_sk, c_more, migz_more, 
+    d_more_user1, d_more_user2, d_more_user3, d_more_user4, c_stress_m, c_super_m, c_type, 
+    c_super_c, c_pass_key, C_simcard, C_direction, sj, Dev_head2
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_doorfx_real
+    where gate_bh = #{gateBh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from st_doorfx_real
+    where gate_bh = #{gateBh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edmj.entity.DoorfxRealEntity">
+    insert into st_doorfx_real (gate_bh, xh, fx, 
+      dev_serial, dev_order, dev_head, 
+      c_first, Mjgz_sk, c_more, 
+      migz_more, d_more_user1, d_more_user2, 
+      d_more_user3, d_more_user4, c_stress_m, 
+      c_super_m, c_type, c_super_c, 
+      c_pass_key, C_simcard, C_direction, 
+      sj, Dev_head2)
+    values (#{gateBh,jdbcType=VARCHAR}, #{xh,jdbcType=INTEGER}, #{fx,jdbcType=INTEGER}, 
+      #{devSerial,jdbcType=CHAR}, #{devOrder,jdbcType=INTEGER}, #{devHead,jdbcType=INTEGER}, 
+      #{cFirst,jdbcType=INTEGER}, #{mjgzSk,jdbcType=INTEGER}, #{cMore,jdbcType=INTEGER}, 
+      #{migzMore,jdbcType=INTEGER}, #{dMoreUser1,jdbcType=INTEGER}, #{dMoreUser2,jdbcType=INTEGER}, 
+      #{dMoreUser3,jdbcType=INTEGER}, #{dMoreUser4,jdbcType=INTEGER}, #{cStressM,jdbcType=INTEGER}, 
+      #{cSuperM,jdbcType=INTEGER}, #{cType,jdbcType=INTEGER}, #{cSuperC,jdbcType=INTEGER}, 
+      #{cPassKey,jdbcType=INTEGER}, #{cSimcard,jdbcType=INTEGER}, #{cDirection,jdbcType=INTEGER}, 
+      #{sj,jdbcType=TIMESTAMP}, #{devHead2,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    st_doorfx_real
+    (gate_bh,xh,fx,dev_serial,dev_order,dev_head,c_first,Mjgz_sk,c_more,migz_more,d_more_user1,d_more_user2,d_more_user3,d_more_user4,c_stress_m,c_super_m,c_type,c_super_c,c_pass_key,C_simcard,C_direction,sj,Dev_head2)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.gateBh,jdbcType=VARCHAR},#{item.xh,jdbcType=INTEGER},#{item.fx,jdbcType=INTEGER},#{item.devSerial,jdbcType=CHAR},#{item.devOrder,jdbcType=INTEGER},#{item.devHead,jdbcType=INTEGER},#{item.cFirst,jdbcType=INTEGER},#{item.mjgzSk,jdbcType=INTEGER},#{item.cMore,jdbcType=INTEGER},#{item.migzMore,jdbcType=INTEGER},#{item.dMoreUser1,jdbcType=INTEGER},#{item.dMoreUser2,jdbcType=INTEGER},#{item.dMoreUser3,jdbcType=INTEGER},#{item.dMoreUser4,jdbcType=INTEGER},#{item.cStressM,jdbcType=INTEGER},#{item.cSuperM,jdbcType=INTEGER},#{item.cType,jdbcType=INTEGER},#{item.cSuperC,jdbcType=INTEGER},#{item.cPassKey,jdbcType=INTEGER},#{item.cSimcard,jdbcType=INTEGER},#{item.cDirection,jdbcType=INTEGER},#{item.sj,jdbcType=TIMESTAMP},#{item.devHead2,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.DoorfxRealEntity">
+    insert into st_doorfx_real
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gateBh != null">
+        gate_bh,
+      </if>
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="fx != null">
+        fx,
+      </if>
+      <if test="devSerial != null">
+        dev_serial,
+      </if>
+      <if test="devOrder != null">
+        dev_order,
+      </if>
+      <if test="devHead != null">
+        dev_head,
+      </if>
+      <if test="cFirst != null">
+        c_first,
+      </if>
+      <if test="mjgzSk != null">
+        Mjgz_sk,
+      </if>
+      <if test="cMore != null">
+        c_more,
+      </if>
+      <if test="migzMore != null">
+        migz_more,
+      </if>
+      <if test="dMoreUser1 != null">
+        d_more_user1,
+      </if>
+      <if test="dMoreUser2 != null">
+        d_more_user2,
+      </if>
+      <if test="dMoreUser3 != null">
+        d_more_user3,
+      </if>
+      <if test="dMoreUser4 != null">
+        d_more_user4,
+      </if>
+      <if test="cStressM != null">
+        c_stress_m,
+      </if>
+      <if test="cSuperM != null">
+        c_super_m,
+      </if>
+      <if test="cType != null">
+        c_type,
+      </if>
+      <if test="cSuperC != null">
+        c_super_c,
+      </if>
+      <if test="cPassKey != null">
+        c_pass_key,
+      </if>
+      <if test="cSimcard != null">
+        C_simcard,
+      </if>
+      <if test="cDirection != null">
+        C_direction,
+      </if>
+      <if test="sj != null">
+        sj,
+      </if>
+      <if test="devHead2 != null">
+        Dev_head2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gateBh != null">
+        #{gateBh,jdbcType=VARCHAR},
+      </if>
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="fx != null">
+        #{fx,jdbcType=INTEGER},
+      </if>
+      <if test="devSerial != null">
+        #{devSerial,jdbcType=CHAR},
+      </if>
+      <if test="devOrder != null">
+        #{devOrder,jdbcType=INTEGER},
+      </if>
+      <if test="devHead != null">
+        #{devHead,jdbcType=INTEGER},
+      </if>
+      <if test="cFirst != null">
+        #{cFirst,jdbcType=INTEGER},
+      </if>
+      <if test="mjgzSk != null">
+        #{mjgzSk,jdbcType=INTEGER},
+      </if>
+      <if test="cMore != null">
+        #{cMore,jdbcType=INTEGER},
+      </if>
+      <if test="migzMore != null">
+        #{migzMore,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser1 != null">
+        #{dMoreUser1,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser2 != null">
+        #{dMoreUser2,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser3 != null">
+        #{dMoreUser3,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser4 != null">
+        #{dMoreUser4,jdbcType=INTEGER},
+      </if>
+      <if test="cStressM != null">
+        #{cStressM,jdbcType=INTEGER},
+      </if>
+      <if test="cSuperM != null">
+        #{cSuperM,jdbcType=INTEGER},
+      </if>
+      <if test="cType != null">
+        #{cType,jdbcType=INTEGER},
+      </if>
+      <if test="cSuperC != null">
+        #{cSuperC,jdbcType=INTEGER},
+      </if>
+      <if test="cPassKey != null">
+        #{cPassKey,jdbcType=INTEGER},
+      </if>
+      <if test="cSimcard != null">
+        #{cSimcard,jdbcType=INTEGER},
+      </if>
+      <if test="cDirection != null">
+        #{cDirection,jdbcType=INTEGER},
+      </if>
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devHead2 != null">
+        #{devHead2,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.DoorfxRealEntity">
+    update st_doorfx_real
+    <set>
+      <if test="devSerial != null">
+        dev_serial = #{devSerial,jdbcType=CHAR},
+      </if>
+      <if test="devOrder != null">
+        dev_order = #{devOrder,jdbcType=INTEGER},
+      </if>
+      <if test="devHead != null">
+        dev_head = #{devHead,jdbcType=INTEGER},
+      </if>
+      <if test="cFirst != null">
+        c_first = #{cFirst,jdbcType=INTEGER},
+      </if>
+      <if test="mjgzSk != null">
+        Mjgz_sk = #{mjgzSk,jdbcType=INTEGER},
+      </if>
+      <if test="cMore != null">
+        c_more = #{cMore,jdbcType=INTEGER},
+      </if>
+      <if test="migzMore != null">
+        migz_more = #{migzMore,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser1 != null">
+        d_more_user1 = #{dMoreUser1,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser2 != null">
+        d_more_user2 = #{dMoreUser2,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser3 != null">
+        d_more_user3 = #{dMoreUser3,jdbcType=INTEGER},
+      </if>
+      <if test="dMoreUser4 != null">
+        d_more_user4 = #{dMoreUser4,jdbcType=INTEGER},
+      </if>
+      <if test="cStressM != null">
+        c_stress_m = #{cStressM,jdbcType=INTEGER},
+      </if>
+      <if test="cSuperM != null">
+        c_super_m = #{cSuperM,jdbcType=INTEGER},
+      </if>
+      <if test="cType != null">
+        c_type = #{cType,jdbcType=INTEGER},
+      </if>
+      <if test="cSuperC != null">
+        c_super_c = #{cSuperC,jdbcType=INTEGER},
+      </if>
+      <if test="cPassKey != null">
+        c_pass_key = #{cPassKey,jdbcType=INTEGER},
+      </if>
+      <if test="cSimcard != null">
+        C_simcard = #{cSimcard,jdbcType=INTEGER},
+      </if>
+      <if test="cDirection != null">
+        C_direction = #{cDirection,jdbcType=INTEGER},
+      </if>
+      <if test="sj != null">
+        sj = #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devHead2 != null">
+        Dev_head2 = #{devHead2,jdbcType=INTEGER},
+      </if>
+    </set>
+    where gate_bh = #{gateBh,jdbcType=VARCHAR}
+      and fx = #{fx,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.DoorfxRealEntity">
+    update st_doorfx_real
+    set fx = #{fx,jdbcType=INTEGER},
+      dev_serial = #{devSerial,jdbcType=CHAR},
+      dev_order = #{devOrder,jdbcType=INTEGER},
+      dev_head = #{devHead,jdbcType=INTEGER},
+      c_first = #{cFirst,jdbcType=INTEGER},
+      Mjgz_sk = #{mjgzSk,jdbcType=INTEGER},
+      c_more = #{cMore,jdbcType=INTEGER},
+      migz_more = #{migzMore,jdbcType=INTEGER},
+      d_more_user1 = #{dMoreUser1,jdbcType=INTEGER},
+      d_more_user2 = #{dMoreUser2,jdbcType=INTEGER},
+      d_more_user3 = #{dMoreUser3,jdbcType=INTEGER},
+      d_more_user4 = #{dMoreUser4,jdbcType=INTEGER},
+      c_stress_m = #{cStressM,jdbcType=INTEGER},
+      c_super_m = #{cSuperM,jdbcType=INTEGER},
+      c_type = #{cType,jdbcType=INTEGER},
+      c_super_c = #{cSuperC,jdbcType=INTEGER},
+      c_pass_key = #{cPassKey,jdbcType=INTEGER},
+      C_simcard = #{cSimcard,jdbcType=INTEGER},
+      C_direction = #{cDirection,jdbcType=INTEGER},
+      sj = #{sj,jdbcType=TIMESTAMP},
+      Dev_head2 = #{devHead2,jdbcType=INTEGER}
+    where gate_bh = #{gateBh,jdbcType=VARCHAR}
+      and xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.DoorfxRealEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from st_doorfx_real
+    <where>
+      <if test="gateBh != null">
+        <bind name="gateBhLike" value="'%'+gateBh+'%'" />
+        and gate_bh like #{gateBhLike}
+        <!--and gate_bh = #{gateBh,jdbcType=VARCHAR}-->
+      </if>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="fx != null">
+        and fx = #{fx,jdbcType=INTEGER}
+      </if>
+      <if test="devSerial != null">
+        <bind name="devSerialLike" value="'%'+devSerial+'%'" />
+        and dev_serial like #{devSerialLike}
+        <!--and dev_serial = #{devSerial,jdbcType=CHAR}-->
+      </if>
+      <if test="devOrder != null">
+        and dev_order = #{devOrder,jdbcType=INTEGER}
+      </if>
+      <if test="devHead != null">
+        and dev_head = #{devHead,jdbcType=INTEGER}
+      </if>
+      <if test="cFirst != null">
+        and c_first = #{cFirst,jdbcType=INTEGER}
+      </if>
+      <if test="mjgzSk != null">
+        and Mjgz_sk = #{mjgzSk,jdbcType=INTEGER}
+      </if>
+      <if test="cMore != null">
+        and c_more = #{cMore,jdbcType=INTEGER}
+      </if>
+      <if test="migzMore != null">
+        and migz_more = #{migzMore,jdbcType=INTEGER}
+      </if>
+      <if test="dMoreUser1 != null">
+        and d_more_user1 = #{dMoreUser1,jdbcType=INTEGER}
+      </if>
+      <if test="dMoreUser2 != null">
+        and d_more_user2 = #{dMoreUser2,jdbcType=INTEGER}
+      </if>
+      <if test="dMoreUser3 != null">
+        and d_more_user3 = #{dMoreUser3,jdbcType=INTEGER}
+      </if>
+      <if test="dMoreUser4 != null">
+        and d_more_user4 = #{dMoreUser4,jdbcType=INTEGER}
+      </if>
+      <if test="cStressM != null">
+        and c_stress_m = #{cStressM,jdbcType=INTEGER}
+      </if>
+      <if test="cSuperM != null">
+        and c_super_m = #{cSuperM,jdbcType=INTEGER}
+      </if>
+      <if test="cType != null">
+        and c_type = #{cType,jdbcType=INTEGER}
+      </if>
+      <if test="cSuperC != null">
+        and c_super_c = #{cSuperC,jdbcType=INTEGER}
+      </if>
+      <if test="cPassKey != null">
+        and c_pass_key = #{cPassKey,jdbcType=INTEGER}
+      </if>
+      <if test="cSimcard != null">
+        and C_simcard = #{cSimcard,jdbcType=INTEGER}
+      </if>
+      <if test="cDirection != null">
+        and C_direction = #{cDirection,jdbcType=INTEGER}
+      </if>
+      <if test="sj != null">
+        and sj = #{sj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="devHead2 != null">
+        and Dev_head2 = #{devHead2,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from st_doorfx_real
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or gate_bh like #{keysLike}
+        or xh = #{keys}
+        or fx = #{keys}
+        or dev_serial like #{keysLike}
+        or dev_order = #{keys}
+        or dev_head = #{keys}
+        or c_first = #{keys}
+        or Mjgz_sk = #{keys}
+        or c_more = #{keys}
+        or migz_more = #{keys}
+        or d_more_user1 = #{keys}
+        or d_more_user2 = #{keys}
+        or d_more_user3 = #{keys}
+        or d_more_user4 = #{keys}
+        or c_stress_m = #{keys}
+        or c_super_m = #{keys}
+        or c_type = #{keys}
+        or c_super_c = #{keys}
+        or c_pass_key = #{keys}
+        or C_simcard = #{keys}
+        or C_direction = #{keys}
+        or sj = #{keys}
+        or Dev_head2 = #{keys}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    st_doorfx_real
+    where (gate_bh) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.bh})
+    </foreach>
+  </delete>
+</mapper>

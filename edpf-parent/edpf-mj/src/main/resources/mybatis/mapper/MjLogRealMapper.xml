@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.MjLogRealMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.MjLogRealEntity">
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="lx" jdbcType="INTEGER" property="lx" />
+    <result column="log_type" jdbcType="INTEGER" property="logType" />
+    <result column="log_state" jdbcType="INTEGER" property="logState" />
+    <result column="log_bz" jdbcType="NVARCHAR" property="logBz" />
+    <result column="log_sj" jdbcType="TIMESTAMP" property="logSj" />
+    <result column="log_ip" jdbcType="VARCHAR" property="logIp" />
+    <result column="gly_no" jdbcType="NVARCHAR" property="glyNo" />
+    <result column="regserial" jdbcType="NVARCHAR" property="regserial" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    xh, lx, log_type, log_state, log_bz, log_sj, log_ip, gly_no, regserial
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wt_mj_log_real
+    where xh = #{xh,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wt_mj_log_real
+    where xh = #{xh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edmj.entity.MjLogRealEntity">
+    insert into wt_mj_log_real (xh, lx, log_type, 
+      log_state, log_bz, log_sj, 
+      log_ip, gly_no, regserial
+      )
+    values (#{xh,jdbcType=INTEGER}, #{lx,jdbcType=INTEGER}, #{logType,jdbcType=INTEGER}, 
+      #{logState,jdbcType=INTEGER}, #{logBz,jdbcType=NVARCHAR}, #{logSj,jdbcType=TIMESTAMP}, 
+      #{logIp,jdbcType=VARCHAR}, #{glyNo,jdbcType=NVARCHAR}, #{regserial,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    wt_mj_log_real
+    (xh,lx,log_type,log_state,log_bz,log_sj,log_ip,gly_no,regserial)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.xh,jdbcType=INTEGER},#{item.lx,jdbcType=INTEGER},#{item.logType,jdbcType=INTEGER},#{item.logState,jdbcType=INTEGER},#{item.logBz,jdbcType=NVARCHAR},#{item.logSj,jdbcType=TIMESTAMP},#{item.logIp,jdbcType=VARCHAR},#{item.glyNo,jdbcType=NVARCHAR},#{item.regserial,jdbcType=NVARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.MjLogRealEntity">
+    insert into wt_mj_log_real
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="lx != null">
+        lx,
+      </if>
+      <if test="logType != null">
+        log_type,
+      </if>
+      <if test="logState != null">
+        log_state,
+      </if>
+      <if test="logBz != null">
+        log_bz,
+      </if>
+      <if test="logSj != null">
+        log_sj,
+      </if>
+      <if test="logIp != null">
+        log_ip,
+      </if>
+      <if test="glyNo != null">
+        gly_no,
+      </if>
+      <if test="regserial != null">
+        regserial,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="lx != null">
+        #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="logType != null">
+        #{logType,jdbcType=INTEGER},
+      </if>
+      <if test="logState != null">
+        #{logState,jdbcType=INTEGER},
+      </if>
+      <if test="logBz != null">
+        #{logBz,jdbcType=NVARCHAR},
+      </if>
+      <if test="logSj != null">
+        #{logSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logIp != null">
+        #{logIp,jdbcType=VARCHAR},
+      </if>
+      <if test="glyNo != null">
+        #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="regserial != null">
+        #{regserial,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.MjLogRealEntity">
+    update wt_mj_log_real
+    <set>
+      <if test="lx != null">
+        lx = #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="logType != null">
+        log_type = #{logType,jdbcType=INTEGER},
+      </if>
+      <if test="logState != null">
+        log_state = #{logState,jdbcType=INTEGER},
+      </if>
+      <if test="logBz != null">
+        log_bz = #{logBz,jdbcType=NVARCHAR},
+      </if>
+      <if test="logSj != null">
+        log_sj = #{logSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logIp != null">
+        log_ip = #{logIp,jdbcType=VARCHAR},
+      </if>
+      <if test="glyNo != null">
+        gly_no = #{glyNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="regserial != null">
+        regserial = #{regserial,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.MjLogRealEntity">
+    update wt_mj_log_real
+    set lx = #{lx,jdbcType=INTEGER},
+      log_type = #{logType,jdbcType=INTEGER},
+      log_state = #{logState,jdbcType=INTEGER},
+      log_bz = #{logBz,jdbcType=NVARCHAR},
+      log_sj = #{logSj,jdbcType=TIMESTAMP},
+      log_ip = #{logIp,jdbcType=VARCHAR},
+      gly_no = #{glyNo,jdbcType=NVARCHAR},
+      regserial = #{regserial,jdbcType=NVARCHAR}
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.MjLogRealEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wt_mj_log_real
+    <where>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="lx != null">
+        and lx = #{lx,jdbcType=INTEGER}
+      </if>
+      <if test="logType != null">
+        and log_type = #{logType,jdbcType=INTEGER}
+      </if>
+      <if test="logState != null">
+        and log_state = #{logState,jdbcType=INTEGER}
+      </if>
+      <if test="logBz != null">
+        <bind name="logBzLike" value="'%'+logBz+'%'" />
+        and log_bz like #{logBzLike}
+        <!--and log_bz = #{logBz,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="logSj != null">
+        and log_sj = #{logSj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="logIp != null">
+        <bind name="logIpLike" value="'%'+logIp+'%'" />
+        and log_ip like #{logIpLike}
+        <!--and log_ip = #{logIp,jdbcType=VARCHAR}-->
+      </if>
+      <if test="glyNo != null">
+        <bind name="glyNoLike" value="'%'+glyNo+'%'" />
+        and gly_no like #{glyNoLike}
+        <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="regserial != null">
+        <bind name="regserialLike" value="'%'+regserial+'%'" />
+        and regserial like #{regserialLike}
+        <!--and regserial = #{regserial,jdbcType=NVARCHAR}-->
+      </if>
+    </where>
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wt_mj_log_real
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or xh = #{keys}
+        or lx = #{keys}
+        or log_type = #{keys}
+        or log_state = #{keys}
+        or log_bz like #{keysLike}
+        or log_sj = #{keys}
+        or log_ip like #{keysLike}
+        or gly_no like #{keysLike}
+        or regserial like #{keysLike}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    wt_mj_log_real
+    where (xh) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.xh})
+    </foreach>
+  </delete>
+</mapper>

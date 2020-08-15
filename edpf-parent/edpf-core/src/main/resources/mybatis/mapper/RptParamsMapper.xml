@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.RptParamsMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.RptParamsEntity">
+        <id column="rpt_id" jdbcType="VARCHAR" property="rptId"/>
+        <result column="param_type" jdbcType="VARCHAR" property="paramType"/>
+        <result column="param_name" jdbcType="VARCHAR" property="paramName"/>
+        <result column="param_desc" jdbcType="VARCHAR" property="paramDesc"/>
+        <result column="param_val" jdbcType="VARCHAR" property="paramVal"/>
+        <result column="use_flag" jdbcType="VARCHAR" property="useFlag"/>
+        <result column="param_idx" jdbcType="INTEGER" property="paramIdx"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        rpt_id, param_type, param_name, param_desc, param_val, use_flag, param_idx, spare_col1, spare_col2,
+                spare_col3, ct_user, ct_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_rpt_params
+        where rpt_id = #{rptId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_rpt_params
+        where rpt_id = #{rptId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.RptParamsEntity">
+        insert into ed_rpt_params (rpt_id,
+                                   param_type,
+                                   param_name,
+                                   param_desc,
+                                   param_val,
+                                   use_flag,
+                                   param_idx,
+                                   spare_col1,
+                                   spare_col2,
+                                   spare_col3,
+                                   ct_user,
+                                   ct_date)
+        values (#{rptId,jdbcType=VARCHAR},
+                #{paramType,jdbcType=VARCHAR},
+                #{paramName,jdbcType=VARCHAR},
+                #{paramDesc,jdbcType=VARCHAR},
+                #{paramVal,jdbcType=VARCHAR},
+                #{useFlag,jdbcType=VARCHAR},
+                #{paramIdx,jdbcType=INTEGER},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.RptParamsEntity">
+        insert into ed_rpt_params
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rptId != null">
+                rpt_id,
+            </if>
+            <if test="paramType != null">
+                param_type,
+            </if>
+            <if test="paramName != null">
+                param_name,
+            </if>
+            <if test="paramDesc != null">
+                param_desc,
+            </if>
+            <if test="paramVal != null">
+                param_val,
+            </if>
+            <if test="useFlag != null">
+                use_flag,
+            </if>
+            <if test="paramIdx != null">
+                param_idx,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rptId != null">
+                #{rptId,jdbcType=VARCHAR},
+            </if>
+            <if test="paramType != null">
+                #{paramType,jdbcType=VARCHAR},
+            </if>
+            <if test="paramName != null">
+                #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramDesc != null">
+                #{paramDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="paramVal != null">
+                #{paramVal,jdbcType=VARCHAR},
+            </if>
+            <if test="useFlag != null">
+                #{useFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="paramIdx != null">
+                #{paramIdx,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.RptParamsEntity">
+        update ed_rpt_params
+        <set>
+            <if test="paramType != null">
+                param_type = #{paramType,jdbcType=VARCHAR},
+            </if>
+            <if test="paramName != null">
+                param_name = #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramDesc != null">
+                param_desc = #{paramDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="paramVal != null">
+                param_val = #{paramVal,jdbcType=VARCHAR},
+            </if>
+            <if test="useFlag != null">
+                use_flag = #{useFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="paramIdx != null">
+                param_idx = #{paramIdx,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where rpt_id = #{rptId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.RptParamsEntity">
+        update ed_rpt_params
+        set param_type = #{paramType,jdbcType=VARCHAR},
+            param_name = #{paramName,jdbcType=VARCHAR},
+            param_desc = #{paramDesc,jdbcType=VARCHAR},
+            param_val  = #{paramVal,jdbcType=VARCHAR},
+            use_flag   = #{useFlag,jdbcType=VARCHAR},
+            param_idx  = #{paramIdx,jdbcType=INTEGER},
+            spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=TIMESTAMP}
+        where rpt_id = #{rptId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.RptParamsEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_rpt_params
+        <where>
+            <if test="rptId != null">
+                <bind name="rptIdLike" value="'%'+rptId+'%'"/>
+                and rpt_id like #{rptIdLike}
+                <!--and rpt_id = #{rptId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="paramType != null">
+                <bind name="paramTypeLike" value="'%'+paramType+'%'"/>
+                and param_type like #{paramTypeLike}
+                <!--and param_type = #{paramType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="paramName != null">
+                <bind name="paramNameLike" value="'%'+paramName+'%'"/>
+                and param_name like #{paramNameLike}
+                <!--and param_name = #{paramName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="paramDesc != null">
+                <bind name="paramDescLike" value="'%'+paramDesc+'%'"/>
+                and param_desc like #{paramDescLike}
+                <!--and param_desc = #{paramDesc,jdbcType=VARCHAR}-->
+            </if>
+            <if test="paramVal != null">
+                <bind name="paramValLike" value="'%'+paramVal+'%'"/>
+                and param_val like #{paramValLike}
+                <!--and param_val = #{paramVal,jdbcType=VARCHAR}-->
+            </if>
+            <if test="useFlag != null">
+                <bind name="useFlagLike" value="'%'+useFlag+'%'"/>
+                and use_flag like #{useFlagLike}
+                <!--and use_flag = #{useFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        order by param_idx
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_rpt_params
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or rpt_id like #{keysLike}
+                or param_type like #{keysLike}
+                or param_name like #{keysLike}
+                or param_desc like #{keysLike}
+                or param_val like #{keysLike}
+                or use_flag like #{keysLike}
+                or spare_col1 like #{keysLike}
+                or spare_col2 like #{keysLike}
+                or spare_col3 like #{keysLike}
+                or ct_user like #{keysLike}
+                or ct_date == #{keys}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_rpt_params
+        where (rpt_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.rptId})
+        </foreach>
+    </delete>
+</mapper>

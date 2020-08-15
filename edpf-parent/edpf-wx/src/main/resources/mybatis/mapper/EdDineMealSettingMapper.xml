@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.EdDineMealSettingMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.EdDineMealSettingEntity">
+        <id column="place_id" jdbcType="VARCHAR" property="placeId"/>
+        <id column="merchant_id" jdbcType="VARCHAR" property="merchantId"/>
+        <id column="meal_id" jdbcType="VARCHAR" property="mealId"/>
+        <result column="order_start" jdbcType="VARCHAR" property="orderStart"/>
+        <result column="order_end" jdbcType="VARCHAR" property="orderEnd"/>
+        <result column="order_days" jdbcType="INTEGER" property="orderDays"/>
+        <result column="order_type" jdbcType="VARCHAR" property="orderType"/>
+        <result column="repast_start" jdbcType="VARCHAR" property="repastStart"/>
+        <result column="repast_end" jdbcType="VARCHAR" property="repastEnd"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="spare_col4" jdbcType="VARCHAR" property="spareCol4"/>
+        <result column="spare_col5" jdbcType="VARCHAR" property="spareCol5"/>
+        <result column="spare_col6" jdbcType="VARCHAR" property="spareCol6"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+        <result column="meal_name" jdbcType="VARCHAR" property="mealName"/>
+        <result column="use_flag" jdbcType="VARCHAR" property="useFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        place_id, merchant_id, meal_id, order_start, order_end, order_days, order_type, repast_start,
+                  repast_end, remark, spare_col1, spare_col2, spare_col3, spare_col4, spare_col5, spare_col6,
+                  ct_user, ct_date, lt_user, lt_date
+    </sql>
+    <select id="selectDineInfo" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity" resultMap="BaseResultMap">
+        select t2.*, t1.meal_name from ed_dine_meal t1 join ed_dine_meal_setting t2
+        on t1.meal_id = t2.meal_id
+        <!--and t1.merchant_id = t2.merchant_id-->
+        <where>
+            <if test="placeId != null">
+                and t2.place_id = #{placeId,jdbcType=VARCHAR}
+            </if>
+            <!--<if test="merchantId != null">-->
+                <!--and t2.merchant_id = #{merchantId,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <if test="mealId != null">
+                and t1.meal_id = #{mealId,jdbcType=VARCHAR}
+            </if>
+            <if test="useFlag != null">
+                and t1.use_flag = #{useFlag,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by order_end
+    </select>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_meal_setting
+        where place_id = #{placeId,jdbcType=VARCHAR}
+        <!--and merchant_id = #{merchantId,jdbcType=VARCHAR}-->
+        and meal_id = #{mealId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete from ed_dine_meal_setting
+        where place_id = #{placeId,jdbcType=VARCHAR}
+          and merchant_id = #{merchantId,jdbcType=VARCHAR}
+          and meal_id = #{mealId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity">
+        insert into ed_dine_meal_setting (place_id,
+                                          merchant_id,
+                                          meal_id,
+                                          order_start,
+                                          order_end,
+                                          order_days,
+                                          order_type,
+                                          repast_start,
+                                          repast_end,
+                                          remark,
+                                          spare_col1,
+                                          spare_col2,
+                                          spare_col3,
+                                          spare_col4,
+                                          spare_col5,
+                                          spare_col6,
+                                          ct_user,
+                                          ct_date,
+                                          lt_user,
+                                          lt_date)
+        values (#{placeId,jdbcType=VARCHAR},
+                #{merchantId,jdbcType=VARCHAR},
+                #{mealId,jdbcType=VARCHAR},
+                #{orderStart,jdbcType=VARCHAR},
+                #{orderEnd,jdbcType=VARCHAR},
+                #{orderDays,jdbcType=INTEGER},
+                #{orderType,jdbcType=VARCHAR},
+                #{repastStart,jdbcType=VARCHAR},
+                #{repastEnd,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{spareCol4,jdbcType=VARCHAR},
+                #{spareCol5,jdbcType=VARCHAR},
+                #{spareCol6,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity">
+        insert into ed_dine_meal_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="placeId != null">
+                place_id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="mealId != null">
+                meal_id,
+            </if>
+            <if test="orderStart != null">
+                order_start,
+            </if>
+            <if test="orderEnd != null">
+                order_end,
+            </if>
+            <if test="orderDays != null">
+                order_days,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="repastStart != null">
+                repast_start,
+            </if>
+            <if test="repastEnd != null">
+                repast_end,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4,
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5,
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="placeId != null">
+                #{placeId,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=VARCHAR},
+            </if>
+            <if test="mealId != null">
+                #{mealId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStart != null">
+                #{orderStart,jdbcType=VARCHAR},
+            </if>
+            <if test="orderEnd != null">
+                #{orderEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDays != null">
+                #{orderDays,jdbcType=INTEGER},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="repastStart != null">
+                #{repastStart,jdbcType=VARCHAR},
+            </if>
+            <if test="repastEnd != null">
+                #{repastEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                #{spareCol6,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity">
+        update ed_dine_meal_setting
+        <set>
+            <if test="orderStart != null">
+                order_start = #{orderStart,jdbcType=VARCHAR},
+            </if>
+            <if test="orderEnd != null">
+                order_end = #{orderEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDays != null">
+                order_days = #{orderDays,jdbcType=INTEGER},
+            </if>
+            <if test="orderType != null">
+                order_type = #{orderType,jdbcType=VARCHAR},
+            </if>
+            <if test="repastStart != null">
+                repast_start = #{repastStart,jdbcType=VARCHAR},
+            </if>
+            <if test="repastEnd != null">
+                repast_end = #{repastEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol4 != null">
+                spare_col4 = #{spareCol4,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol5 != null">
+                spare_col5 = #{spareCol5,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol6 != null">
+                spare_col6 = #{spareCol6,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where place_id = #{placeId,jdbcType=VARCHAR}
+        and merchant_id = #{merchantId,jdbcType=VARCHAR}
+        and meal_id = #{mealId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity">
+        update ed_dine_meal_setting
+        set order_start  = #{orderStart,jdbcType=VARCHAR},
+            order_end    = #{orderEnd,jdbcType=VARCHAR},
+            order_days   = #{orderDays,jdbcType=INTEGER},
+            order_type   = #{orderType,jdbcType=VARCHAR},
+            repast_start = #{repastStart,jdbcType=VARCHAR},
+            repast_end   = #{repastEnd,jdbcType=VARCHAR},
+            remark       = #{remark,jdbcType=VARCHAR},
+            spare_col1   = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2   = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3   = #{spareCol3,jdbcType=VARCHAR},
+            spare_col4   = #{spareCol4,jdbcType=VARCHAR},
+            spare_col5   = #{spareCol5,jdbcType=VARCHAR},
+            spare_col6   = #{spareCol6,jdbcType=VARCHAR},
+            ct_user      = #{ctUser,jdbcType=VARCHAR},
+            ct_date      = #{ctDate,jdbcType=TIMESTAMP},
+            lt_user      = #{ltUser,jdbcType=VARCHAR},
+            lt_date      = #{ltDate,jdbcType=TIMESTAMP}
+        where place_id = #{placeId,jdbcType=VARCHAR}
+          and merchant_id = #{merchantId,jdbcType=VARCHAR}
+          and meal_id = #{mealId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.EdDineMealSettingEntity"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_meal_setting
+        <where>
+            <if test="placeId != null">
+                <bind name="placeIdLike" value="'%'+placeId+'%'"/>
+                and place_id like #{placeIdLike}
+                <!--and place_id = #{placeId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="merchantId != null">
+                <bind name="merchantIdLike" value="'%'+merchantId+'%'"/>
+                and merchant_id like #{merchantIdLike}
+                <!--and merchant_id = #{merchantId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="mealId != null">
+                <bind name="mealIdLike" value="'%'+mealId+'%'"/>
+                and meal_id like #{mealIdLike}
+                <!--and meal_id = #{mealId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="orderStart != null">
+                <bind name="orderStartLike" value="'%'+orderStart+'%'"/>
+                and order_start like #{orderStartLike}
+                <!--and order_start = #{orderStart,jdbcType=VARCHAR}-->
+            </if>
+            <if test="orderEnd != null">
+                <bind name="orderEndLike" value="'%'+orderEnd+'%'"/>
+                and order_end like #{orderEndLike}
+                <!--and order_end = #{orderEnd,jdbcType=VARCHAR}-->
+            </if>
+            <if test="orderDays != null">
+                and order_days = #{orderDays,jdbcType=INTEGER}
+            </if>
+            <if test="orderType != null">
+                <bind name="orderTypeLike" value="'%'+orderType+'%'"/>
+                and order_type like #{orderTypeLike}
+                <!--and order_type = #{orderType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repastStart != null">
+                <bind name="repastStartLike" value="'%'+repastStart+'%'"/>
+                and repast_start like #{repastStartLike}
+                <!--and repast_start = #{repastStart,jdbcType=VARCHAR}-->
+            </if>
+            <if test="repastEnd != null">
+                <bind name="repastEndLike" value="'%'+repastEnd+'%'"/>
+                and repast_end like #{repastEndLike}
+                <!--and repast_end = #{repastEnd,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol4 != null">
+                <bind name="spareCol4Like" value="'%'+spareCol4+'%'"/>
+                and spare_col4 like #{spareCol4Like}
+                <!--and spare_col4 = #{spareCol4,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol5 != null">
+                <bind name="spareCol5Like" value="'%'+spareCol5+'%'"/>
+                and spare_col5 like #{spareCol5Like}
+                <!--and spare_col5 = #{spareCol5,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol6 != null">
+                <bind name="spareCol6Like" value="'%'+spareCol6+'%'"/>
+                and spare_col6 like #{spareCol6Like}
+                <!--and spare_col6 = #{spareCol6,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and lt_date = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_dine_meal_setting
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or place_id like #{keysLike}
+                or merchant_id like #{keysLike}
+                or meal_id like #{keysLike}
+                or order_start like #{keysLike}
+                or order_end like #{keysLike}
+                or order_days == #{keys}
+                or order_type like #{keysLike}
+                or repast_start like #{keysLike}
+                or repast_end like #{keysLike}
+                or remark like #{keysLike}
+                or spare_col1 like #{keysLike}
+                or spare_col2 like #{keysLike}
+                or spare_col3 like #{keysLike}
+                or spare_col4 like #{keysLike}
+                or spare_col5 like #{keysLike}
+                or spare_col6 like #{keysLike}
+                or ct_user like #{keysLike}
+                or ct_date == #{keys}
+                or lt_user like #{keysLike}
+                or lt_date == #{keys}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_dine_meal_setting
+        where (place_id,merchant_id,meal_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.placeId},#{item.merchantId},#{item.mealId})
+        </foreach>
+    </delete>
+</mapper>

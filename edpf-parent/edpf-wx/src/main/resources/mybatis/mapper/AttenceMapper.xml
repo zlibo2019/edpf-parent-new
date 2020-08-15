@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.AttenceMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.AttenceEntity">
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="fx" jdbcType="VARCHAR" property="fx"/>
+        <result column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="jlzp_serial" jdbcType="VARCHAR" property="jlzpSerial"/>
+    </resultMap>
+
+    <resultMap id="RangeMap" type="com.weds.edwx.entity.RangeEntity">
+        <result column="long" jdbcType="VARCHAR" property="longitude"/>
+        <result column="lat" jdbcType="VARCHAR" property="latitude"/>
+        <result column="range" jdbcType="VARCHAR" property="range"/>
+    </resultMap>
+
+    <resultMap id="ShiftsMap" type="com.weds.edwx.entity.ShiftsEntity">
+        <result column="mc" jdbcType="VARCHAR" property="workType"/>
+        <result column="sbks" jdbcType="VARCHAR" property="startTime"/>
+        <result column="xbjs" jdbcType="VARCHAR" property="endTime"/>
+        <result column="sbsj" jdbcType="VARCHAR" property="startWork"/>
+        <result column="xbsj" jdbcType="VARCHAR" property="endWork"/>
+    </resultMap>
+
+    <resultMap id="SummaryMap" type="com.weds.edwx.entity.AttenceSummaryEntity">
+        <result column="yingchu" jdbcType="VARCHAR" property="total"/>
+        <result column="shichu" jdbcType="VARCHAR" property="actualTotal"/>
+        <result column="cdci" jdbcType="VARCHAR" property="late"/>
+        <result column="qjsj" jdbcType="VARCHAR" property="leave"/>
+        <result column="kugong" jdbcType="VARCHAR" property="absenteeism"/>
+        <result column="ztci" jdbcType="VARCHAR" property="goout"/>
+    </resultMap>
+
+    <resultMap id="MxMap" type="com.weds.edwx.entity.AttenceMxEntity">
+        <result column="kq_month" jdbcType="VARCHAR" property="date"/>
+        <result column="kq_week" jdbcType="VARCHAR" property="week"/>
+    </resultMap>
+
+
+    <resultMap id="JlMap" type="com.weds.edwx.entity.AttenceJlEntity">
+        <result column="kq_cs" jdbcType="VARCHAR" property="type"/>
+        <result column="kq_sj" jdbcType="VARCHAR" property="date"/>
+        <result column="kq_week" jdbcType="VARCHAR" property="week"/>
+        <result column="kq_kssj" jdbcType="VARCHAR" property="startTime"/>
+        <result column="kq_jssj" jdbcType="VARCHAR" property="endTime"/>
+    </resultMap>
+
+    <resultMap id="WqMap" type="com.weds.edwx.entity.OutsideEntity">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_serial" jdbcType="NVARCHAR" property="userSerial"/>
+        <result column="record_time" jdbcType="TIMESTAMP" property="recordTime"/>
+        <result column="fx" jdbcType="INTEGER" property="fx"/>
+        <result column="address" jdbcType="NVARCHAR" property="address"/>
+        <result column="long" jdbcType="NVARCHAR" property="lang"/>
+        <result column="lat" jdbcType="NVARCHAR" property="lat"/>
+        <result column="customer_name" jdbcType="NVARCHAR" property="customerName"/>
+        <result column="outside_info" jdbcType="NVARCHAR" property="outsideInfo"/>
+        <result column="shenhe" jdbcType="VARCHAR" property="shenhe"/>
+        <result column="dev_serial" jdbcType="NVARCHAR" property="devSerial"/>
+        <result column="jlzp_serial" jdbcType="VARCHAR" property="jlzpSerial"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+        <result column="shenhe_lname" jdbcType="VARCHAR" property="shenheLname"/>
+    </resultMap>
+
+    <resultMap id="KtJlMap" type="com.weds.edwx.entity.KtJlEntity">
+        <id column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <id column="user_serial" jdbcType="INTEGER" property="userSerial"/>
+        <id column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="fx" jdbcType="SMALLINT" property="fx"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="yich" jdbcType="INTEGER" property="yich"/>
+        <result column="iden" jdbcType="NVARCHAR" property="iden"/>
+        <result column="dev_serial" jdbcType="NVARCHAR" property="devSerial"/>
+        <result column="dev_state" jdbcType="SMALLINT" property="devState"/>
+        <result column="jlzp_serial" jdbcType="VARCHAR" property="jlzpSerial"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="shenhe" jdbcType="INTEGER" property="shenhe"/>
+        <result column="dev_logic_bh" jdbcType="BIGINT" property="devLogicBh"/>
+        <result column="deal_state" jdbcType="SMALLINT" property="dealState"/>
+        <result column="recordno" jdbcType="VARCHAR" property="recordno"/>
+        <result column="jcard" jdbcType="VARCHAR" property="jcard"/>
+        <result column="door_state" jdbcType="VARCHAR" property="doorState"/>
+        <result column="jl_type" jdbcType="INTEGER" property="jlType"/>
+        <result column="mc" jdbcType="VARCHAR" property="mc"/>
+        <result column="dev_sb_id" jdbcType="BIGINT" property="devSbId"/>
+    </resultMap>
+
+    <select id="selectDtRecord" resultMap="KtJlMap">
+        select *
+        from kt_jl
+        where sj between #{start} and #{end}
+          and lx = 1
+          and gly_no is not null
+    </select>
+
+    <select id="getKqjl" resultMap="BaseResultMap" parameterType="com.weds.edwx.entity.AttenceParamEntity">
+        <![CDATA[
+        select sj
+        from kt_jl
+        where user_serial = #{userSerial}
+          and sj >= CAST(convert(varchar(10), #{dates}, 120) as datetime)
+          and sj <= dateadd(s, 86399, CAST(convert(varchar(10), #{dates}, 120) as datetime))
+        ]]>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select num
+        from wq_count
+    </select>
+    <insert id="addKq" parameterType="com.weds.edwx.entity.AddAttenceParamEntity">
+        insert into kt_jl (sj,
+                           user_serial,
+                           fx,
+                           lx,
+                           yich,
+                           iden,
+                           gly_no,
+                           shenhe,
+                           deal_state,
+                           jl_type,
+                           dev_serial,
+                           jlzp_serial,
+                           address,
+                           long,
+                           lat,
+                           recordno)
+        values (#{sj,jdbcType=TIMESTAMP},
+                #{userSerial},
+                #{fx},
+                #{lx},
+                0,
+                'm',
+                '',
+                0,
+                0,
+                #{jlType},
+                #{devSerial},
+                #{jlzpSerial},
+                #{address},
+                #{jing},
+                #{wei},
+                #{recordNo})
+    </insert>
+
+    <select id="countJl" parameterType="com.weds.edwx.entity.AddAttenceParamEntity" resultType="java.lang.Integer">
+        select COUNT(*)
+        from kt_jl
+        where user_serial = #{userSerial}
+          and (lx = 1 or lx = 0)
+          and fx = 1
+          and sj > cast(convert(varchar(10), #{sj}, 120) + ' 00:00:00' as datetime)
+    </select>
+
+    <insert id="insertLog" parameterType="com.weds.edwx.entity.AddAttenceParamEntity">
+        insert into wx_login_log (lx, state, log_bz, user_serial, openid, log_sj, user_no, user_lname)
+        values (7, 0, 'addkq', #{userSerial}, #{openId}, GETDATE(), #{userNo}, #{lname})
+    </insert>
+
+    <select id="getRangeByUser" resultMap="RangeMap" parameterType="java.lang.String">
+        select long, lat, range
+        from wx_location a,
+             user_location b
+        where a.id = b.location_id
+          and b.user_serial = #{userSerial}
+    </select>
+
+    <select id="getRange" resultMap="RangeMap" parameterType="java.lang.String">
+        select long, lat, range
+        from wx_location
+    </select>
+
+    <insert id="addWq" useGeneratedKeys="true" keyProperty="id">
+        insert into wx_outside_record (user_serial,
+                                       record_time,
+                                       fx,
+                                       address,
+                                       long,
+                                       lat,
+                                       customer_name,
+                                       outside_info,
+                                       dev_serial,
+                                       jlzp_serial)
+        values (#{userSerial},
+                #{sj},
+                #{fx},
+                #{address},
+                #{jing},
+                #{wei},
+                #{customerName},
+                #{outsideInfo},
+                #{devSerial},
+                #{jlzpSerial})
+    </insert>
+
+    <select id="selectOutSide" parameterType="com.weds.edwx.entity.AddOutAttenceParamEntity"
+            resultType="java.lang.Integer">
+        select COUNT(*)
+        from wx_outside_record
+        where user_serial = #{userSerial}
+          and fx = #{fx}
+          and record_time > cast(convert(varchar(10), #{sj}, 120) + ' 00:00:00' as datetime)
+
+    </select>
+
+    <insert id="insertWqLog" parameterType="com.weds.edwx.entity.AddOutAttenceParamEntity">
+        insert into wx_login_log (lx, state, log_bz, user_serial, openid, log_sj, user_no, user_lname)
+        values (7, 0, 'addwq', #{userSerial}, #{openId}, GETDATE(), #{userNo}, #{lname})
+    </insert>
+
+    <select id="selectZtBanci" resultMap="ShiftsMap">
+        select b.mc, s.sbks, s.xbjs, s.sbsj, s.xbsj
+        from zt_banci b,
+             zt_shid s
+        where id = #{banciId}
+          and b.bh = s.parent
+    </select>
+
+    <select id="getKq" parameterType="com.weds.edwx.entity.AttenceParamEntity" resultMap="BaseResultMap">
+        select bh, sj, fx, jlzp_serial
+        from kt_jl
+        where jl_type = 1
+          and user_serial = #{userSerial}
+          and (fx = 1 or fx = 2)
+          and sj > convert(varchar(10), #{dates}, 120)
+    </select>
+
+    <select id="getKqDetail" parameterType="com.weds.edwx.entity.AttenceParamEntity" resultMap="BaseResultMap">
+        select top 1 bh, sj, fx, jlzp_serial
+        from kt_jl
+        where jl_type = 1
+        <if test="bh != null">
+            and bh = #{bh}
+        </if>
+        <if test="fx != null">
+            and fx = #{fx}
+        </if>
+        <if test="userSerial != null">
+            and user_serial = #{userSerial}
+        </if>
+        <if test="sj != null and recordType == 1">
+            and sj > #{sj} and sj > convert(varchar(10), #{sj}, 120)
+            order by sj
+        </if>
+        <if test="sj != null and recordType == -1">
+            <![CDATA[
+            and sj < #{sj} and sj > convert(varchar(10), #{sj}, 120)
+            order by sj desc
+            ]]>
+        </if>
+    </select>
+
+    <select id="getKqInfo" resultMap="KtJlMap">
+        select t1.*, t2.mc, t2.dev_sb_id
+        from kt_jl t1
+                 join st_device t2 on t1.dev_serial = t2.bh
+        where t1.bh = #{bh}
+    </select>
+
+    <select id="newGetKqhz" parameterType="com.weds.edwx.entity.AttenceParamEntity" resultMap="SummaryMap">
+        select isnull(SUM(isnull(yingchu1, 0)), 0)                            as yingchu,
+               isnull(SUM(isnull(shichu1, 0)), 0)                             as shichu,
+               isnull(SUM(isnull(cdci, 0)), 0)                                as cdci,
+               isnull(SUM(isnull(kugong, 0)), 0)                              as kugong,
+               isnull(cast(SUM(ISNULL(qjsj, 0)) / 480.0 as numeric(5, 2)), 0) as qjsj,
+               isnull(SUM(ISNULL(ztci, 0)), 0)                                as ztci
+        from zt_day
+        where user_serial = #{userSerial}
+          and month(dkrq) = month(#{dates})
+          and YEAR(dkrq) = YEAR(#{dates})
+    </select>
+
+    <select id="newKqJl" resultMap="JlMap" parameterType="com.weds.edwx.entity.AttenceParamEntity">
+        exec wx_kq_jl #{userSerial}, #{formatDate}, #{flag}
+    </select>
+
+    <select id="newKqMx" resultMap="MxMap" parameterType="com.weds.edwx.entity.AttenceParamEntity">
+        exec wx_kq_mx #{userSerial}, #{formatDate}, #{flag}
+    </select>
+
+    <select id="selectWxByPrimaryKey" parameterType="java.lang.Long" resultMap="WqMap">
+        select t1.id,
+               t1.user_serial,
+               t1.record_time,
+               t1.fx,
+               t1.address,
+               t1.long,
+               t1.lat,
+               t1.customer_name,
+               t1.outside_info,
+               t1.shenhe,
+               t4.user_lname as shenhe_lname,
+               t1.dev_serial,
+               t1.jlzp_serial,
+               t2.user_lname
+        from wx_outside_record t1
+                 left join dt_user t2 on t1.user_serial = t2.user_serial
+                 left join dt_user t4 on t1.shenhe = t4.user_serial
+        where t1.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectWqListByEntity" parameterType="com.weds.edwx.entity.OutsideEntity" resultMap="WqMap">
+        <![CDATA[
+        select t1.id,
+               t1.user_serial,
+               t1.record_time,
+               t1.fx,
+               t1.address,
+               t1.long,
+               t1.lat,
+               t1.customer_name,
+               t1.outside_info,
+               t1.shenhe,
+               t2.user_lname
+        from wx_outside_record t1
+                 join dt_user t2 on t1.user_serial = t2.user_serial
+        where t2.user_type < 51
+        ]]>
+        <if test='type == "0"'>
+            and t2.user_dep in (select t3.dep_serial from dt_dep_user t3 where t3.lx = 0
+            and t3.user_serial = #{userSerial,jdbcType=VARCHAR})
+            and (shenhe is null or shenhe = '')
+        </if>
+        <if test='type == "1"'>
+            and shenhe = #{userSerial,jdbcType=VARCHAR}
+        </if>
+        <if test='type == "2"'>
+            and shenhe is not null and shenhe != '' and (select count(1) from wx_copy_user
+            where user_serial = cast(#{userSerial,jdbcType=VARCHAR} as INT) and copy_type = 7) > 0
+        </if>
+    </select>
+
+    <select id="selectWqApproveUser" resultMap="WqMap">
+        select t2.user_serial
+        from dt_user t1
+                 join dt_dep_user t2 on t1.user_dep = t2.dep_serial
+        where t2.lx = 0
+          and t1.user_serial = #{userSerial,jdbcType=VARCHAR};
+    </select>
+
+    <update id="updateWqByPrimaryKeySelective" parameterType="com.weds.edwx.entity.OutsideEntity">
+        update wx_outside_record
+        <set>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=NVARCHAR},
+            </if>
+            <if test="recordTime != null">
+                record_time = #{recordTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fx != null">
+                fx = #{fx,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=NVARCHAR},
+            </if>
+            <if test="lang != null">
+                long = #{lang,jdbcType=NVARCHAR},
+            </if>
+            <if test="lat != null">
+                lat = #{lat,jdbcType=NVARCHAR},
+            </if>
+            <if test="customerName != null">
+                customer_name = #{customerName,jdbcType=NVARCHAR},
+            </if>
+            <if test="outsideInfo != null">
+                outside_info = #{outsideInfo,jdbcType=NVARCHAR},
+            </if>
+            <if test="shenhe != null">
+                shenhe = #{shenhe,jdbcType=VARCHAR},
+            </if>
+            <if test="devSerial != null">
+                dev_serial = #{devSerial,jdbcType=NVARCHAR},
+            </if>
+            <if test="jlzpSerial != null">
+                jlzp_serial = #{jlzpSerial,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

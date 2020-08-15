@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.BusinessTravelMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.BusinessTravelEntity">
+        <result column="xh" jdbcType="VARCHAR" property="xh"/>
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userName"/>
+        <result column="business_purposes" jdbcType="VARCHAR" property="businessPurposes"/>
+        <result column="check_progress" jdbcType="VARCHAR" property="checkProgress"/>
+        <result column="user_depname" jdbcType="VARCHAR" property="userDepname"/>
+        <result column="in_place" jdbcType="VARCHAR" property="inPlace"/>
+        <result column="out_place" jdbcType="VARCHAR" property="outPlace"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="out_money" jdbcType="DECIMAL" property="outMoney"/>
+        <result column="travel_people" jdbcType="VARCHAR" property="travelPeople"/>
+        <result column="out_vehicle" jdbcType="VARCHAR" property="outVehicle"/>
+        <result column="accommodation" jdbcType="VARCHAR" property="accommodation"/>
+        <result column="accommodation_days" jdbcType="DECIMAL" property="accommodationDays"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+        <result column="check_id" jdbcType="VARCHAR" property="checkId"/>
+        <result column="img_path" jdbcType="VARCHAR" property="imgPath"/>
+    </resultMap>
+
+    <insert id="insertBusinessTravel" parameterType="com.weds.edwx.entity.BusinessParamEntity">
+        exec insert_leave #{userSerial},#{bh},#{xh},#{kssj},#{jssj},#{outPlace},#{outVehicle},#{outMoney},'',#{userSerial},1,null,null,#{travelPeople},
+        #{businessPurposes},#{inPlace},#{accommodation},#{accommodationDays},#{checkProgress},#{checkPp},#{qjlx},#{imgPath}
+    </insert>
+
+    <select id="selectBusinessByXh" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.img_path,a.xh,a.user_serial,b.user_lname,business_purposes,in_place,out_place,kssj,jssj,isnull(out_money,0) as out_money,travel_people,out_vehicle,accommodation,accommodation_days,c.flag,c.check_progress,b.user_depname,c.check_id from
+        lr_kqingj_more a left join dt_user b on a.user_serial = b.user_serial left join kt_qingj_more c on a.xh = c.waich_xh
+        where a.xh = #{xh}
+        union all
+        select a.img_path,a.waich_xh,a.user_serial,b.user_lname,business_purposes,in_place,out_place,kssj,jssj,isnull(out_money,0) as out_money,travel_people,out_vehicle,accommodation,accommodation_days,c.flag,c.check_progress,b.user_depname,c.check_id from
+        kt_qingj_revoke a left join dt_user b on a.user_serial = b.user_serial left join kt_qingj_more c on a.waich_xh = c.waich_xh
+        where a.waich_xh = #{xh}
+    </select>
+
+    <select id="selectUserDep" resultType="java.lang.String">
+        select user_dep from dt_user where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectUserRole" resultType="java.lang.String">
+        select len(dep_no)/2 as dep_cust from dt_user where user_serial = #{userSerial}
+    </select>
+
+    <select id="selectLrKqingj" resultType="java.lang.Integer">
+        select count(user_serial) from lr_kqingj where
+        user_serial = #{userSerial} and
+        (
+        (#{kssj} BETWEEN kssj AND jssj) OR
+        (#{jssj} BETWEEN kssj AND jssj) OR
+        (kssj BETWEEN #{kssj} AND #{jssj}) OR
+        (jssj BETWEEN #{kssj} AND #{jssj})
+        )
+    </select>
+
+    <select id="selectLrKqingjMore" resultType="java.lang.Integer">
+        select count(user_serial) from lr_kqingj_more a inner join kt_qingj_more b on a.xh = b.waich_xh where
+        user_serial = #{userSerial} and
+        (
+        (#{kssj} BETWEEN kssj AND jssj) OR
+        (#{jssj} BETWEEN kssj AND jssj) OR
+        (kssj BETWEEN #{kssj} AND #{jssj}) OR
+        (jssj BETWEEN #{kssj} AND #{jssj})
+        ) and b.flag not in (3,4)
+    </select>
+
+    <select id="selectLrJiaba" resultType="java.lang.Integer">
+        select count(user_serial) from lr_jiaba where
+        user_serial = #{userSerial} and
+        (
+        (#{kssj} BETWEEN kssj AND jssj) OR
+        (#{jssj} BETWEEN kssj AND jssj) OR
+        (kssj BETWEEN #{kssj} AND #{jssj}) OR
+        (jssj BETWEEN #{kssj} AND #{jssj})
+        )
+    </select>
+
+    <select id="selectLrJiabaMore" resultType="java.lang.Integer">
+        select count(user_serial) from lr_jiaba_more a inner join kt_qingj_more b on a.xh = b.waich_xh where
+        user_serial = #{userSerial} and
+        (
+        (#{kssj} BETWEEN kssj AND jssj) OR
+        (#{jssj} BETWEEN kssj AND jssj) OR
+        (kssj BETWEEN #{kssj} AND #{jssj}) OR
+        (jssj BETWEEN #{kssj} AND #{jssj})
+        ) and b.flag not in (3,4)
+    </select>
+
+    <select id="selectApprovalName" resultType="java.lang.String">
+        select user_lname from dt_user where user_serial in (
+        <foreach collection="userSerials.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <update id="updateKtQingjMore">
+        update kt_qingj_more
+        <set>
+            check_pp = #{checkPp},
+            check_progress = #{checkProgress},
+            <if test="shjb != null and shjb != '' ">
+                shjb = #{shjb},
+            </if>
+            <if test="flag != null and flag != '' ">
+                flag = #{flag},
+            </if>
+            <if test="shenhe != '' and shenhe != null">
+                shenhe${num} = #{shenhe},
+            </if>
+            <if test="shsj != '' and shsj != null ">
+                shsj${num} = #{shsj},
+            </if>
+            <if test="shyj != '' and shyj != null ">
+                shyj${num} = #{shyj},
+            </if>
+            <if test="reason != null and reason != '' ">
+                reason${num} = #{reason},
+            </if>
+        </set>
+        where waich_xh = #{xh}
+    </update>
+
+    <insert id="insertLrWaich">
+        INSERT INTO lr_waich(user_serial,bh,kssj,jssj,jsjg,bz,gly_no,shenhe,lx,jbrq,parent_xh)
+        select a.user_serial,a.bh,a.kssj,a.jssj,a.jsjg,a.bz,a.gly_no,#{shenhe},a.lx,a.jbrq,b.id
+        from lr_waich_more a
+        inner join lr_kqingj b on a.user_serial=b.user_serial
+        inner join kt_qingj_more c on c.waich_xh=a.parent_xh
+        inner join lr_kqingj_more d on d.xh=a.parent_xh
+        where d.kssj=b.kssj and d.jssj=b.jssj and c.check_id= #{checkId}
+    </insert>
+
+    <insert id="insertLrKqingj">
+        INSERT INTO lr_kqingj(user_serial,bh,kssj,jssj,jsjg,bz,gly_no,shenhe,lx,czrq,leave_length)
+        SELECT user_serial,bh,kssj,jssj,jsjg,bz,gly_no,#{shenhe},lx,czrq,b1.leave_length
+        FROM kt_qingj_more a1 inner join lr_kqingj_more b1 on a1.waich_xh=b1.xh WHERE check_id=#{checkId}
+    </insert>
+
+    <insert id="insertQingjRevoke">
+        insert into kt_qingj_revoke(waich_xh,user_serial,bh,kssj,jssj,jsjg,out_place,out_vehicle,out_money,bz,gly_no,shenhe,
+        lx,czrq,sqts,leave_length,travel_people,business_purposes,in_place,accommodation,accommodation_days,schedule,img_path)
+        select xh,user_serial,bh,kssj,jssj,jsjg,out_place,out_vehicle,out_money,bz,gly_no,shenhe,
+        lx,czrq,sqts,leave_length,travel_people,business_purposes,in_place,accommodation,accommodation_days,schedule,img_path
+        from lr_kqingj_more where xh = #{xh}
+    </insert>
+
+    <delete id="deleteLrWaichMore">
+        delete lr_waich_more where parent_xh = #{xh}
+    </delete>
+
+    <delete id="deletrLrKqingjMore">
+        delete lr_kqingj_more where xh = #{xh}
+    </delete>
+
+    <select id="selectBusinessShjb" resultType="java.lang.Integer">
+        select shjb from kt_qingj_more where waich_xh = #{xh}
+    </select>
+
+    <update id="updateLrKqingjMore">
+        update lr_kqingj_more  SET shenhe = #{userName} WHERE Xh = #{xh}
+    </update>
+
+</mapper>

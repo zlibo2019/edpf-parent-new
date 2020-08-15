@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisThingMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisThingEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="bh" jdbcType="CHAR" property="bh"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="thing_name" jdbcType="NVARCHAR" property="thingName"/>
+        <result column="bz" jdbcType="NVARCHAR" property="bz"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, bh, lx, thing_name, bz, sj, gly_no
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_thing
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from vis_thing
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisThingEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into vis_thing (bh, lx, thing_name,
+        bz, sj, gly_no)
+        values (#{bh,jdbcType=CHAR}, #{lx,jdbcType=INTEGER}, #{thingName,jdbcType=NVARCHAR},
+        #{bz,jdbcType=NVARCHAR}, #{sj,jdbcType=TIMESTAMP}, #{glyNo,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisThingEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into vis_thing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="lx != null">
+                lx,
+            </if>
+            <if test="thingName != null">
+                thing_name,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                #{bh,jdbcType=CHAR},
+            </if>
+            <if test="lx != null">
+                #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="thingName != null">
+                #{thingName,jdbcType=NVARCHAR},
+            </if>
+            <if test="bz != null">
+                #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisThingEntity">
+        update vis_thing
+        <set>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=CHAR},
+            </if>
+            <if test="lx != null">
+                lx = #{lx,jdbcType=INTEGER},
+            </if>
+            <if test="thingName != null">
+                thing_name = #{thingName,jdbcType=NVARCHAR},
+            </if>
+            <if test="bz != null">
+                bz = #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisThingEntity">
+        update vis_thing
+        set bh         = #{bh,jdbcType=CHAR},
+            lx         = #{lx,jdbcType=INTEGER},
+            thing_name = #{thingName,jdbcType=NVARCHAR},
+            bz         = #{bz,jdbcType=NVARCHAR},
+            sj         = #{sj,jdbcType=TIMESTAMP},
+            gly_no     = #{glyNo,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisThingEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_thing
+        <where>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="bh != null">
+                <bind name="bhLike" value="'%'+bh+'%'"/>
+                and bh like #{bhLike}
+                <!--and bh = #{bh,jdbcType=CHAR}-->
+            </if>
+            <if test="lx != null">
+                and lx = #{lx,jdbcType=INTEGER}
+            </if>
+            <if test="thingName != null">
+                <bind name="thingNameLike" value="'%'+thingName+'%'"/>
+                and thing_name like #{thingNameLike}
+                <!--and thing_name = #{thingName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="bz != null">
+                <bind name="bzLike" value="'%'+bz+'%'"/>
+                and bz like #{bzLike}
+                <!--and bz = #{bz,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_thing
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or bh like #{keysLike}
+                or thing_name like #{keysLike}
+                or bz like #{keysLike}
+                or gly_no like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        vis_thing
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

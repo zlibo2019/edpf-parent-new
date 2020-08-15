@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.XfMenuJlMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.XfMenuJlEntity">
+    <id column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="key_no" jdbcType="VARCHAR" property="keyNo" />
+    <result column="dev_serial" jdbcType="VARCHAR" property="devSerial" />
+    <result column="more_money" jdbcType="DECIMAL" property="moreMoney" />
+    <result column="new_money" jdbcType="DECIMAL" property="newMoney" />
+    <result column="money_count" jdbcType="INTEGER" property="moneyCount" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="jl_sj" jdbcType="TIMESTAMP" property="jlSj" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <result column="parent_bh" jdbcType="NVARCHAR" property="parentBh" />
+    <result column="menu_name" jdbcType="NVARCHAR" property="menuName" />
+    <result column="card_hao" jdbcType="VARCHAR" property="cardHao" />
+    <result column="jl_serial" jdbcType="INTEGER" property="jlSerial" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    xh, key_no, dev_serial, more_money, new_money, money_count, user_serial, user_no, 
+    jl_sj, sj, parent_bh, menu_name, card_hao, jl_serial, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xf_menu_jl
+    where xh = #{xh,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from xf_menu_jl
+    where xh = #{xh,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.XfMenuJlEntity">
+    insert into xf_menu_jl (xh, key_no, dev_serial, 
+      more_money, new_money, money_count, 
+      user_serial, user_no, jl_sj, 
+      sj, parent_bh, menu_name, 
+      card_hao, jl_serial, price
+      )
+    values (#{xh,jdbcType=INTEGER}, #{keyNo,jdbcType=VARCHAR}, #{devSerial,jdbcType=VARCHAR}, 
+      #{moreMoney,jdbcType=DECIMAL}, #{newMoney,jdbcType=DECIMAL}, #{moneyCount,jdbcType=INTEGER}, 
+      #{userSerial,jdbcType=BIGINT}, #{userNo,jdbcType=VARCHAR}, #{jlSj,jdbcType=TIMESTAMP}, 
+      #{sj,jdbcType=TIMESTAMP}, #{parentBh,jdbcType=NVARCHAR}, #{menuName,jdbcType=NVARCHAR}, 
+      #{cardHao,jdbcType=VARCHAR}, #{jlSerial,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.XfMenuJlEntity">
+    insert into xf_menu_jl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="keyNo != null">
+        key_no,
+      </if>
+      <if test="devSerial != null">
+        dev_serial,
+      </if>
+      <if test="moreMoney != null">
+        more_money,
+      </if>
+      <if test="newMoney != null">
+        new_money,
+      </if>
+      <if test="moneyCount != null">
+        money_count,
+      </if>
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="jlSj != null">
+        jl_sj,
+      </if>
+      <if test="sj != null">
+        sj,
+      </if>
+      <if test="parentBh != null">
+        parent_bh,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="cardHao != null">
+        card_hao,
+      </if>
+      <if test="jlSerial != null">
+        jl_serial,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="keyNo != null">
+        #{keyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="devSerial != null">
+        #{devSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="moreMoney != null">
+        #{moreMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="newMoney != null">
+        #{newMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="moneyCount != null">
+        #{moneyCount,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="jlSj != null">
+        #{jlSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentBh != null">
+        #{parentBh,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardHao != null">
+        #{cardHao,jdbcType=VARCHAR},
+      </if>
+      <if test="jlSerial != null">
+        #{jlSerial,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.XfMenuJlEntity">
+    update xf_menu_jl
+    <set>
+      <if test="keyNo != null">
+        key_no = #{keyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="devSerial != null">
+        dev_serial = #{devSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="moreMoney != null">
+        more_money = #{moreMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="newMoney != null">
+        new_money = #{newMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="moneyCount != null">
+        money_count = #{moneyCount,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        user_serial = #{userSerial,jdbcType=BIGINT},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="jlSj != null">
+        jl_sj = #{jlSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sj != null">
+        sj = #{sj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentBh != null">
+        parent_bh = #{parentBh,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardHao != null">
+        card_hao = #{cardHao,jdbcType=VARCHAR},
+      </if>
+      <if test="jlSerial != null">
+        jl_serial = #{jlSerial,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.XfMenuJlEntity">
+    update xf_menu_jl
+    set key_no = #{keyNo,jdbcType=VARCHAR},
+      dev_serial = #{devSerial,jdbcType=VARCHAR},
+      more_money = #{moreMoney,jdbcType=DECIMAL},
+      new_money = #{newMoney,jdbcType=DECIMAL},
+      money_count = #{moneyCount,jdbcType=INTEGER},
+      user_serial = #{userSerial,jdbcType=BIGINT},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      jl_sj = #{jlSj,jdbcType=TIMESTAMP},
+      sj = #{sj,jdbcType=TIMESTAMP},
+      parent_bh = #{parentBh,jdbcType=NVARCHAR},
+      menu_name = #{menuName,jdbcType=NVARCHAR},
+      card_hao = #{cardHao,jdbcType=VARCHAR},
+      jl_serial = #{jlSerial,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL}
+    where xh = #{xh,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.XfMenuJlEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from xf_menu_jl
+    <where>
+      <if test="xh != null">
+        and xh = #{xh,jdbcType=INTEGER}
+      </if>
+      <if test="keyNo != null">
+        <bind name="keyNoLike" value="'%'+keyNo+'%'" />
+        and key_no like #{keyNoLike}
+        <!--and key_no = #{keyNo,jdbcType=VARCHAR}-->
+      </if>
+      <if test="devSerial != null">
+        <bind name="devSerialLike" value="'%'+devSerial+'%'" />
+        and dev_serial like #{devSerialLike}
+        <!--and dev_serial = #{devSerial,jdbcType=VARCHAR}-->
+      </if>
+      <if test="moreMoney != null">
+        and more_money = #{moreMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="newMoney != null">
+        and new_money = #{newMoney,jdbcType=DECIMAL}
+      </if>
+      <if test="moneyCount != null">
+        and money_count = #{moneyCount,jdbcType=INTEGER}
+      </if>
+      <if test="userSerial != null">
+        and user_serial = #{userSerial,jdbcType=BIGINT}
+      </if>
+      <if test="userNo != null">
+        <bind name="userNoLike" value="'%'+userNo+'%'" />
+        and user_no like #{userNoLike}
+        <!--and user_no = #{userNo,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jlSj != null">
+        and jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sj != null">
+        and sj = #{sj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="parentBh != null">
+        <bind name="parentBhLike" value="'%'+parentBh+'%'" />
+        and parent_bh like #{parentBhLike}
+        <!--and parent_bh = #{parentBh,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="menuName != null">
+        <bind name="menuNameLike" value="'%'+menuName+'%'" />
+        and menu_name like #{menuNameLike}
+        <!--and menu_name = #{menuName,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="cardHao != null">
+        <bind name="cardHaoLike" value="'%'+cardHao+'%'" />
+        and card_hao like #{cardHaoLike}
+        <!--and card_hao = #{cardHao,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jlSerial != null">
+        and jl_serial = #{jlSerial,jdbcType=INTEGER}
+      </if>
+      <if test="price != null">
+        and price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        and (xh = #{keys} or
+        key_no like #{keysLike} or
+        dev_serial like #{keysLike} or
+        more_money = #{keys} or
+        new_money = #{keys} or
+        money_count = #{keys} or
+        user_serial = #{keys} or
+        user_no like #{keysLike} or
+        jl_sj = #{keys} or
+        sj = #{keys} or
+        parent_bh like #{keysLike} or
+        menu_name like #{keysLike} or
+        card_hao like #{keysLike} or
+        jl_serial = #{keys} or
+        price = #{keys})
+      </if>
+    </where>
+  </select>
+</mapper>

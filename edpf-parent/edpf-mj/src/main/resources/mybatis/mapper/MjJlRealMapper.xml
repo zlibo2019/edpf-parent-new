@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.MjJlRealMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edmj.entity.MjJlRealEntity">
+        <id column="jl_sj" jdbcType="TIMESTAMP" property="jlSj"/>
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="Gate_bh" jdbcType="CHAR" property="gateBh"/>
+        <result column="fx" jdbcType="INTEGER" property="fx"/>
+        <result column="dev_serial" jdbcType="CHAR" property="devSerial"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="dev_bh" jdbcType="BIGINT" property="devBh"/>
+        <result column="dev_door" jdbcType="INTEGER" property="devDoor"/>
+        <result column="card_order" jdbcType="INTEGER" property="cardOrder"/>
+        <result column="jl_type" jdbcType="INTEGER" property="jlType"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="jframe_id" jdbcType="INTEGER" property="jframeId"/>
+        <result column="user_lx" jdbcType="TINYINT" property="userLx"/>
+        <result column="user_name" jdbcType="NVARCHAR" property="userName"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+
+        <result column="acdep_serial" jdbcType="INTEGER" property="acdepSerial"/>
+        <result column="place_name" jdbcType="VARCHAR" property="placeName"/>
+        <result column="mc" jdbcType="VARCHAR" property="mc"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="dev_lb" jdbcType="INTEGER" property="devLb"/>
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="door_name" jdbcType="VARCHAR" property="doorName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        jl_sj, xh, Gate_bh, fx, dev_serial, user_serial, user_card, dev_bh, dev_door, card_order,
+               jl_type, sj, state, gly_no, jframe_id, user_lx, user_name, dep_name
+    </sql>
+
+    <select id="selectListByCondition" parameterType="com.weds.edmj.entity.MjJlRealEntity" resultMap="BaseResultMap">
+        <![CDATA[
+        select a.xh,
+               a.dev_door,
+               a.user_name,
+               a.user_card,
+               a.user_lx,
+               a.fx,
+               a.jl_type,
+               a.jl_sj,
+               a.dev_serial,
+               a.jframe_id,
+               a.sj,
+               b.acdep_serial,
+               f.dep_name as place_name,
+               c.mc,
+               c.ip,
+               c.dev_lb,
+               d.user_no,
+               e.door_name
+        from mj_jl_real a
+                 left join st_device c on a.dev_serial = c.bh and c.dev_lb <> 99
+                 left join st_door_real e on e.bh = a.gate_bh
+                 LEFT JOIN dt_gate_real b ON e.bh = b.Gate_bh
+                 left join dt_user d on a.user_serial = d.user_serial
+                 left join dt_ac_dep f on b.Acdep_serial = f.dep_serial
+         ]]>
+        <where>
+            <if test="kssj != null">
+                and a.jl_sj >= #{kssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jssj != null">
+                <![CDATA[
+                and a.jl_sj<= #{jssj,jdbcType=TIMESTAMP}
+                ]]>
+            </if>
+            <if test="acdepSerials != null">
+                and b.acdep_serial in
+                <foreach collection="acdepSerials" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="gateBhs != null">
+                and e.bh in
+                <foreach collection="gateBhs" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="jlTypes != null">
+                and a.jl_type in
+                <foreach collection="jlTypes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="userDeps != null">
+                <![CDATA[
+                  and e.fx_flg=0 and d.user_type<=50 and d.dep_no is not null
+                ]]>
+                and d.user_dep in
+                <foreach collection="userDeps" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="userSerials != null">
+                <![CDATA[
+                  and e.fx_flg=0 and d.user_type<=50 and d.dep_no is not null
+                ]]>
+                and d.user_serial in
+                <foreach collection="userSerials" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="devSerials != null">
+                and a.dev_serial in
+                <foreach collection="devSerials" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        order by a.jl_sj DESC, a.dev_bh DESC
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mj_jl_real
+        where jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+        and xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete from mj_jl_real
+        where jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+          and xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edmj.entity.MjJlRealEntity">
+        insert into mj_jl_real (jl_sj,
+                                xh,
+                                Gate_bh,
+                                fx,
+                                dev_serial,
+                                user_serial,
+                                user_card,
+                                dev_bh,
+                                dev_door,
+                                card_order,
+                                jl_type,
+                                sj,
+                                state,
+                                gly_no,
+                                jframe_id,
+                                user_lx,
+                                user_name,
+                                dep_name)
+        values (#{jlSj,jdbcType=TIMESTAMP},
+                #{xh,jdbcType=INTEGER},
+                #{gateBh,jdbcType=CHAR},
+                #{fx,jdbcType=INTEGER},
+                #{devSerial,jdbcType=CHAR},
+                #{userSerial,jdbcType=BIGINT},
+                #{userCard,jdbcType=VARCHAR},
+                #{devBh,jdbcType=BIGINT},
+                #{devDoor,jdbcType=INTEGER},
+                #{cardOrder,jdbcType=INTEGER},
+                #{jlType,jdbcType=INTEGER},
+                #{sj,jdbcType=TIMESTAMP},
+                #{state,jdbcType=INTEGER},
+                #{glyNo,jdbcType=NVARCHAR},
+                #{jframeId,jdbcType=INTEGER},
+                #{userLx,jdbcType=TINYINT},
+                #{userName,jdbcType=NVARCHAR},
+                #{depName,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertBatch" parameterType="List">
+        insert into
+        mj_jl_real
+        (jl_sj,xh,Gate_bh,fx,dev_serial,user_serial,user_card,dev_bh,dev_door,card_order,jl_type,sj,state,gly_no,jframe_id,user_lx,user_name,dep_name)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.jlSj,jdbcType=TIMESTAMP},#{item.xh,jdbcType=INTEGER},#{item.gateBh,jdbcType=CHAR},#{item.fx,jdbcType=INTEGER},#{item.devSerial,jdbcType=CHAR},#{item.userSerial,jdbcType=BIGINT},#{item.userCard,jdbcType=VARCHAR},#{item.devBh,jdbcType=BIGINT},#{item.devDoor,jdbcType=INTEGER},#{item.cardOrder,jdbcType=INTEGER},#{item.jlType,jdbcType=INTEGER},#{item.sj,jdbcType=TIMESTAMP},#{item.state,jdbcType=INTEGER},#{item.glyNo,jdbcType=NVARCHAR},#{item.jframeId,jdbcType=INTEGER},#{item.userLx,jdbcType=TINYINT},#{item.userName,jdbcType=NVARCHAR},#{item.depName,jdbcType=NVARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edmj.entity.MjJlRealEntity">
+        insert into mj_jl_real
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jlSj != null">
+                jl_sj,
+            </if>
+            <if test="xh != null">
+                xh,
+            </if>
+            <if test="gateBh != null">
+                Gate_bh,
+            </if>
+            <if test="fx != null">
+                fx,
+            </if>
+            <if test="devSerial != null">
+                dev_serial,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="userCard != null">
+                user_card,
+            </if>
+            <if test="devBh != null">
+                dev_bh,
+            </if>
+            <if test="devDoor != null">
+                dev_door,
+            </if>
+            <if test="cardOrder != null">
+                card_order,
+            </if>
+            <if test="jlType != null">
+                jl_type,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="jframeId != null">
+                jframe_id,
+            </if>
+            <if test="userLx != null">
+                user_lx,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="depName != null">
+                dep_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jlSj != null">
+                #{jlSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="xh != null">
+                #{xh,jdbcType=INTEGER},
+            </if>
+            <if test="gateBh != null">
+                #{gateBh,jdbcType=CHAR},
+            </if>
+            <if test="fx != null">
+                #{fx,jdbcType=INTEGER},
+            </if>
+            <if test="devSerial != null">
+                #{devSerial,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="userCard != null">
+                #{userCard,jdbcType=VARCHAR},
+            </if>
+            <if test="devBh != null">
+                #{devBh,jdbcType=BIGINT},
+            </if>
+            <if test="devDoor != null">
+                #{devDoor,jdbcType=INTEGER},
+            </if>
+            <if test="cardOrder != null">
+                #{cardOrder,jdbcType=INTEGER},
+            </if>
+            <if test="jlType != null">
+                #{jlType,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="jframeId != null">
+                #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="userLx != null">
+                #{userLx,jdbcType=TINYINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                #{depName,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.MjJlRealEntity">
+        update mj_jl_real
+        <set>
+            <if test="gateBh != null">
+                Gate_bh = #{gateBh,jdbcType=CHAR},
+            </if>
+            <if test="fx != null">
+                fx = #{fx,jdbcType=INTEGER},
+            </if>
+            <if test="devSerial != null">
+                dev_serial = #{devSerial,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="userCard != null">
+                user_card = #{userCard,jdbcType=VARCHAR},
+            </if>
+            <if test="devBh != null">
+                dev_bh = #{devBh,jdbcType=BIGINT},
+            </if>
+            <if test="devDoor != null">
+                dev_door = #{devDoor,jdbcType=INTEGER},
+            </if>
+            <if test="cardOrder != null">
+                card_order = #{cardOrder,jdbcType=INTEGER},
+            </if>
+            <if test="jlType != null">
+                jl_type = #{jlType,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="jframeId != null">
+                jframe_id = #{jframeId,jdbcType=INTEGER},
+            </if>
+            <if test="userLx != null">
+                user_lx = #{userLx,jdbcType=TINYINT},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+        and xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.MjJlRealEntity">
+        update mj_jl_real
+        set Gate_bh     = #{gateBh,jdbcType=CHAR},
+            fx          = #{fx,jdbcType=INTEGER},
+            dev_serial  = #{devSerial,jdbcType=CHAR},
+            user_serial = #{userSerial,jdbcType=BIGINT},
+            user_card   = #{userCard,jdbcType=VARCHAR},
+            dev_bh      = #{devBh,jdbcType=BIGINT},
+            dev_door    = #{devDoor,jdbcType=INTEGER},
+            card_order  = #{cardOrder,jdbcType=INTEGER},
+            jl_type     = #{jlType,jdbcType=INTEGER},
+            sj          = #{sj,jdbcType=TIMESTAMP},
+            state       = #{state,jdbcType=INTEGER},
+            gly_no      = #{glyNo,jdbcType=NVARCHAR},
+            jframe_id   = #{jframeId,jdbcType=INTEGER},
+            user_lx     = #{userLx,jdbcType=TINYINT},
+            user_name   = #{userName,jdbcType=NVARCHAR},
+            dep_name    = #{depName,jdbcType=NVARCHAR}
+        where jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+          and xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edmj.entity.MjJlRealEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mj_jl_real
+        <where>
+            <if test="jlSj != null">
+                and jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="gateBh != null">
+                <bind name="gateBhLike" value="'%'+gateBh+'%'"/>
+                and Gate_bh like #{gateBhLike}
+                <!--and Gate_bh = #{gateBh,jdbcType=CHAR}-->
+            </if>
+            <if test="fx != null">
+                and fx = #{fx,jdbcType=INTEGER}
+            </if>
+            <if test="devSerial != null">
+                <bind name="devSerialLike" value="'%'+devSerial+'%'"/>
+                and dev_serial like #{devSerialLike}
+                <!--and dev_serial = #{devSerial,jdbcType=CHAR}-->
+            </if>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="userCard != null">
+                <bind name="userCardLike" value="'%'+userCard+'%'"/>
+                and user_card like #{userCardLike}
+                <!--and user_card = #{userCard,jdbcType=VARCHAR}-->
+            </if>
+            <if test="devBh != null">
+                and dev_bh = #{devBh,jdbcType=BIGINT}
+            </if>
+            <if test="devDoor != null">
+                and dev_door = #{devDoor,jdbcType=INTEGER}
+            </if>
+            <if test="cardOrder != null">
+                and card_order = #{cardOrder,jdbcType=INTEGER}
+            </if>
+            <if test="jlType != null">
+                and jl_type = #{jlType,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="state != null">
+                and state = #{state,jdbcType=INTEGER}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="jframeId != null">
+                and jframe_id = #{jframeId,jdbcType=INTEGER}
+            </if>
+            <if test="userLx != null">
+                and user_lx = #{userLx,jdbcType=TINYINT}
+            </if>
+            <if test="userName != null">
+                <bind name="userNameLike" value="'%'+userName+'%'"/>
+                and user_name like #{userNameLike}
+                <!--and user_name = #{userName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depName != null">
+                <bind name="depNameLike" value="'%'+depName+'%'"/>
+                and dep_name like #{depNameLike}
+                <!--and dep_name = #{depName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (jl_sj = #{keys} or
+                xh = #{keys} or
+                Gate_bh like #{keysLike} or
+                fx = #{keys} or
+                dev_serial like #{keysLike} or
+                user_serial = #{keys} or
+                user_card like #{keysLike} or
+                dev_bh = #{keys} or
+                dev_door = #{keys} or
+                card_order = #{keys} or
+                jl_type = #{keys} or
+                sj = #{keys} or
+                state = #{keys} or
+                gly_no like #{keysLike} or
+                jframe_id = #{keys} or
+                user_lx = #{keys} or
+                user_name like #{keysLike} or
+                dep_name like #{keysLike})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        mj_jl_real
+        where (jl_sj,xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.jlSj},#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

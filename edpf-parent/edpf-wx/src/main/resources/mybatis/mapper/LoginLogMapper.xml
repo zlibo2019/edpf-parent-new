@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.LoginLogMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.LoginLogEntity">
+    <result column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="lx" jdbcType="INTEGER" property="lx" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="user_no" jdbcType="NVARCHAR" property="userNo" />
+    <result column="user_lname" jdbcType="NVARCHAR" property="userLname" />
+    <result column="openid" jdbcType="NVARCHAR" property="openid" />
+    <result column="log_sj" jdbcType="NVARCHAR" property="logSj" />
+    <result column="log_bz" jdbcType="NVARCHAR" property="logBz" />
+    <result column="order_id" jdbcType="NVARCHAR" property="orderId" />
+    <result column="gate_bh" jdbcType="NVARCHAR" property="gateBh" />
+    <result column="visitor_xh" jdbcType="BIGINT" property="visitorXh" />
+  </resultMap>
+  <insert id="insert" parameterType="com.weds.edwx.entity.LoginLogEntity">
+    insert into wx_login_log (lx, state,
+      user_serial, user_no, user_lname, 
+      openid, log_sj, log_bz, 
+      order_id, gate_bh, visitor_xh
+      )
+    values (#{lx,jdbcType=INTEGER}, #{state,jdbcType=INTEGER},
+      #{userSerial,jdbcType=BIGINT}, #{userNo,jdbcType=NVARCHAR}, #{userLname,jdbcType=NVARCHAR}, 
+      #{openid,jdbcType=NVARCHAR}, #{logSj,jdbcType=NVARCHAR}, #{logBz,jdbcType=NVARCHAR}, 
+      #{orderId,jdbcType=NVARCHAR}, #{gateBh,jdbcType=NVARCHAR}, #{visitorXh,jdbcType=BIGINT}
+      )
+  </insert>
+</mapper>

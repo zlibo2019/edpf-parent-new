@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MjMobileMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MjMobileEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="lx" jdbcType="INTEGER" property="lx"/>
+        <result column="gate_bh" jdbcType="CHAR" property="gateBh"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="gate_order" jdbcType="INTEGER" property="gateOrder"/>
+        <result column="door_name" jdbcType="NVARCHAR" property="doorName"/>
+    </resultMap>
+    <resultMap id="DoorResultMap" type="com.weds.edwx.entity.DoorfxRealEntity">
+        <result column="gate_bh" jdbcType="CHAR" property="gateBh"/>
+        <result column="dev_serial" jdbcType="CHAR" property="devSerial"/>
+        <result column="dev_order" jdbcType="INTEGER" property="devOrder"/>
+    </resultMap>
+
+    <resultMap id="RecordResultMap" type="com.weds.edwx.entity.MjJlRealEntity">
+        <id column="jl_sj" jdbcType="TIMESTAMP" property="jlSj"/>
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="Gate_bh" jdbcType="CHAR" property="gateBh"/>
+        <result column="fx" jdbcType="INTEGER" property="fx"/>
+        <result column="dev_serial" jdbcType="CHAR" property="devSerial"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="dev_bh" jdbcType="BIGINT" property="devBh"/>
+        <result column="dev_door" jdbcType="INTEGER" property="devDoor"/>
+        <result column="card_order" jdbcType="INTEGER" property="cardOrder"/>
+        <result column="jl_type" jdbcType="INTEGER" property="jlType"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="jframe_id" jdbcType="INTEGER" property="jframeId"/>
+        <result column="user_lx" jdbcType="TINYINT" property="userLx"/>
+        <result column="user_name" jdbcType="NVARCHAR" property="userName"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+
+
+        <result column="dev_sb_id" jdbcType="BIGINT" property="devSbId"/>
+        <result column="acdep_serial" jdbcType="INTEGER" property="acdepSerial"/>
+        <result column="place_name" jdbcType="VARCHAR" property="placeName"/>
+        <result column="mc" jdbcType="VARCHAR" property="mc"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="dev_lb" jdbcType="INTEGER" property="devLb"/>
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="door_name" jdbcType="VARCHAR" property="doorName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        xh, user_serial, lx, gate_bh, sj, gly_no, gate_order
+    </sql>
+    <select id="selectDoorFlg" parameterType="com.weds.edwx.entity.MjMobileEntity" resultType="java.lang.Integer">
+        select count(a.xh) as doorFlg
+        from WT_mj_mobile a
+                 inner join dt_user b on a.user_serial = b.user_serial <![CDATA[and b.user_type < 51 ]]>
+    where b.user_serial = #{userSerial}
+          and a.gate_bh = #{gateBh}
+    </select>
+    <insert id="openDoor" parameterType="com.weds.edwx.entity.DoorfxRealEntity"
+            useGeneratedKeys="true" keyProperty="xh">
+        <if test="devOrder==9">
+            INSERT INTO jreal_nowcmd(jdev_bh,jtype,jstr)
+            VALUES (#{devSerial},0,'1,open_door,5');
+        </if>
+        <if test="devOrder!=9">
+            INSERT INTO jreal_nowcmd(jdev_bh,jstr,jint)
+            VALUES (#{devSerial},'1,4,'+convert(varchar,#{devOrder})+',5',5);
+        </if>
+    </insert>
+    <update id="updateGateListOrder" parameterType="com.weds.edwx.entity.DoorInfoEntity">
+        <if test="doorList!=null">
+            <foreach collection="doorList" item="item" open="" close="" separator=";">
+                update WT_mj_mobile
+                <set>
+                    gate_order=#{item.gateOrder}
+                </set>
+                <where>
+                    user_serial=#{userSerial} and gate_bh=#{item.gateBh}
+                </where>
+            </foreach>
+        </if>
+    </update>
+    <select id="selectDoorList" parameterType="com.weds.edwx.entity.MjMobileEntity" resultMap="BaseResultMap">
+        select a.gate_bh, c.door_name, isnull(a.gate_order, 0) gate_order
+        from WT_mj_mobile a
+                 inner join dt_user b on a.user_serial = b.user_serial
+                 inner join st_door_real c on a.gate_bh = c.bh
+        where a.user_serial = #{userSerial}
+        order by gate_order
+    </select>
+    <select id="getOpenState" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT isnull(jret_int, 0)
+        FROM jreal_nowcmd
+        where jcmdsig = #{jcmdsig}
+    </select>
+    <insert id="insertLog" parameterType="com.weds.edwx.entity.MjMobileEntity">
+        insert into wt_mobile_log(lx,state,user_no,gate_bh,bz,sj,gly_no)
+        select 2 as lx,
+        <choose>
+            <when test="lx==3">
+                0,
+            </when>
+            <otherwise>
+                1,
+            </otherwise>
+        </choose>
+        a.user_no,#{gateBh},
+        <choose>
+            <when test="lx==3">
+                a.user_lname+'打开'+b.door_name,
+            </when>
+            <otherwise>
+                '开门超时',
+            </otherwise>
+        </choose>
+        #{sj},a.user_no
+        from dt_user a ,st_door_real b where a.user_serial=#{userSerial} and b.bh=#{gateBh}
+    </insert>
+    <select id="selectDoorFlgByDevSerial" parameterType="java.lang.Object" resultMap="DoorResultMap">
+        select a.gate_bh, c.dev_serial, c.dev_order
+        from WT_mj_mobile a
+                 inner join dt_user b on a.user_serial = b.user_serial <![CDATA[and b.user_type < 51 ]]>
+    inner join st_doorfx_real c on a.gate_bh = c.gate_bh and c.fx = 0
+                 inner join st_device d on c.dev_serial = d.bh and d.dev_lb = #{devLb}
+        where a.user_serial = #{userSerial}
+          and d.dev_sb_id = #{devSid}
+          and c.dev_order = #{devOrder}
+    </select>
+
+    <select id="selectMjRecord" resultMap="RecordResultMap">
+        select t1.jl_sj,
+               t1.xh,
+               t1.Gate_bh,
+               t1.fx,
+               t1.dev_serial,
+               t1.user_serial,
+               t1.user_card,
+               t1.dev_bh,
+               t1.dev_door,
+               t1.card_order,
+               t1.jl_type,
+               t1.sj,
+               t1.state,
+               t1.gly_no,
+               t1.jframe_id,
+               t1.user_lx,
+               t1.user_name,
+               t1.dep_name,
+               t2.mc,
+               t2.dev_sb_id
+        from mj_jl_real t1
+                 join st_device t2 on t1.dev_serial = t2.bh
+        where t1.xh = #{xh,jdbcType=INTEGER}
+    </select>
+</mapper>

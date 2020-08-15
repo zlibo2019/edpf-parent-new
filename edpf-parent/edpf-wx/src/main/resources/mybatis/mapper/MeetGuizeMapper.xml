@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MeetGuizeMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MeetGuizeEntity">
+        <id column="meet_bh" jdbcType="INTEGER" property="meetBh"/>
+        <result column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="ksqdsj" jdbcType="INTEGER" property="ksqdsj"/>
+        <result column="jsqdsj" jdbcType="INTEGER" property="jsqdsj"/>
+        <result column="ksjcdsj" jdbcType="INTEGER" property="ksjcdsj"/>
+        <result column="ksjztsj" jdbcType="INTEGER" property="ksjztsj"/>
+        <result column="bxqd" jdbcType="INTEGER" property="bxqd"/>
+        <result column="bxqt" jdbcType="INTEGER" property="bxqt"/>
+        <result column="rqyc" jdbcType="INTEGER" property="rqyc"/>
+        <result column="room_gly" jdbcType="VARCHAR" property="roomGly"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        meet_bh, bh, ksqdsj, jsqdsj, ksjcdsj, ksjztsj, bxqd, bxqt, rqyc, room_gly
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from meet_guize
+        where meet_bh = #{meetBh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from meet_guize
+        where meet_bh = #{meetBh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.MeetGuizeEntity">
+        insert into meet_guize (meet_bh, bh, ksqdsj, jsqdsj, ksjcdsj, ksjztsj, bxqd, bxqt, rqyc, room_gly)
+        values (#{meetBh,jdbcType=INTEGER},
+                #{bh,jdbcType=INTEGER},
+                #{ksqdsj,jdbcType=INTEGER},
+                #{jsqdsj,jdbcType=INTEGER},
+                #{ksjcdsj,jdbcType=INTEGER},
+                #{ksjztsj,jdbcType=INTEGER},
+                #{bxqd,jdbcType=INTEGER},
+                #{bxqt,jdbcType=INTEGER},
+                #{rqyc,jdbcType=INTEGER},
+                #{roomGly,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.MeetGuizeEntity">
+        insert into meet_guize
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="meetBh != null">
+                meet_bh,
+            </if>
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="ksqdsj != null">
+                ksqdsj,
+            </if>
+            <if test="jsqdsj != null">
+                jsqdsj,
+            </if>
+            <if test="ksjcdsj != null">
+                ksjcdsj,
+            </if>
+            <if test="ksjztsj != null">
+                ksjztsj,
+            </if>
+            <if test="bxqd != null">
+                bxqd,
+            </if>
+            <if test="bxqt != null">
+                bxqt,
+            </if>
+            <if test="rqyc != null">
+                rqyc,
+            </if>
+            <if test="roomGly != null">
+                room_gly,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="meetBh != null">
+                #{meetBh,jdbcType=INTEGER},
+            </if>
+            <if test="bh != null">
+                #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="ksqdsj != null">
+                #{ksqdsj,jdbcType=INTEGER},
+            </if>
+            <if test="jsqdsj != null">
+                #{jsqdsj,jdbcType=INTEGER},
+            </if>
+            <if test="ksjcdsj != null">
+                #{ksjcdsj,jdbcType=INTEGER},
+            </if>
+            <if test="ksjztsj != null">
+                #{ksjztsj,jdbcType=INTEGER},
+            </if>
+            <if test="bxqd != null">
+                #{bxqd,jdbcType=INTEGER},
+            </if>
+            <if test="bxqt != null">
+                #{bxqt,jdbcType=INTEGER},
+            </if>
+            <if test="rqyc != null">
+                #{rqyc,jdbcType=INTEGER},
+            </if>
+            <if test="roomGly != null">
+                #{roomGly,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.MeetGuizeEntity">
+        update meet_guize
+        <set>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="ksqdsj != null">
+                ksqdsj = #{ksqdsj,jdbcType=INTEGER},
+            </if>
+            <if test="jsqdsj != null">
+                jsqdsj = #{jsqdsj,jdbcType=INTEGER},
+            </if>
+            <if test="ksjcdsj != null">
+                ksjcdsj = #{ksjcdsj,jdbcType=INTEGER},
+            </if>
+            <if test="ksjztsj != null">
+                ksjztsj = #{ksjztsj,jdbcType=INTEGER},
+            </if>
+            <if test="bxqd != null">
+                bxqd = #{bxqd,jdbcType=INTEGER},
+            </if>
+            <if test="bxqt != null">
+                bxqt = #{bxqt,jdbcType=INTEGER},
+            </if>
+            <if test="rqyc != null">
+                rqyc = #{rqyc,jdbcType=INTEGER},
+            </if>
+            <if test="roomGly != null">
+                room_gly = #{roomGly,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where meet_bh = #{meetBh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.MeetGuizeEntity">
+        update meet_guize
+        set bh       = #{bh,jdbcType=INTEGER},
+            ksqdsj   = #{ksqdsj,jdbcType=INTEGER},
+            jsqdsj   = #{jsqdsj,jdbcType=INTEGER},
+            ksjcdsj  = #{ksjcdsj,jdbcType=INTEGER},
+            ksjztsj  = #{ksjztsj,jdbcType=INTEGER},
+            bxqd     = #{bxqd,jdbcType=INTEGER},
+            bxqt     = #{bxqt,jdbcType=INTEGER},
+            rqyc     = #{rqyc,jdbcType=INTEGER},
+            room_gly = #{roomGly,jdbcType=VARCHAR}
+        where meet_bh = #{meetBh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.MeetGuizeEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from meet_guize
+        <where>
+            <if test="meetBh != null">
+                and meet_bh = #{meetBh,jdbcType=INTEGER}
+            </if>
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="ksqdsj != null">
+                and ksqdsj = #{ksqdsj,jdbcType=INTEGER}
+            </if>
+            <if test="jsqdsj != null">
+                and jsqdsj = #{jsqdsj,jdbcType=INTEGER}
+            </if>
+            <if test="ksjcdsj != null">
+                and ksjcdsj = #{ksjcdsj,jdbcType=INTEGER}
+            </if>
+            <if test="ksjztsj != null">
+                and ksjztsj = #{ksjztsj,jdbcType=INTEGER}
+            </if>
+            <if test="bxqd != null">
+                and bxqd = #{bxqd,jdbcType=INTEGER}
+            </if>
+            <if test="bxqt != null">
+                and bxqt = #{bxqt,jdbcType=INTEGER}
+            </if>
+            <if test="rqyc != null">
+                and rqyc = #{rqyc,jdbcType=INTEGER}
+            </if>
+            <if test="roomGly != null">
+                <bind name="roomGlyLike" value="'%'+roomGly+'%'"/>
+                and room_gly like #{roomGlyLike}
+                <!--and room_gly = #{roomGly,jdbcType=VARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (meet_bh = #{keys} or
+                bh = #{keys} or
+                ksqdsj = #{keys} or
+                jsqdsj = #{keys} or
+                ksjcdsj = #{keys} or
+                ksjztsj = #{keys} or
+                bxqd = #{keys} or
+                bxqt = #{keys} or
+                rqyc = #{keys} or
+                room_gly like #{keysLike})
+            </if>
+        </where>
+    </select>
+</mapper>

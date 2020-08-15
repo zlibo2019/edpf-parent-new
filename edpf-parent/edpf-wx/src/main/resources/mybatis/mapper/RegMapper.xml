@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.RegMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.RegEntity">
+    <result column="reg_unit" jdbcType="NVARCHAR" property="regUnit" />
+    <result column="reg_no" jdbcType="NVARCHAR" property="regNo" />
+    <result column="reg_dep" jdbcType="INTEGER" property="regDep" />
+    <result column="reg_user" jdbcType="INTEGER" property="regUser" />
+    <result column="reg_version" jdbcType="NVARCHAR" property="regVersion" />
+    <result column="reg_connect" jdbcType="INTEGER" property="regConnect" />
+    <result column="reg_time" jdbcType="TIMESTAMP" property="regTime" />
+    <result column="zhangtao_rq" jdbcType="SMALLINT" property="zhangtaoRq" />
+    <result column="fh_pjz" jdbcType="NVARCHAR" property="fhPjz" />
+    <result column="fh_pj" jdbcType="NVARCHAR" property="fhPj" />
+    <result column="fh_zj" jdbcType="NVARCHAR" property="fhZj" />
+    <result column="fh_jj" jdbcType="NVARCHAR" property="fhJj" />
+    <result column="fh_xx" jdbcType="NVARCHAR" property="fhXx" />
+    <result column="fh_cd" jdbcType="NVARCHAR" property="fhCd" />
+    <result column="fh_zt" jdbcType="NVARCHAR" property="fhZt" />
+    <result column="fh_sbws" jdbcType="NVARCHAR" property="fhSbws" />
+    <result column="fh_xbws" jdbcType="NVARCHAR" property="fhXbws" />
+    <result column="reg_photoPath" jdbcType="NVARCHAR" property="regPhotopath" />
+    <result column="mrgz" jdbcType="VARCHAR" property="mrgz" />
+    <result column="mrbc" jdbcType="NVARCHAR" property="mrbc" />
+    <result column="fh_jr" jdbcType="VARCHAR" property="fhJr" />
+    <result column="reg_trans" jdbcType="INTEGER" property="regTrans" />
+    <result column="card_len" jdbcType="INTEGER" property="cardLen" />
+    <result column="area_serial" jdbcType="INTEGER" property="areaSerial" />
+    <result column="card_num" jdbcType="INTEGER" property="cardNum" />
+    <result column="bh" jdbcType="INTEGER" property="bh" />
+    <result column="reg_company" jdbcType="NVARCHAR" property="regCompany" />
+    <result column="reg_serial" jdbcType="NVARCHAR" property="regSerial" />
+    <result column="user_num" jdbcType="INTEGER" property="userNum" />
+    <result column="reg_code" jdbcType="NVARCHAR" property="regCode" />
+    <result column="version_bz" jdbcType="INTEGER" property="versionBz" />
+    <result column="code_key" jdbcType="VARCHAR" property="codeKey" />
+    <result column="out_time" jdbcType="BIGINT" property="outTime" />
+    <result column="refresh_time" jdbcType="BIGINT" property="refreshTime" />
+    <result column="organ_id" jdbcType="VARCHAR" property="organId" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select reg_unit from wt_reg where reg_no='001'
+  </select>
+
+</mapper>

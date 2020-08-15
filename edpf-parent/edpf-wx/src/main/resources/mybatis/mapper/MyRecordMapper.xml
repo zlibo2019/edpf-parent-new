@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MyRecordMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MyRecordEntity">
+        <result column="waich_xh" jdbcType="VARCHAR" property="xh"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="name"/>
+        <result column="mc" jdbcType="VARCHAR" property="qjlx"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="qjsj" jdbcType="TIMESTAMP" property="qjsj"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="rq" jdbcType="TIMESTAMP" property="rq"/>
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="flag" jdbcType="VARCHAR" property="lx"/>
+        <result column="bh" jdbcType="VARCHAR" property="bh"/>
+    </resultMap>
+    <select id="getMyApplication" resultMap="BaseResultMap">
+        select aa.waich_xh,aa.user_lname,aa.mc,aa.kssj,aa.jssj,aa.qjsj as qjsj,aa.flag,CONVERT(VARCHAR(20),aa.rq,23)as
+        rq,aa.type,aa.user_serial,bh from (
+        select a1.waich_xh,c1.user_lname,c1.user_serial,d1.mc,b1.kssj,b1.jssj,null as rq,b1.czrq as qjsj,a1.flag,case
+        b1.bh when '00103' then 1 when '00110' then 2 else 0 end as type,b1.bh from
+        kt_qingj_more a1 inner join lr_kqingj_more b1 on a1.waich_xh=b1.xh inner join dt_user c1 on
+        b1.user_serial=c1.user_serial inner join kt_qingj d1 on b1.bh=d1.bh
+        WHERE c1.user_serial=#{userSerial} AND a1.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a4.waich_xh,c4.user_lname,c4.user_serial,d4.mc,b4.kssj,b4.jssj,null as rq,b4.czrq as qjsj,a4.flag,3 as
+        type,b4.bh from
+        kt_qingj_more a4 inner join lr_jiaba_more b4 on a4.waich_xh=b4.xh inner join dt_user c4 on
+        b4.user_serial=c4.user_serial inner join kt_leave_more d4 on b4.bh=d4.bh
+        WHERE c4.user_serial=#{userSerial} AND a4.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a3.waich_xh,c3.user_lname,c3.user_serial,d3.mc,null as kssj,null as jssj,b3.rq,b3.sj as qjsj,a3.flag,4 as
+        type,b3.bh from
+        kt_qingj_more a3 inner join kt_tiao_more b3 on a3.waich_xh=b3.xh inner join dt_user c3 on
+        b3.user_serial=c3.user_serial inner join kt_leave_more d3 on b3.bh=d3.bh
+        WHERE c3.user_serial=#{userSerial} AND a3.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a2.waich_xh,c2.user_lname,c2.user_serial,d2.mc,b2.sbsj as kssj,b2.xbsj as jssj,null as rq,b2.sj as
+        qjsj,a2.flag,5 as type,b2.bh from
+        kt_qingj_more a2 inner join lr_jl_more b2 on a2.waich_xh=b2.xh inner join dt_user c2 on
+        b2.user_serial=c2.user_serial inner join kt_leave_more d2 on b2.bh=d2.bh
+        WHERE c2.user_serial=#{userSerial} AND a2.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a5.waich_xh,d5.user_lname,d5.user_serial,c5.mc,b5.kssj,b5.jssj,null as rq,b5.czrq as qjsj,a5.flag,case
+        b5.bh when '00103' then 1 when '00110' then 2 else 0 end as type,b5.bh from
+        kt_qingj_more a5 inner join kt_qingj_revoke b5 on a5.waich_xh=b5.waich_xh inner join kt_qingj c5 on c5.bh=b5.bh
+        inner join dt_user d5 on d5.user_serial=b5.user_serial
+        where b5.user_serial=#{userSerial} and a5.flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a6.waich_xh,d6.user_lname,d6.user_serial,c6.mc,case when kqlx=1 then null else b6.kssj end as kssj,case
+        when kqlx=1 then null else b6.jssj end as jssj,case when kqlx=1 then b6.rq else null end as rq,b6.sj as
+        qjsj,a6.flag,case b6.bh when '00201' then 3 when '00202' then 4 else 5 end as type,b6.bh from
+        kt_qingj_more a6 inner join kt_paiban_revoke b6 on a6.waich_xh=b6.xh inner join kt_leave_more c6 on b6.bh=c6.bh
+        inner join dt_user d6 on b6.user_serial=d6.user_serial
+        where d6.user_serial=#{userSerial} and a6.flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        )aa order by aa.qjsj desc
+    </select>
+
+    <select id="getMyApplicationRevoke" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select aa.waich_xh,aa.user_lname,aa.mc,aa.kssj,aa.jssj,LEFT(CONVERT(VARCHAR(20),aa.qjsj,20),16)as
+        qjsj,aa.flag,CONVERT(VARCHAR(20),aa.rq,23)as rq,aa.type from(
+        select a1.waich_xh,c1.user_lname,c1.user_serial,d1.mc,b1.kssj,b1.jssj,null as rq,b1.czrq as qjsj,a1.flag,1 as
+        type from
+        kt_qingj_more a1 inner join lr_kqingj_more b1 on a1.waich_xh=b1.xh inner join dt_user c1 on
+        b1.user_serial=c1.user_serial inner join kt_qingj d1 on b1.bh=d1.bh
+        WHERE c1.user_serial=#{userSerial} AND a1.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a4.waich_xh,c4.user_lname,c4.user_serial,d4.mc,b4.kssj,b4.jssj,null as rq,b4.czrq as qjsj,a4.flag,2 as
+        type from
+        kt_qingj_more a4 inner join lr_jiaba_more b4 on a4.waich_xh=b4.xh inner join dt_user c4 on
+        b4.user_serial=c4.user_serial inner join kt_leave_more d4 on b4.bh=d4.bh
+        WHERE c4.user_serial=#{userSerial} AND a4.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a3.waich_xh,c3.user_lname,c3.user_serial,d3.mc,null as kssj,null as jssj,b3.rq,b3.sj as qjsj,a3.flag,3 as
+        type from
+        kt_qingj_more a3 inner join kt_tiao_more b3 on a3.waich_xh=b3.xh inner join dt_user c3 on
+        b3.user_serial=c3.user_serial inner join kt_leave_more d3 on b3.bh=d3.bh
+        WHERE c3.user_serial=#{userSerial} AND a3.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a2.waich_xh,c2.user_lname,c2.user_serial,d2.mc,b2.sbsj as kssj,b2.xbsj as jssj,null as rq,b2.sj as
+        qjsj,a2.flag,4 as type from
+        kt_qingj_more a2 inner join lr_jl_more b2 on a2.waich_xh=b2.xh inner join dt_user c2 on
+        b2.user_serial=c2.user_serial inner join kt_leave_more d2 on b2.bh=d2.bh
+        WHERE c2.user_serial=#{userSerial} AND a2.Flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a5.waich_xh,d5.user_lname,d5.user_serial,c5.mc,b5.kssj,b5.jssj,null as rq,b5.czrq as qjsj,a5.flag, 5 as
+        type from
+        kt_qingj_more a5 inner join kt_qingj_revoke b5 on a5.waich_xh=b5.waich_xh inner join kt_qingj c5 on c5.bh=b5.bh
+        inner join dt_user d5 on d5.user_serial=b5.user_serial
+        where b5.user_serial=#{userSerial} and a5.flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select a6.waich_xh,d6.user_lname,d6.user_serial,c6.mc,case when kqlx=1 then null else b6.kssj end as kssj,case
+        when kqlx=1 then null else b6.jssj end as jssj,case when kqlx=1 then b6.rq else null end as rq,b6.sj as
+        qjsj,a6.flag,6 as type from
+        kt_qingj_more a6 inner join kt_paiban_revoke b6 on a6.waich_xh=b6.xh inner join kt_leave_more c6 on b6.bh=c6.bh
+        inner join dt_user d6 on b6.user_serial=d6.user_serial
+        where d6.user_serial=#{userSerial} and a6.flag in (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        )aa order by aa.qjsj desc
+    </select>
+
+    <select id="getMyApproval" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select waich_xh,user_lname,mc,kssj,jssj,czrq as qjsj,Flag,rq,type,user_serial,bh from (
+        select waich_xh,user_lname,mc,kssj,jssj,czrq,Flag,null as rq,''as ybc,'' as xbc,case b1.bh when '00103' then 1
+        when '00110' then 2 else 0 end as type,b1.user_serial,b1.bh from
+        kt_qingj_more a1 inner join lr_kqingj_more b1 on a1.waich_xh=b1.xh inner join dt_user c1 on
+        b1.user_serial=c1.user_serial inner join kt_qingj d1 on d1.bh=b1.bh
+        where a1.check_pp LIKE '%'+#{userSerial}+'%' and a1.Flag IN (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select waich_xh,user_lname,mc,kssj,jssj,czrq,Flag,null as rq,''as ybc,'' as xbc,3 as type,b2.user_serial,b2.bh
+        from
+        kt_qingj_more a2 inner join lr_jiaba_more b2 on a2.waich_xh=b2.xh inner join dt_user c2 on
+        b2.user_serial=c2.user_serial inner join kt_leave_more d2 on d2.bh=b2.bh
+        where a2.check_pp LIKE '%'+#{userSerial}+'%' and a2.Flag IN (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select waich_xh,user_lname,mc,null as kssj,null as jssj,sj,Flag,CONVERT(VARCHAR(10), rq, 20) rq,ybc,xbc,4 as
+        type,b4.user_serial,b4.bh from
+        kt_qingj_more a4 inner join kt_tiao_more b4 on a4.waich_xh=b4.xh inner join dt_user c4 on
+        b4.user_serial=c4.user_serial inner join kt_leave_more d4 on d4.bh=b4.bh
+        where a4.check_pp LIKE '%'+#{userSerial}+'%' and a4.Flag IN (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        union all
+        select waich_xh,user_lname,mc,sbsj,xbsj,sj,Flag,null as rq,''as ybc,'' as xbc,5 as type,b3.user_serial,b3.bh
+        from
+        kt_qingj_more a3 inner join lr_jl_more b3 on a3.waich_xh=b3.xh inner join dt_user c3 on
+        b3.user_serial=c3.user_serial inner join kt_leave_more d3 on d3.bh=b3.bh
+        where a3.check_pp LIKE '%'+#{userSerial}+'%' and a3.Flag IN (
+        <foreach collection="lx.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+        )aa order by aa.czrq desc
+    </select>
+
+    <select id="getMyApproved" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select waich_xh,
+               user_lname,
+               mc,
+               kssj,
+               jssj,
+               czrq as qjsj,
+               Flag,
+               rq,
+               type,
+               bh
+        from (select waich_xh,
+                     user_lname,
+                     mc,
+                     kssj,
+                     jssj,
+                     czrq,
+                     Flag,
+                     null                                                          as rq,
+                     ''as                                                             ybc,
+                     ''                                                            as xbc,
+                     case b1.bh when '00103' then 1 when '00110' then 2 else 0 end as type,
+                     b1.bh
+              from kt_qingj_more a1
+                       inner join lr_kqingj_more b1 on a1.waich_xh = b1.xh
+                       inner join dt_user c1 on b1.user_serial = c1.user_serial
+                       inner join kt_qingj d1 on b1.bh = d1.bh
+              where (a1.Shenhe1 = #{userSerial} OR a1.Shenhe2 = #{userSerial} OR a1.Shenhe3 = #{userSerial} OR
+                     a1.Shenhe4 = #{userSerial} OR a1.Shenhe5 = #{userSerial} OR a1.Shenhe6 = #{userSerial} OR
+                     a1.Shenhe7 = #{userSerial} OR a1.Shenhe8 = #{userSerial} OR a1.Shenhe9 = #{userSerial} OR
+                     a1.Shenhe10 = #{userSerial})
+              union all
+              select waich_xh, user_lname, mc, kssj, jssj, czrq, Flag, null as rq, ''as ybc, '' as xbc, 3 as type, b1.bh
+              from kt_qingj_more a1
+                       inner join lr_jiaba_more b1 on a1.waich_xh = b1.xh
+                       inner join dt_user c1 on b1.user_serial = c1.user_serial
+                       inner join kt_leave_more d1 on b1.bh = d1.bh
+              where (a1.Shenhe1 = #{userSerial} OR a1.Shenhe2 = #{userSerial} OR a1.Shenhe3 = #{userSerial} OR
+                     a1.Shenhe4 = #{userSerial} OR a1.Shenhe5 = #{userSerial} OR a1.Shenhe6 = #{userSerial} OR
+                     a1.Shenhe7 = #{userSerial} OR a1.Shenhe8 = #{userSerial} OR a1.Shenhe9 = #{userSerial} OR
+                     a1.Shenhe10 = #{userSerial})
+              union all
+              select waich_xh,
+                     user_lname,
+                     mc,
+                     null as sbsj,
+                     null as xbsj,
+                     sj,
+                     Flag,
+                     CONVERT(VARCHAR(20), rq, 23),
+                     ybc,
+                     xbc,
+                     4    as type,
+                     b1.bh
+              from kt_qingj_more a1
+                       inner join kt_tiao_more b1 on a1.waich_xh = b1.xh
+                       inner join dt_user c1 on b1.user_serial = c1.user_serial
+                       inner join kt_leave_more d1 on b1.bh = d1.bh
+              where (a1.Shenhe1 = #{userSerial} OR a1.Shenhe2 = #{userSerial} OR a1.Shenhe3 = #{userSerial} OR
+                     a1.Shenhe4 = #{userSerial} OR a1.Shenhe5 = #{userSerial} OR a1.Shenhe6 = #{userSerial} OR
+                     a1.Shenhe7 = #{userSerial} OR a1.Shenhe8 = #{userSerial} OR a1.Shenhe9 = #{userSerial} OR
+                     a1.Shenhe10 = #{userSerial})
+              union all
+              select waich_xh, user_lname, mc, sbsj, xbsj, sj, Flag, null as rq, ''as ybc, '' as xbc, 5 as type, b1.bh
+              from kt_qingj_more a1
+                       inner join lr_jl_more b1 on a1.waich_xh = b1.xh
+                       inner join dt_user c1 on b1.user_serial = c1.user_serial
+                       inner join kt_leave_more d1 on b1.bh = d1.bh
+              where (a1.Shenhe1 = #{userSerial} OR a1.Shenhe2 = #{userSerial} OR a1.Shenhe3 = #{userSerial} OR
+                     a1.Shenhe4 = #{userSerial} OR a1.Shenhe5 = #{userSerial} OR a1.Shenhe6 = #{userSerial} OR
+                     a1.Shenhe7 = #{userSerial} OR a1.Shenhe8 = #{userSerial} OR a1.Shenhe9 = #{userSerial} OR
+                     a1.Shenhe10 = #{userSerial}))aa
+        order by aa.czrq desc
+
+    </select>
+
+    <select id="getMyMessage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select waich_xh,
+               user_lname,
+               kssj,
+               jssj,
+               mc,
+               rq,
+               copy_type as type,
+               flag,
+               qjsj,
+               user_serial,
+               bh
+        from view_copymsg
+        where copy_type in (select copy_type from wx_copy_user where user_serial = #{userSerial}
+                                                                 and lx = 0)
+           or user_serial in (select user_serial
+                              from dt_user
+                              where user_dep in (select dep_serial from wx_copy_user where user_serial = #{userSerial}
+                                                                                       and lx = 1))
+           or waich_xh in (select xh from copy_user where copy_user = #{userSerial})
+        order by qjsj desc
+    </select>
+
+    <update id="updateCheckId">
+        <foreach collection="list" index="index" item="item" separator=";">
+            update kt_qingj_more set check_id = #{item.id} where waich_xh = #{item.businessKey}
+        </foreach>
+    </update>
+
+</mapper>

@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisRegisterNewMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisRegisterNewEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="vis_serial" jdbcType="BIGINT" property="visSerial"/>
+        <result column="vis_no" jdbcType="NVARCHAR" property="visNo"/>
+        <result column="dep_no" jdbcType="CHAR" property="depNo"/>
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="vis_card" jdbcType="NVARCHAR" property="visCard"/>
+        <result column="vis_nums" jdbcType="INTEGER" property="visNums"/>
+        <result column="vis_cars" jdbcType="NVARCHAR" property="visCars"/>
+        <result column="vis_kssj" jdbcType="TIMESTAMP" property="visKssj"/>
+        <result column="vis_time" jdbcType="INTEGER" property="visTime"/>
+        <result column="vis_jssj" jdbcType="TIMESTAMP" property="visJssj"/>
+        <result column="vis_thing" jdbcType="CHAR" property="visThing"/>
+        <result column="vis_state" jdbcType="INTEGER" property="visState"/>
+        <result column="vis_bz" jdbcType="NVARCHAR" property="visBz"/>
+        <result column="vis_ok" jdbcType="INTEGER" property="visOk"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="vis_kssj_real" jdbcType="TIMESTAMP" property="visKssjReal"/>
+        <result column="vis_jssj_real" jdbcType="TIMESTAMP" property="visJssjReal"/>
+        <result column="vis_time_out" jdbcType="INTEGER" property="visTimeOut"/>
+        <result column="bh" jdbcType="CHAR" property="bh"/>
+        <result column="Vis_area" jdbcType="NVARCHAR" property="visArea"/>
+        <result column="follow_user" jdbcType="VARCHAR" property="followUser"/>
+        <result column="carries" jdbcType="VARCHAR" property="carries"/>
+        <result column="vis_lx" jdbcType="INTEGER" property="visLx"/>
+        <result column="approve_state" jdbcType="VARCHAR" property="approveState"/>
+        <result column="visitor_state" jdbcType="VARCHAR" property="visitorState"/>
+        <result column="car_state" jdbcType="VARCHAR" property="carState"/>
+        <result column="remark" jdbcType="NVARCHAR" property="remark"/>
+        <result column="qr_id" jdbcType="VARCHAR" property="qrId"/>
+        <result column="VIS_AREA_NAME" jdbcType="VARCHAR" property="visAreaName"/>
+        <result column="vis_keeper_no" jdbcType="VARCHAR" property="visKeeperNo"/>
+
+        <result column="thing_name" jdbcType="NVARCHAR" property="thingName"/>
+        <result column="vis_lname" jdbcType="NVARCHAR" property="visLname"/>
+        <result column="user_lname" jdbcType="NVARCHAR" property="userLname"/>
+        <result column="user_depname" jdbcType="NVARCHAR" property="userDepname"/>
+        <result column="vis_telephone" jdbcType="NVARCHAR" property="visTelephone"/>
+        <result column="face_photo" jdbcType="VARCHAR" property="facePhoto"/>
+        <result column="vis_id" jdbcType="NVARCHAR" property="visId"/>
+        <result column="user_telephone" jdbcType="VARCHAR" property="telePhone"/>
+        <result column="card_flag" jdbcType="INTEGER" property="cardFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, vis_serial, vis_no, dep_no, user_serial, vis_card, vis_nums, vis_cars, vis_kssj,
+            vis_jssj, vis_time, vis_thing, vis_state, vis_bz, vis_ok, sj, gly_no, vis_kssj_real,
+            vis_jssj_real, vis_time_out, bh, Vis_area, follow_user, carries, vis_lx, approve_state,
+            visitor_state, car_state, remark, qr_id, VIS_AREA_NAME, vis_keeper_no
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select t1.xh,
+               t1.vis_serial,
+               t1.vis_no,
+               t1.dep_no,
+               t1.user_serial,
+               t1.vis_card,
+               t1.vis_nums,
+               t1.vis_cars,
+               t1.vis_kssj,
+               t1.vis_jssj,
+               t1.vis_time,
+               t1.vis_thing,
+               t1.vis_state,
+               t1.vis_bz,
+               t1.vis_ok,
+               t1.sj,
+               t1.gly_no,
+               t1.vis_kssj_real,
+               t1.vis_jssj_real,
+               t1.vis_time_out,
+               t1.bh,
+               t1.Vis_area,
+               t1.follow_user,
+               t1.carries,
+               t1.vis_lx,
+               t1.approve_state,
+               t1.visitor_state,
+               t1.car_state,
+               t1.remark,
+               t1.qr_id,
+               t1.VIS_AREA_NAME,
+               t1.vis_keeper_no,
+               t3.thing_name,
+               t2.user_lname,
+               t2.user_telephone
+        from Vis_register t1
+                 left join vis_thing t3 on t1.vis_thing = t3.xh
+                 join dt_user t2 on t1.user_serial = t2.user_serial
+        where t1.xh = #{xh,jdbcType=INTEGER}
+        <![CDATA[
+          and t2.user_type < 51
+        ]]>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from Vis_register
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisRegisterNewEntity" useGeneratedKeys="true"
+            keyProperty="xh" keyColumn="xh">
+        insert into Vis_register (vis_serial,
+                                  vis_no,
+                                  dep_no,
+                                  user_serial,
+                                  vis_card,
+                                  vis_nums,
+                                  vis_cars,
+                                  vis_kssj,
+                                  vis_jssj,
+                                  vis_time,
+                                  vis_thing,
+                                  vis_state,
+                                  vis_bz,
+                                  vis_ok,
+                                  sj,
+                                  gly_no,
+                                  vis_kssj_real,
+                                  vis_jssj_real,
+                                  vis_time_out,
+                                  bh,
+                                  Vis_area,
+                                  follow_user,
+                                  carries,
+                                  vis_lx,
+                                  approve_state,
+                                  visitor_state,
+                                  car_state,
+                                  remark,
+                                  qr_id,
+                                  VIS_AREA_NAME,
+                                  vis_keeper_no)
+        values (#{visSerial,jdbcType=BIGINT},
+                #{visNo,jdbcType=NVARCHAR},
+                #{depNo,jdbcType=CHAR},
+                #{userSerial,jdbcType=BIGINT},
+                #{visCard,jdbcType=NVARCHAR},
+                #{visNums,jdbcType=INTEGER},
+                #{visCars,jdbcType=NVARCHAR},
+                #{visKssj,jdbcType=TIMESTAMP},
+                #{visJssj,jdbcType=TIMESTAMP},
+                #{visTime,jdbcType=INTEGER},
+                #{visThing,jdbcType=CHAR},
+                #{visState,jdbcType=INTEGER},
+                #{visBz,jdbcType=NVARCHAR},
+                #{visOk,jdbcType=INTEGER},
+                #{sj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=NVARCHAR},
+                #{visKssjReal,jdbcType=TIMESTAMP},
+                #{visJssjReal,jdbcType=TIMESTAMP},
+                #{visTimeOut,jdbcType=INTEGER},
+                #{bh,jdbcType=CHAR},
+                #{visArea,jdbcType=NVARCHAR},
+                #{followUser,jdbcType=VARCHAR},
+                #{carries,jdbcType=VARCHAR},
+                #{visLx,jdbcType=INTEGER},
+                #{approveState,jdbcType=VARCHAR},
+                #{visitorState,jdbcType=VARCHAR},
+                #{carState,jdbcType=VARCHAR},
+                #{remark,jdbcType=NVARCHAR},
+                #{qrId,jdbcType=VARCHAR},
+                #{visAreaName,jdbcType=VARCHAR},
+                #{visKeeperNo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisRegisterNewEntity" useGeneratedKeys="true"
+            keyProperty="xh" keyColumn="xh">
+        insert into Vis_register
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                vis_serial,
+            </if>
+            <if test="visNo != null">
+                vis_no,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="visCard != null">
+                vis_card,
+            </if>
+            <if test="visNums != null">
+                vis_nums,
+            </if>
+            <if test="visCars != null">
+                vis_cars,
+            </if>
+            <if test="visKssj != null">
+                vis_kssj,
+            </if>
+            <if test="visJssj != null">
+                vis_jssj,
+            </if>
+            <if test="visTime != null">
+                vis_time,
+            </if>
+            <if test="visThing != null">
+                vis_thing,
+            </if>
+            <if test="visState != null">
+                vis_state,
+            </if>
+            <if test="visBz != null">
+                vis_bz,
+            </if>
+            <if test="visOk != null">
+                vis_ok,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="visKssjReal != null">
+                vis_kssj_real,
+            </if>
+            <if test="visJssjReal != null">
+                vis_jssj_real,
+            </if>
+            <if test="visTimeOut != null">
+                vis_time_out,
+            </if>
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="visArea != null">
+                Vis_area,
+            </if>
+            <if test="followUser != null">
+                follow_user,
+            </if>
+            <if test="carries != null">
+                carries,
+            </if>
+            <if test="visLx != null">
+                vis_lx,
+            </if>
+            <if test="approveState != null">
+                approve_state,
+            </if>
+            <if test="visitorState != null">
+                visitor_state,
+            </if>
+            <if test="carState != null">
+                car_state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="qrId != null">
+                qr_id,
+            </if>
+            <if test="visAreaName != null">
+                VIS_AREA_NAME,
+            </if>
+            <if test="visKeeperNo != null">
+                vis_keeper_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visNo != null">
+                #{visNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visCard != null">
+                #{visCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNums != null">
+                #{visNums,jdbcType=INTEGER},
+            </if>
+            <if test="visCars != null">
+                #{visCars,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssj != null">
+                #{visKssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssj != null">
+                #{visJssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTime != null">
+                #{visTime,jdbcType=INTEGER},
+            </if>
+            <if test="visThing != null">
+                #{visThing,jdbcType=CHAR},
+            </if>
+            <if test="visState != null">
+                #{visState,jdbcType=INTEGER},
+            </if>
+            <if test="visBz != null">
+                #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visOk != null">
+                #{visOk,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssjReal != null">
+                #{visKssjReal,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssjReal != null">
+                #{visJssjReal,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTimeOut != null">
+                #{visTimeOut,jdbcType=INTEGER},
+            </if>
+            <if test="bh != null">
+                #{bh,jdbcType=CHAR},
+            </if>
+            <if test="visArea != null">
+                #{visArea,jdbcType=NVARCHAR},
+            </if>
+            <if test="followUser != null">
+                #{followUser,jdbcType=VARCHAR},
+            </if>
+            <if test="carries != null">
+                #{carries,jdbcType=VARCHAR},
+            </if>
+            <if test="visLx != null">
+                #{visLx,jdbcType=INTEGER},
+            </if>
+            <if test="approveState != null">
+                #{approveState,jdbcType=VARCHAR},
+            </if>
+            <if test="visitorState != null">
+                #{visitorState,jdbcType=VARCHAR},
+            </if>
+            <if test="carState != null">
+                #{carState,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="qrId != null">
+                #{qrId,jdbcType=VARCHAR},
+            </if>
+            <if test="visAreaName != null">
+                #{visAreaName,jdbcType=VARCHAR},
+            </if>
+            <if test="visKeeperNo != null">
+                #{visKeeperNo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisRegisterNewEntity">
+        update Vis_register
+        <set>
+            <if test="visSerial != null">
+                vis_serial = #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visNo != null">
+                vis_no = #{visNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visCard != null">
+                vis_card = #{visCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNums != null">
+                vis_nums = #{visNums,jdbcType=INTEGER},
+            </if>
+            <if test="visCars != null">
+                vis_cars = #{visCars,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssj != null">
+                vis_kssj = #{visKssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssj != null">
+                vis_jssj = #{visJssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTime != null">
+                vis_time = #{visTime,jdbcType=INTEGER},
+            </if>
+            <if test="visThing != null">
+                vis_thing = #{visThing,jdbcType=CHAR},
+            </if>
+            <if test="visState != null">
+                vis_state = #{visState,jdbcType=INTEGER},
+            </if>
+            <if test="visBz != null">
+                vis_bz = #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visOk != null">
+                vis_ok = #{visOk,jdbcType=INTEGER},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="visKssjReal != null">
+                vis_kssj_real = #{visKssjReal,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visJssjReal != null">
+                vis_jssj_real = #{visJssjReal,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visTimeOut != null">
+                vis_time_out = #{visTimeOut,jdbcType=INTEGER},
+            </if>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=CHAR},
+            </if>
+            <if test="visArea != null">
+                Vis_area = #{visArea,jdbcType=NVARCHAR},
+            </if>
+            <if test="followUser != null">
+                follow_user = #{followUser,jdbcType=VARCHAR},
+            </if>
+            <if test="carries != null">
+                carries = #{carries,jdbcType=VARCHAR},
+            </if>
+            <if test="visLx != null">
+                vis_lx = #{visLx,jdbcType=INTEGER},
+            </if>
+            <if test="approveState != null">
+                approve_state = #{approveState,jdbcType=VARCHAR},
+            </if>
+            <if test="visitorState != null">
+                visitor_state = #{visitorState,jdbcType=VARCHAR},
+            </if>
+            <if test="carState != null">
+                car_state = #{carState,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=NVARCHAR},
+            </if>
+            <if test="qrId != null">
+                qr_id = #{qrId,jdbcType=VARCHAR},
+            </if>
+            <if test="visAreaName != null">
+                VIS_AREA_NAME = #{visAreaName,jdbcType=VARCHAR},
+            </if>
+            <if test="visKeeperNo != null">
+                vis_keeper_no = #{visKeeperNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisRegisterNewEntity">
+        update Vis_register
+        set vis_serial    = #{visSerial,jdbcType=BIGINT},
+            vis_no        = #{visNo,jdbcType=NVARCHAR},
+            dep_no        = #{depNo,jdbcType=CHAR},
+            user_serial   = #{userSerial,jdbcType=BIGINT},
+            vis_card      = #{visCard,jdbcType=NVARCHAR},
+            vis_nums      = #{visNums,jdbcType=INTEGER},
+            vis_cars      = #{visCars,jdbcType=NVARCHAR},
+            vis_kssj      = #{visKssj,jdbcType=TIMESTAMP},
+            vis_jssj      = #{visJssj,jdbcType=TIMESTAMP},
+            vis_time      = #{visTime,jdbcType=INTEGER},
+            vis_thing     = #{visThing,jdbcType=CHAR},
+            vis_state     = #{visState,jdbcType=INTEGER},
+            vis_bz        = #{visBz,jdbcType=NVARCHAR},
+            vis_ok        = #{visOk,jdbcType=INTEGER},
+            sj            = #{sj,jdbcType=TIMESTAMP},
+            gly_no        = #{glyNo,jdbcType=NVARCHAR},
+            vis_kssj_real = #{visKssjReal,jdbcType=TIMESTAMP},
+            vis_jssj_real = #{visJssjReal,jdbcType=TIMESTAMP},
+            vis_time_out  = #{visTimeOut,jdbcType=INTEGER},
+            bh            = #{bh,jdbcType=CHAR},
+            Vis_area      = #{visArea,jdbcType=NVARCHAR},
+            follow_user   = #{followUser,jdbcType=VARCHAR},
+            carries       = #{carries,jdbcType=VARCHAR},
+            vis_lx        = #{visLx,jdbcType=INTEGER},
+            approve_state = #{approveState,jdbcType=VARCHAR},
+            visitor_state = #{visitorState,jdbcType=VARCHAR},
+            car_state     = #{carState,jdbcType=VARCHAR},
+            remark        = #{remark,jdbcType=NVARCHAR},
+            qr_id         = #{qrId,jdbcType=VARCHAR},
+            VIS_AREA_NAME = #{visAreaName,jdbcType=VARCHAR},
+            vis_keeper_no = #{visKeeperNo,jdbcType=VARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisRegisterNewEntity" resultMap="BaseResultMap">
+        <![CDATA[
+          select
+            t1.xh,
+            t1.vis_serial,
+            t1.vis_no,
+            t1.dep_no,
+            t1.user_serial,
+            t1.vis_card,
+            t1.vis_nums,
+            t1.vis_cars,
+            t1.vis_kssj,
+            t1.vis_jssj,
+            t1.vis_time,
+            t1.vis_thing,
+            t1.vis_state,
+            t1.vis_bz,
+            t1.vis_ok,
+            t1.sj,
+            t1.gly_no,
+            t1.vis_kssj_real,
+            t1.vis_jssj_real,
+            t1.vis_time_out,
+            t1.bh,
+            t1.Vis_area,
+            t1.follow_user,
+            t1.carries,
+            t1.vis_lx,
+            t1.approve_state,
+            t1.visitor_state,
+            t1.car_state,
+            t1.remark,
+            t1.qr_id,
+            t1.VIS_AREA_NAME,
+            t1.vis_keeper_no,
+            t3.thing_name,
+            t2.vis_lname,
+            t4.user_lname,
+            t4.user_depname,
+            t2.vis_telephone,
+            t2.vis_id,
+            t2.face_photo,
+            isnull(t5.card_flag, 0) card_flag
+        from Vis_register t1
+        join vis_user t2 on t1.vis_serial = t2.vis_serial
+        join vis_thing t3 on t1.vis_thing = t3.xh
+        join dt_user t4 on t1.user_serial = t4.user_serial and t4.user_type < 51
+        left join (select vis_serial, count(1) as card_flag from Vis_card_user where vis_flg = 0 and cast(vis_serial as varchar(20)) != card_hao group by vis_serial) t5
+        on t1.vis_serial = t5.vis_serial
+        ]]>
+        <where>
+            <if test="visKeeperNo != null">
+                and (t1.vis_keeper_no = #{visKeeperNo,jdbcType=VARCHAR} or t1.vis_keeper_no is null)
+            </if>
+            <if test="xh != null">
+                and t1.xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="visSerial != null">
+                and t1.vis_serial = #{visSerial,jdbcType=BIGINT}
+            </if>
+            <if test="visNo != null">
+                <bind name="visNoLike" value="'%'+visNo+'%'"/>
+                and t1.vis_no like #{visNoLike}
+                <!--and vis_no = #{visNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and t1.dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=CHAR}-->
+            </if>
+            <if test="userSerial != null">
+                and t1.user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="visCard != null">
+                <bind name="visCardLike" value="'%'+visCard+'%'"/>
+                and t1.vis_card like #{visCardLike}
+                <!--and vis_card = #{visCard,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visNums != null">
+                and t1.vis_nums = #{visNums,jdbcType=INTEGER}
+            </if>
+            <if test="visCars != null">
+                <bind name="visCarsLike" value="'%'+visCars+'%'"/>
+                and t1.vis_cars like #{visCarsLike}
+                <!--and vis_cars = #{visCars,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="startDate != null">
+                and CONVERT(varchar(100), t1.vis_kssj, 112) >= CONVERT(varchar(100),
+                #{startDate,jdbcType=TIMESTAMP},112)
+            </if>
+            <if test="endDate != null">
+                <![CDATA[
+                and CONVERT(varchar(100), t1.vis_jssj, 112) <= CONVERT(varchar(100), #{endDate,jdbcType=TIMESTAMP}, 112)
+                ]]>
+            </if>
+            <if test="visTime != null">
+                and t1.vis_time = #{visTime,jdbcType=INTEGER}
+            </if>
+            <if test="visThing != null">
+                <bind name="visThingLike" value="'%'+visThing+'%'"/>
+                and t1.vis_thing like #{visThingLike}
+                <!--and vis_thing = #{visThing,jdbcType=CHAR}-->
+            </if>
+            <if test="visState != null">
+                and t1.vis_state = #{visState,jdbcType=INTEGER}
+            </if>
+            <if test="visBz != null">
+                <bind name="visBzLike" value="'%'+visBz+'%'"/>
+                and t1.vis_bz like #{visBzLike}
+                <!--and vis_bz = #{visBz,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visOk != null">
+                and t1.vis_ok = #{visOk,jdbcType=INTEGER}
+            </if>
+            <if test="sj != null">
+                and t1.sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and t1.gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visKssjReal != null">
+                and t1.vis_kssj_real = #{visKssjReal,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visJssjReal != null">
+                and t1.vis_jssj_real = #{visJssjReal,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visTimeOut != null">
+                and t1.vis_time_out = #{visTimeOut,jdbcType=INTEGER}
+            </if>
+            <if test="bh != null">
+                <bind name="bhLike" value="'%'+bh+'%'"/>
+                and t1.bh like #{bhLike}
+                <!--and bh = #{bh,jdbcType=CHAR}-->
+            </if>
+            <if test="visArea != null">
+                <bind name="visAreaLike" value="'%'+visArea+'%'"/>
+                and t1.Vis_area like #{visAreaLike}
+                <!--and Vis_area = #{visArea,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="followUser != null">
+                <bind name="followUserLike" value="'%'+followUser+'%'"/>
+                and t1.follow_user like #{followUserLike}
+                <!--and follow_user = #{followUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="carries != null">
+                <bind name="carriesLike" value="'%'+carries+'%'"/>
+                and t1.carries like #{carriesLike}
+                <!--and carries = #{carries,jdbcType=VARCHAR}-->
+            </if>
+            <if test="visLx != null">
+                and t1.vis_lx = #{visLx,jdbcType=INTEGER}
+            </if>
+            <if test="approveState != null">
+                and t1.approve_state in
+                <foreach collection="approveState.split(',')" item="item" open="(" close=")" separator=",">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="visitorState != null">
+                <bind name="visitorStateLike" value="'%'+visitorState+'%'"/>
+                and t1.visitor_state like #{visitorStateLike}
+                <!--and visitor_state = #{visitorState,jdbcType=VARCHAR}-->
+            </if>
+            <if test="carState != null">
+                <bind name="carStateLike" value="'%'+carState+'%'"/>
+                and t1.car_state like #{carStateLike}
+                <!--and car_state = #{carState,jdbcType=VARCHAR}-->
+            </if>
+            <if test="qrId != null">
+                and qr_id = #{qrId,jdbcType=VARCHAR}
+            </if>
+            <if test="visSerials != null">
+                and t1.vis_serial in
+                <foreach collection="visSerials" item="item" open="(" close=")" separator=",">
+                    #{item, jdbcType=BIGINT}
+                </foreach>
+            </if>
+            <if test="keys != null and keys != ''">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (t4.user_lname like #{keysLike}
+                or t2.vis_lname like #{keysLike}
+                or t2.vis_id like #{keysLike})
+            </if>
+        </where>
+        order by t1.vis_kssj desc, t1.vis_state, t1.visitor_state, t1.approve_state
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_register
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or xh == #{keys}
+                or vis_serial == #{keys}
+                or vis_no like #{keysLike}
+                or dep_no like #{keysLike}
+                or user_serial == #{keys}
+                or vis_card like #{keysLike}
+                or vis_nums == #{keys}
+                or vis_cars like #{keysLike}
+                or vis_kssj == #{keys}
+                or vis_jssj == #{keys}
+                or vis_time == #{keys}
+                or vis_thing like #{keysLike}
+                or vis_state == #{keys}
+                or vis_bz like #{keysLike}
+                or vis_ok == #{keys}
+                or sj == #{keys}
+                or gly_no like #{keysLike}
+                or vis_kssj_real == #{keys}
+                or vis_jssj_real == #{keys}
+                or vis_time_out == #{keys}
+                or bh like #{keysLike}
+                or Vis_area like #{keysLike}
+                or follow_user like #{keysLike}
+                or carries like #{keysLike}
+                or vis_lx == #{keys}
+                or approve_state like #{keysLike}
+                or visitor_state like #{keysLike}
+                or car_state like #{keysLike}
+                or remark like #{keysLike}
+                or qr_id like #{keysLike}
+                or VIS_AREA_NAME like #{keysLike}
+                or vis_keeper_no like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        Vis_register
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+    <select id="selectRepeatRecord" parameterType="com.weds.edwx.entity.VisRegisterNewEntity" resultMap="BaseResultMap">
+        <![CDATA[
+        select *
+        from vis_register t1
+        where #{visKssj,jdbcType=TIMESTAMP} >= t1.vis_kssj
+          and #{visKssj,jdbcType=TIMESTAMP} < t1.vis_jssj
+          and #{visJssj,jdbcType=TIMESTAMP} > t1.vis_kssj
+          and #{visJssj,jdbcType=TIMESTAMP} <= t1.vis_jssj
+          and approve_state in ('0', '1', '3')
+          and visitor_state <> '9'
+          and vis_serial = #{visSerial,jdbcType=BIGINT}
+        ]]>
+    </select>
+</mapper>

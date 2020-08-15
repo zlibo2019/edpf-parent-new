@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.AppFlowMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.AppFlowEntity">
+        <id column="flow_id" jdbcType="VARCHAR" property="flowId"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="bussiness_id" jdbcType="VARCHAR" property="bussinessId"/>
+        <result column="flow_user_id" jdbcType="VARCHAR" property="flowUserId"/>
+        <result column="flow_time" jdbcType="VARCHAR" property="flowTime"/>
+        <result column="flow_state" jdbcType="INTEGER" property="flowState"/>
+        <result column="flow_cotent" jdbcType="VARCHAR" property="flowCotent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        flow_id, company_id, bussiness_id, flow_user_id, flow_time, flow_state, flow_cotent
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_flow
+        where flow_id = #{flowId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from app_flow
+        where flow_id = #{flowId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.AppFlowEntity">
+        insert into app_flow (flow_id, company_id, bussiness_id, flow_user_id, flow_time, flow_state, flow_cotent)
+        values (#{flowId,jdbcType=VARCHAR},
+                #{companyId,jdbcType=INTEGER},
+                #{bussinessId,jdbcType=VARCHAR},
+                #{flowUserId,jdbcType=VARCHAR},
+                #{flowTime,jdbcType=VARCHAR},
+                #{flowState,jdbcType=INTEGER},
+                #{flowCotent,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.AppFlowEntity">
+        insert into app_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">
+                flow_id,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="bussinessId != null">
+                bussiness_id,
+            </if>
+            <if test="flowUserId != null">
+                flow_user_id,
+            </if>
+            <if test="flowTime != null">
+                flow_time,
+            </if>
+            <if test="flowState != null">
+                flow_state,
+            </if>
+            <if test="flowCotent != null">
+                flow_cotent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">
+                #{flowId,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="bussinessId != null">
+                #{bussinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="flowUserId != null">
+                #{flowUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="flowTime != null">
+                #{flowTime,jdbcType=VARCHAR},
+            </if>
+            <if test="flowState != null">
+                #{flowState,jdbcType=INTEGER},
+            </if>
+            <if test="flowCotent != null">
+                #{flowCotent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.AppFlowEntity">
+        update app_flow
+        <set>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="bussinessId != null">
+                bussiness_id = #{bussinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="flowUserId != null">
+                flow_user_id = #{flowUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="flowTime != null">
+                flow_time = #{flowTime,jdbcType=VARCHAR},
+            </if>
+            <if test="flowState != null">
+                flow_state = #{flowState,jdbcType=INTEGER},
+            </if>
+            <if test="flowCotent != null">
+                flow_cotent = #{flowCotent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where flow_id = #{flowId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.AppFlowEntity">
+        update app_flow
+        set company_id   = #{companyId,jdbcType=INTEGER},
+            bussiness_id = #{bussinessId,jdbcType=VARCHAR},
+            flow_user_id = #{flowUserId,jdbcType=VARCHAR},
+            flow_time    = #{flowTime,jdbcType=VARCHAR},
+            flow_state   = #{flowState,jdbcType=INTEGER},
+            flow_cotent  = #{flowCotent,jdbcType=VARCHAR}
+        where flow_id = #{flowId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.AppFlowEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from app_flow
+        <where>
+            <if test="flowId != null">
+                <bind name="flowIdLike" value="'%'+flowId+'%'"/>
+                and flow_id like #{flowIdLike}
+                <!--and flow_id = #{flowId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="companyId != null">
+                and company_id = #{companyId,jdbcType=INTEGER}
+            </if>
+            <if test="bussinessId != null">
+                <bind name="bussinessIdLike" value="'%'+bussinessId+'%'"/>
+                and bussiness_id like #{bussinessIdLike}
+                <!--and bussiness_id = #{bussinessId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="flowUserId != null">
+                <bind name="flowUserIdLike" value="'%'+flowUserId+'%'"/>
+                and flow_user_id like #{flowUserIdLike}
+                <!--and flow_user_id = #{flowUserId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="flowTime != null">
+                <bind name="flowTimeLike" value="'%'+flowTime+'%'"/>
+                and flow_time like #{flowTimeLike}
+                <!--and flow_time = #{flowTime,jdbcType=VARCHAR}-->
+            </if>
+            <if test="flowState != null">
+                and flow_state = #{flowState,jdbcType=INTEGER}
+            </if>
+            <if test="flowCotent != null">
+                <bind name="flowCotentLike" value="'%'+flowCotent+'%'"/>
+                and flow_cotent like #{flowCotentLike}
+                <!--and flow_cotent = #{flowCotent,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteNextApproval" parameterType="java.lang.String">
+        delete from app_flow
+        where bussiness_id = #{bussinessId,jdbcType=VARCHAR}
+          and flow_state = 9
+    </delete>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.ApprovalPersonMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.ApprovalPersonEntity">
+        <result column="user_serial" jdbcType="VARCHAR" property="userSerial"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userName"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="czrq" jdbcType="TIMESTAMP" property="czrq"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+    </resultMap>
+
+    <select id="selectLeaveApplyUser" resultMap="BaseResultMap">
+        select a.user_serial,b.user_lname,czrq,0 as type from
+        Lr_kqingj_more a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+        union all
+        select a.user_serial,b.user_lname,czrq,0 as type from
+        kt_qingj_revoke a inner join dt_user b on a.user_serial = b.user_serial where a.waich_xh = #{xh}
+    </select>
+
+    <select id="selectShiftApplyUser" resultMap="BaseResultMap">
+        select a.user_serial,b.user_lname,sj as czrq,0 as type from
+        kt_tiao_more a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+        union all
+        select a.user_serial,b.user_lname,sj as czrq,0 as type from
+        kt_paiban_revoke a left join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+    </select>
+
+    <select id="selectAttendanceApplyUser" resultMap="BaseResultMap">
+        select a.user_serial,b.user_lname,sj as czrq,0 as type from
+        lr_jl_more a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+        union all
+        select a.user_serial,b.user_lname,sj as czrq,0 as type from
+        kt_paiban_revoke a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+    </select>
+
+
+    <select id="selectOverTimeApplyUser" resultMap="BaseResultMap">
+        select a.user_serial,b.user_lname,czrq,0 as type from
+        lr_jiaba_more a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+        union all
+        select a.user_serial,b.user_lname,sj as czrq,0 as type from
+        kt_paiban_revoke a inner join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+    </select>
+
+    <select id="selectApprovalUser" resultMap="BaseResultMap">
+        select shenhe${num} as user_serial,b.user_lname,shsj${num} as czrq,shyj${num} as type,reason${num} as reason  from
+        kt_qingj_more a left join dt_user b on b.user_serial = a.Shenhe${num} where waich_xh = #{xh}
+    </select>
+
+    <select id="selectRevokeUser" resultMap="BaseResultMap">
+        select a.user_serial,b.user_lname,czrq,4 as type from
+        kt_qingj_revoke a left join dt_user b on a.user_serial = b.user_serial where waich_xh = #{xh}
+        union all
+        select a.user_serial,b.user_lname,sj as czrq,4 as type from
+        kt_paiban_revoke a left join dt_user b on a.user_serial = b.user_serial where xh = #{xh}
+    </select>
+
+    <select id="selectFalg" resultType="java.lang.Integer">
+        select Flag from kt_qingj_more where waich_xh = #{xh}
+    </select>
+    
+    <select id="selectShjb" resultType="java.lang.Integer">
+        select shjb from kt_qingj_more where waich_xh = #{xh}
+    </select>
+    
+    <select id="selectCheckProgress" resultType="java.lang.String">
+        select check_progress from kt_qingj_more where waich_xh = #{xh}
+    </select>
+    
+    <select id="selectUserName" resultMap="BaseResultMap">
+        select user_serial,user_lname from dt_user where user_serial in (
+        <foreach collection="userSerials.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+</mapper>

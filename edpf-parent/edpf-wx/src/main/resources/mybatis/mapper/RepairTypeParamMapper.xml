@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.RepairTypeParamMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.RepairTypeParamEntity">
+    <id column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+    <id column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="TYPE_INDEX" jdbcType="INTEGER" property="typeIndex" />
+    <result column="USER_SERIAL" jdbcType="INTEGER" property="userSerial" />
+    <result column="USE_FLAG" jdbcType="VARCHAR" property="useFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="SPARE_COL1" jdbcType="VARCHAR" property="spareCol1" />
+    <result column="SPARE_COL2" jdbcType="VARCHAR" property="spareCol2" />
+    <result column="SPARE_COL3" jdbcType="VARCHAR" property="spareCol3" />
+    <result column="CT_USER" jdbcType="VARCHAR" property="ctUser" />
+    <result column="CT_DATE" jdbcType="TIMESTAMP" property="ctDate" />
+    <result column="LT_USER" jdbcType="VARCHAR" property="ltUser" />
+    <result column="LT_DATE" jdbcType="TIMESTAMP" property="ltDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    COMPANY_ID, TYPE_ID, TYPE_NAME, TYPE_INDEX, USER_SERIAL, USE_FLAG, REMARK, SPARE_COL1, 
+    SPARE_COL2, SPARE_COL3, CT_USER, CT_DATE, LT_USER, LT_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPAIR_TYPE_PARAM
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+      and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from REPAIR_TYPE_PARAM
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+      and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.RepairTypeParamEntity">
+    insert into REPAIR_TYPE_PARAM (COMPANY_ID, TYPE_ID, TYPE_NAME, 
+      TYPE_INDEX, USER_SERIAL, USE_FLAG, 
+      REMARK, SPARE_COL1, SPARE_COL2, 
+      SPARE_COL3, CT_USER, CT_DATE, 
+      LT_USER, LT_DATE)
+    values (#{companyId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{typeIndex,jdbcType=INTEGER}, #{userSerial,jdbcType=INTEGER}, #{useFlag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{spareCol1,jdbcType=VARCHAR}, #{spareCol2,jdbcType=VARCHAR}, 
+      #{spareCol3,jdbcType=VARCHAR}, #{ctUser,jdbcType=VARCHAR}, #{ctDate,jdbcType=TIMESTAMP}, 
+      #{ltUser,jdbcType=VARCHAR}, #{ltDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.RepairTypeParamEntity">
+    insert into REPAIR_TYPE_PARAM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        COMPANY_ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="typeIndex != null">
+        TYPE_INDEX,
+      </if>
+      <if test="userSerial != null">
+        USER_SERIAL,
+      </if>
+      <if test="useFlag != null">
+        USE_FLAG,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="spareCol1 != null">
+        SPARE_COL1,
+      </if>
+      <if test="spareCol2 != null">
+        SPARE_COL2,
+      </if>
+      <if test="spareCol3 != null">
+        SPARE_COL3,
+      </if>
+      <if test="ctUser != null">
+        CT_USER,
+      </if>
+      <if test="ctDate != null">
+        CT_DATE,
+      </if>
+      <if test="ltUser != null">
+        LT_USER,
+      </if>
+      <if test="ltDate != null">
+        LT_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeIndex != null">
+        #{typeIndex,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=INTEGER},
+      </if>
+      <if test="useFlag != null">
+        #{useFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol1 != null">
+        #{spareCol1,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol2 != null">
+        #{spareCol2,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol3 != null">
+        #{spareCol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUser != null">
+        #{ctUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ctDate != null">
+        #{ctDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ltUser != null">
+        #{ltUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ltDate != null">
+        #{ltDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.RepairTypeParamEntity">
+    update REPAIR_TYPE_PARAM
+    <set>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeIndex != null">
+        TYPE_INDEX = #{typeIndex,jdbcType=INTEGER},
+      </if>
+      <if test="userSerial != null">
+        USER_SERIAL = #{userSerial,jdbcType=INTEGER},
+      </if>
+      <if test="useFlag != null">
+        USE_FLAG = #{useFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol1 != null">
+        SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol2 != null">
+        SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol3 != null">
+        SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUser != null">
+        CT_USER = #{ctUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ctDate != null">
+        CT_DATE = #{ctDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ltUser != null">
+        LT_USER = #{ltUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ltDate != null">
+        LT_DATE = #{ltDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+      and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.RepairTypeParamEntity">
+    update REPAIR_TYPE_PARAM
+    set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      TYPE_INDEX = #{typeIndex,jdbcType=INTEGER},
+      USER_SERIAL = #{userSerial,jdbcType=INTEGER},
+      USE_FLAG = #{useFlag,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+      SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+      SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+      CT_USER = #{ctUser,jdbcType=VARCHAR},
+      CT_DATE = #{ctDate,jdbcType=TIMESTAMP},
+      LT_USER = #{ltUser,jdbcType=VARCHAR},
+      LT_DATE = #{ltDate,jdbcType=TIMESTAMP}
+    where COMPANY_ID = #{companyId,jdbcType=VARCHAR}
+      and TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.RepairTypeParamEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from REPAIR_TYPE_PARAM
+    <where>
+      <if test="companyId != null">
+        <bind name="companyIdLike" value="'%'+companyId+'%'" />
+        and COMPANY_ID like #{companyIdLike}
+        <!--and COMPANY_ID = #{companyId,jdbcType=VARCHAR}-->
+      </if>
+      <if test="typeId != null">
+        <bind name="typeIdLike" value="'%'+typeId+'%'" />
+        and TYPE_ID like #{typeIdLike}
+        <!--and TYPE_ID = #{typeId,jdbcType=VARCHAR}-->
+      </if>
+      <if test="typeName != null">
+        <bind name="typeNameLike" value="'%'+typeName+'%'" />
+        and TYPE_NAME like #{typeNameLike}
+        <!--and TYPE_NAME = #{typeName,jdbcType=VARCHAR}-->
+      </if>
+      <if test="typeIndex != null">
+        and TYPE_INDEX = #{typeIndex,jdbcType=INTEGER}
+      </if>
+      <if test="userSerial != null">
+        and USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+      </if>
+      <if test="useFlag != null">
+        <bind name="useFlagLike" value="'%'+useFlag+'%'" />
+        and USE_FLAG like #{useFlagLike}
+        <!--and USE_FLAG = #{useFlag,jdbcType=VARCHAR}-->
+      </if>
+      <if test="remark != null">
+        <bind name="remarkLike" value="'%'+remark+'%'" />
+        and REMARK like #{remarkLike}
+        <!--and REMARK = #{remark,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol1 != null">
+        <bind name="spareCol1Like" value="'%'+spareCol1+'%'" />
+        and SPARE_COL1 like #{spareCol1Like}
+        <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol2 != null">
+        <bind name="spareCol2Like" value="'%'+spareCol2+'%'" />
+        and SPARE_COL2 like #{spareCol2Like}
+        <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol3 != null">
+        <bind name="spareCol3Like" value="'%'+spareCol3+'%'" />
+        and SPARE_COL3 like #{spareCol3Like}
+        <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ctUser != null">
+        <bind name="ctUserLike" value="'%'+ctUser+'%'" />
+        and CT_USER like #{ctUserLike}
+        <!--and CT_USER = #{ctUser,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ctDate != null">
+        and CT_DATE = #{ctDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ltUser != null">
+        <bind name="ltUserLike" value="'%'+ltUser+'%'" />
+        and LT_USER like #{ltUserLike}
+        <!--and LT_USER = #{ltUser,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ltDate != null">
+        and LT_DATE = #{ltDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+</mapper>

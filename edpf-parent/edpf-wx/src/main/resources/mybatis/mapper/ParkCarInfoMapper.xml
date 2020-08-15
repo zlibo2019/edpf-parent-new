@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.ParkCarInfoMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.ParkCarInfoEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="user_serial" jdbcType="INTEGER" property="userSerial"/>
+        <result column="car_no" jdbcType="VARCHAR" property="carNo"/>
+        <result column="pact_begin" jdbcType="TIMESTAMP" property="pactBegin"/>
+        <result column="pact_end" jdbcType="TIMESTAMP" property="pactEnd"/>
+        <result column="jl_sj" jdbcType="TIMESTAMP" property="jlSj"/>
+        <result column="gly_no" jdbcType="VARCHAR" property="glyNo"/>
+        <result column="is_valid" jdbcType="INTEGER" property="isValid"/>
+        <result column="cancel_gly_no" jdbcType="VARCHAR" property="cancelGlyNo"/>
+        <result column="cancel_sj" jdbcType="TIMESTAMP" property="cancelSj"/>
+        <result column="bz" jdbcType="VARCHAR" property="bz"/>
+        <result column="car_lx" jdbcType="INTEGER" property="carLx"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, user_serial, car_no, pact_begin, pact_end, jl_sj, gly_no, is_valid, cancel_gly_no,
+            cancel_sj, bz, car_lx, user_name, company, user_card
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from park_car_info
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from park_car_info
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        insert into park_car_info (xh,
+                                   user_serial,
+                                   car_no,
+                                   pact_begin,
+                                   pact_end,
+                                   jl_sj,
+                                   gly_no,
+                                   is_valid,
+                                   cancel_gly_no,
+                                   cancel_sj,
+                                   bz,
+                                   car_lx,
+                                   user_name,
+                                   company,
+                                   user_card)
+        values (#{xh,jdbcType=INTEGER},
+                #{userSerial,jdbcType=INTEGER},
+                #{carNo,jdbcType=VARCHAR},
+                #{pactBegin,jdbcType=TIMESTAMP},
+                #{pactEnd,jdbcType=TIMESTAMP},
+                #{jlSj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=VARCHAR},
+                #{isValid,jdbcType=INTEGER},
+                #{cancelGlyNo,jdbcType=VARCHAR},
+                #{cancelSj,jdbcType=TIMESTAMP},
+                #{bz,jdbcType=VARCHAR},
+                #{carLx,jdbcType=INTEGER},
+                #{userName,jdbcType=VARCHAR},
+                #{company,jdbcType=VARCHAR},
+                #{userCard,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        insert into park_car_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                xh,
+            </if>
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="carNo != null">
+                car_no,
+            </if>
+            <if test="pactBegin != null">
+                pact_begin,
+            </if>
+            <if test="pactEnd != null">
+                pact_end,
+            </if>
+            <if test="jlSj != null">
+                jl_sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="isValid != null">
+                is_valid,
+            </if>
+            <if test="cancelGlyNo != null">
+                cancel_gly_no,
+            </if>
+            <if test="cancelSj != null">
+                cancel_sj,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="carLx != null">
+                car_lx,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="userCard != null">
+                user_card,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xh != null">
+                #{xh,jdbcType=INTEGER},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="carNo != null">
+                #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="pactBegin != null">
+                #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jlSj != null">
+                #{jlSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                #{isValid,jdbcType=INTEGER},
+            </if>
+            <if test="cancelGlyNo != null">
+                #{cancelGlyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelSj != null">
+                #{cancelSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bz != null">
+                #{bz,jdbcType=VARCHAR},
+            </if>
+            <if test="carLx != null">
+                #{carLx,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="userCard != null">
+                #{userCard,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByCar" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        UPDATE Park_car_info set Is_valid =1,Cancel_gly_no=#{cancelGlyNo},Cancel_sj=#{cancelSj} where car_no in
+        <foreach collection="carNo.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+    <delete id="deleteCarsRules" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        delete Park_car_rule
+        where car_no in
+        <foreach collection="carNo.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        update park_car_info
+        <set>
+            <if test="userSerial != null">
+                user_serial = #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="carNo != null">
+                car_no = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="pactBegin != null">
+                pact_begin = #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                pact_end = #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jlSj != null">
+                jl_sj = #{jlSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid,jdbcType=INTEGER},
+            </if>
+            <if test="cancelGlyNo != null">
+                cancel_gly_no = #{cancelGlyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelSj != null">
+                cancel_sj = #{cancelSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="bz != null">
+                bz = #{bz,jdbcType=VARCHAR},
+            </if>
+            <if test="carLx != null">
+                car_lx = #{carLx,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="userCard != null">
+                user_card = #{userCard,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.ParkCarInfoEntity">
+        update park_car_info
+        set user_serial   = #{userSerial,jdbcType=INTEGER},
+            car_no        = #{carNo,jdbcType=VARCHAR},
+            pact_begin    = #{pactBegin,jdbcType=TIMESTAMP},
+            pact_end      = #{pactEnd,jdbcType=TIMESTAMP},
+            jl_sj         = #{jlSj,jdbcType=TIMESTAMP},
+            gly_no        = #{glyNo,jdbcType=VARCHAR},
+            is_valid      = #{isValid,jdbcType=INTEGER},
+            cancel_gly_no = #{cancelGlyNo,jdbcType=VARCHAR},
+            cancel_sj     = #{cancelSj,jdbcType=TIMESTAMP},
+            bz            = #{bz,jdbcType=VARCHAR},
+            car_lx        = #{carLx,jdbcType=INTEGER},
+            user_name     = #{userName,jdbcType=VARCHAR},
+            company       = #{company,jdbcType=VARCHAR},
+            user_card     = #{userCard,jdbcType=VARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.ParkCarInfoEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from park_car_info
+        <where>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=INTEGER}
+            </if>
+            <if test="carNo != null">
+                <bind name="carNoLike" value="'%'+carNo+'%'"/>
+                and car_no like #{carNoLike}
+                <!--and car_no = #{carNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="pactBegin != null">
+                and pact_begin = #{pactBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="pactEnd != null">
+                and pact_end = #{pactEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jlSj != null">
+                and jl_sj = #{jlSj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="isValid != null">
+                and is_valid = #{isValid,jdbcType=INTEGER}
+            </if>
+            <if test="cancelGlyNo != null">
+                <bind name="cancelGlyNoLike" value="'%'+cancelGlyNo+'%'"/>
+                and cancel_gly_no like #{cancelGlyNoLike}
+                <!--and cancel_gly_no = #{cancelGlyNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="cancelSj != null">
+                and cancel_sj = #{cancelSj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="bz != null">
+                <bind name="bzLike" value="'%'+bz+'%'"/>
+                and bz like #{bzLike}
+                <!--and bz = #{bz,jdbcType=VARCHAR}-->
+            </if>
+            <if test="carLx != null">
+                and car_lx = #{carLx,jdbcType=INTEGER}
+            </if>
+            <if test="userName != null">
+                <bind name="userNameLike" value="'%'+userName+'%'"/>
+                and user_name like #{userNameLike}
+                <!--and user_name = #{userName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="company != null">
+                <bind name="companyLike" value="'%'+company+'%'"/>
+                and company like #{companyLike}
+                <!--and company = #{company,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userCard != null">
+                <bind name="userCardLike" value="'%'+userCard+'%'"/>
+                and user_card like #{userCardLike}
+                <!--and user_card = #{userCard,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+</mapper>

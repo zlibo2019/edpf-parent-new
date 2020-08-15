@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.MjShidRealMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edmj.entity.MjShidRealEntity">
+        <id column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="sd_name" jdbcType="NVARCHAR" property="sdName"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="ks_month" jdbcType="INTEGER" property="ksMonth"/>
+        <result column="js_month" jdbcType="INTEGER" property="jsMonth"/>
+        <result column="ks_day" jdbcType="INTEGER" property="ksDay"/>
+        <result column="js_day" jdbcType="INTEGER" property="jsDay"/>
+        <result column="ks_week" jdbcType="INTEGER" property="ksWeek"/>
+        <result column="js_week" jdbcType="INTEGER" property="jsWeek"/>
+        <result column="ks_sj1" jdbcType="VARCHAR" property="ksSj1"/>
+        <result column="js_sj1" jdbcType="VARCHAR" property="jsSj1"/>
+        <result column="ks_sj2" jdbcType="VARCHAR" property="ksSj2"/>
+        <result column="js_sj2" jdbcType="VARCHAR" property="jsSj2"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="ks_sj3" jdbcType="VARCHAR" property="ksSj3"/>
+        <result column="js_sj3" jdbcType="VARCHAR" property="jsSj3"/>
+        <result column="ks_sj4" jdbcType="VARCHAR" property="ksSj4"/>
+        <result column="js_sj4" jdbcType="VARCHAR" property="jsSj4"/>
+        <result column="regserial" jdbcType="NVARCHAR" property="regserial"/>
+
+        <result column="rule_no" jdbcType="INTEGER" property="ruleNo"/>
+        <result column="rule_name" jdbcType="NVARCHAR" property="ruleName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        bh, sd_name, kssj, jssj, ks_month, js_month, ks_day, js_day, ks_week, js_week, ks_sj1,
+            js_sj1, ks_sj2, js_sj2, sj, gly_no, ks_sj3, js_sj3, ks_sj4, js_sj4, regserial
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select t1.bh,
+               t1.sd_name,
+               t1.kssj,
+               t1.jssj,
+               t1.ks_month,
+               t1.js_month,
+               t1.ks_day,
+               t1.js_day,
+               t1.ks_week,
+               t1.js_week,
+               t1.ks_sj1,
+               t1.js_sj1,
+               t1.ks_sj2,
+               t1.js_sj2,
+               t1.sj,
+               t1.gly_no,
+               t1.ks_sj3,
+               t1.js_sj3,
+               t1.ks_sj4,
+               t1.js_sj4,
+               t1.regserial,
+               t3.rule_name,
+               t3.rule_no
+        from mj_shid_real t1
+                 join mj_sd_rule_real t2 on t1.bh = t2.sd_no
+                 join mj_rule_real t3 on t2.rule_no = t3.rule_no
+        where bh = #{bh,jdbcType=INTEGER}
+    </select>
+    <select id="selectMaxBh" resultType="Map">
+        select max(bh) + 1 as bh
+        from mj_shid_real
+    </select>
+    <select id="selectShidCount" parameterType="java.lang.String" resultType="Map">
+        select sum(case when t2.rule_no = #{ruleNo,jdbcType=VARCHAR} then 1 else 0 end) as num, count(1) as nums
+        from mj_shid_real t1
+                 join mj_sd_rule_real t2 on t1.bh = t2.sd_no
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from mj_shid_real
+        where bh = #{bh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edmj.entity.MjShidRealEntity">
+        insert into mj_shid_real (bh,
+                                  sd_name,
+                                  kssj,
+                                  jssj,
+                                  ks_month,
+                                  js_month,
+                                  ks_day,
+                                  js_day,
+                                  ks_week,
+                                  js_week,
+                                  ks_sj1,
+                                  js_sj1,
+                                  ks_sj2,
+                                  js_sj2,
+                                  sj,
+                                  gly_no,
+                                  ks_sj3,
+                                  js_sj3,
+                                  ks_sj4,
+                                  js_sj4,
+                                  regserial)
+        values (#{bh,jdbcType=INTEGER},
+                #{sdName,jdbcType=NVARCHAR},
+                #{kssj,jdbcType=TIMESTAMP},
+                #{jssj,jdbcType=TIMESTAMP},
+                #{ksMonth,jdbcType=INTEGER},
+                #{jsMonth,jdbcType=INTEGER},
+                #{ksDay,jdbcType=INTEGER},
+                #{jsDay,jdbcType=INTEGER},
+                #{ksWeek,jdbcType=INTEGER},
+                #{jsWeek,jdbcType=INTEGER},
+                #{ksSj1,jdbcType=VARCHAR},
+                #{jsSj1,jdbcType=VARCHAR},
+                #{ksSj2,jdbcType=VARCHAR},
+                #{jsSj2,jdbcType=VARCHAR},
+                #{sj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=NVARCHAR},
+                #{ksSj3,jdbcType=VARCHAR},
+                #{jsSj3,jdbcType=VARCHAR},
+                #{ksSj4,jdbcType=VARCHAR},
+                #{jsSj4,jdbcType=VARCHAR},
+                #{regserial,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertBatch" parameterType="List">
+        insert into
+        mj_shid_real
+        (bh,sd_name,kssj,jssj,ks_month,js_month,ks_day,js_day,ks_week,js_week,ks_sj1,js_sj1,ks_sj2,js_sj2,sj,gly_no,ks_sj3,js_sj3,ks_sj4,js_sj4,regserial)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.bh,jdbcType=INTEGER},#{item.sdName,jdbcType=NVARCHAR},#{item.kssj,jdbcType=TIMESTAMP},#{item.jssj,jdbcType=TIMESTAMP},#{item.ksMonth,jdbcType=INTEGER},#{item.jsMonth,jdbcType=INTEGER},#{item.ksDay,jdbcType=INTEGER},#{item.jsDay,jdbcType=INTEGER},#{item.ksWeek,jdbcType=INTEGER},#{item.jsWeek,jdbcType=INTEGER},#{item.ksSj1,jdbcType=VARCHAR},#{item.jsSj1,jdbcType=VARCHAR},#{item.ksSj2,jdbcType=VARCHAR},#{item.jsSj2,jdbcType=VARCHAR},#{item.sj,jdbcType=TIMESTAMP},#{item.glyNo,jdbcType=NVARCHAR},#{item.ksSj3,jdbcType=VARCHAR},#{item.jsSj3,jdbcType=VARCHAR},#{item.ksSj4,jdbcType=VARCHAR},#{item.jsSj4,jdbcType=VARCHAR},#{item.regserial,jdbcType=NVARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edmj.entity.MjShidRealEntity">
+        insert into mj_shid_real
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="sdName != null">
+                sd_name,
+            </if>
+            <if test="kssj != null">
+                kssj,
+            </if>
+            <if test="jssj != null">
+                jssj,
+            </if>
+            <if test="ksMonth != null">
+                ks_month,
+            </if>
+            <if test="jsMonth != null">
+                js_month,
+            </if>
+            <if test="ksDay != null">
+                ks_day,
+            </if>
+            <if test="jsDay != null">
+                js_day,
+            </if>
+            <if test="ksWeek != null">
+                ks_week,
+            </if>
+            <if test="jsWeek != null">
+                js_week,
+            </if>
+            <if test="ksSj1 != null">
+                ks_sj1,
+            </if>
+            <if test="jsSj1 != null">
+                js_sj1,
+            </if>
+            <if test="ksSj2 != null">
+                ks_sj2,
+            </if>
+            <if test="jsSj2 != null">
+                js_sj2,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="ksSj3 != null">
+                ks_sj3,
+            </if>
+            <if test="jsSj3 != null">
+                js_sj3,
+            </if>
+            <if test="ksSj4 != null">
+                ks_sj4,
+            </if>
+            <if test="jsSj4 != null">
+                js_sj4,
+            </if>
+            <if test="regserial != null">
+                regserial,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="sdName != null">
+                #{sdName,jdbcType=NVARCHAR},
+            </if>
+            <if test="kssj != null">
+                #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ksMonth != null">
+                #{ksMonth,jdbcType=INTEGER},
+            </if>
+            <if test="jsMonth != null">
+                #{jsMonth,jdbcType=INTEGER},
+            </if>
+            <if test="ksDay != null">
+                #{ksDay,jdbcType=INTEGER},
+            </if>
+            <if test="jsDay != null">
+                #{jsDay,jdbcType=INTEGER},
+            </if>
+            <if test="ksWeek != null">
+                #{ksWeek,jdbcType=INTEGER},
+            </if>
+            <if test="jsWeek != null">
+                #{jsWeek,jdbcType=INTEGER},
+            </if>
+            <if test="ksSj1 != null">
+                #{ksSj1,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj1 != null">
+                #{jsSj1,jdbcType=VARCHAR},
+            </if>
+            <if test="ksSj2 != null">
+                #{ksSj2,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj2 != null">
+                #{jsSj2,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="ksSj3 != null">
+                #{ksSj3,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj3 != null">
+                #{jsSj3,jdbcType=VARCHAR},
+            </if>
+            <if test="ksSj4 != null">
+                #{ksSj4,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj4 != null">
+                #{jsSj4,jdbcType=VARCHAR},
+            </if>
+            <if test="regserial != null">
+                #{regserial,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.MjShidRealEntity">
+        update mj_shid_real
+        <set>
+            <if test="sdName != null">
+                sd_name = #{sdName,jdbcType=NVARCHAR},
+            </if>
+            <if test="kssj != null">
+                kssj = #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                jssj = #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ksMonth != null">
+                ks_month = #{ksMonth,jdbcType=INTEGER},
+            </if>
+            <if test="jsMonth != null">
+                js_month = #{jsMonth,jdbcType=INTEGER},
+            </if>
+            <if test="ksDay != null">
+                ks_day = #{ksDay,jdbcType=INTEGER},
+            </if>
+            <if test="jsDay != null">
+                js_day = #{jsDay,jdbcType=INTEGER},
+            </if>
+            <if test="ksWeek != null">
+                ks_week = #{ksWeek,jdbcType=INTEGER},
+            </if>
+            <if test="jsWeek != null">
+                js_week = #{jsWeek,jdbcType=INTEGER},
+            </if>
+            <if test="ksSj1 != null">
+                ks_sj1 = #{ksSj1,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj1 != null">
+                js_sj1 = #{jsSj1,jdbcType=VARCHAR},
+            </if>
+            <if test="ksSj2 != null">
+                ks_sj2 = #{ksSj2,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj2 != null">
+                js_sj2 = #{jsSj2,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="ksSj3 != null">
+                ks_sj3 = #{ksSj3,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj3 != null">
+                js_sj3 = #{jsSj3,jdbcType=VARCHAR},
+            </if>
+            <if test="ksSj4 != null">
+                ks_sj4 = #{ksSj4,jdbcType=VARCHAR},
+            </if>
+            <if test="jsSj4 != null">
+                js_sj4 = #{jsSj4,jdbcType=VARCHAR},
+            </if>
+            <if test="regserial != null">
+                regserial = #{regserial,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.MjShidRealEntity">
+        update mj_shid_real
+        set sd_name   = #{sdName,jdbcType=NVARCHAR},
+            kssj      = #{kssj,jdbcType=TIMESTAMP},
+            jssj      = #{jssj,jdbcType=TIMESTAMP},
+            ks_month  = #{ksMonth,jdbcType=INTEGER},
+            js_month  = #{jsMonth,jdbcType=INTEGER},
+            ks_day    = #{ksDay,jdbcType=INTEGER},
+            js_day    = #{jsDay,jdbcType=INTEGER},
+            ks_week   = #{ksWeek,jdbcType=INTEGER},
+            js_week   = #{jsWeek,jdbcType=INTEGER},
+            ks_sj1    = #{ksSj1,jdbcType=VARCHAR},
+            js_sj1    = #{jsSj1,jdbcType=VARCHAR},
+            ks_sj2    = #{ksSj2,jdbcType=VARCHAR},
+            js_sj2    = #{jsSj2,jdbcType=VARCHAR},
+            sj        = #{sj,jdbcType=TIMESTAMP},
+            gly_no    = #{glyNo,jdbcType=NVARCHAR},
+            ks_sj3    = #{ksSj3,jdbcType=VARCHAR},
+            js_sj3    = #{jsSj3,jdbcType=VARCHAR},
+            ks_sj4    = #{ksSj4,jdbcType=VARCHAR},
+            js_sj4    = #{jsSj4,jdbcType=VARCHAR},
+            regserial = #{regserial,jdbcType=NVARCHAR}
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edmj.entity.MjShidRealEntity" resultMap="BaseResultMap">
+        select
+        t1.bh, t1.sd_name, t1.kssj, t1.jssj, t1.ks_month, t1.js_month, t1.ks_day, t1.js_day, t1.ks_week, t1.js_week,
+        t1.ks_sj1,
+        t1.js_sj1, t1.ks_sj2, t1.js_sj2, t1.sj, t1.gly_no, t1.ks_sj3, t1.js_sj3, t1.ks_sj4, t1.js_sj4, t1.regserial,
+        t3.rule_name, t3.rule_no
+        from mj_shid_real t1
+        join mj_sd_rule_real t2 on t1.bh = t2.sd_no
+        join mj_rule_real t3 on t2.rule_no = t3.rule_no
+        <where>
+            <!--<if test="ruleNo != null">-->
+            and t3.rule_no = #{ruleNo,jdbcType=INTEGER}
+            <!--</if>-->
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="sdName != null">
+                <bind name="sdNameLike" value="'%'+sdName+'%'"/>
+                and sd_name like #{sdNameLike}
+                <!--and sd_name = #{sdName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="kssj != null">
+                and kssj = #{kssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jssj != null">
+                and jssj = #{jssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ksMonth != null">
+                and ks_month = #{ksMonth,jdbcType=INTEGER}
+            </if>
+            <if test="jsMonth != null">
+                and js_month = #{jsMonth,jdbcType=INTEGER}
+            </if>
+            <if test="ksDay != null">
+                and ks_day = #{ksDay,jdbcType=INTEGER}
+            </if>
+            <if test="jsDay != null">
+                and js_day = #{jsDay,jdbcType=INTEGER}
+            </if>
+            <if test="ksWeek != null">
+                and ks_week = #{ksWeek,jdbcType=INTEGER}
+            </if>
+            <if test="jsWeek != null">
+                and js_week = #{jsWeek,jdbcType=INTEGER}
+            </if>
+            <if test="ksSj1 != null">
+                <bind name="ksSj1Like" value="'%'+ksSj1+'%'"/>
+                and ks_sj1 like #{ksSj1Like}
+                <!--and ks_sj1 = #{ksSj1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jsSj1 != null">
+                <bind name="jsSj1Like" value="'%'+jsSj1+'%'"/>
+                and js_sj1 like #{jsSj1Like}
+                <!--and js_sj1 = #{jsSj1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ksSj2 != null">
+                <bind name="ksSj2Like" value="'%'+ksSj2+'%'"/>
+                and ks_sj2 like #{ksSj2Like}
+                <!--and ks_sj2 = #{ksSj2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jsSj2 != null">
+                <bind name="jsSj2Like" value="'%'+jsSj2+'%'"/>
+                and js_sj2 like #{jsSj2Like}
+                <!--and js_sj2 = #{jsSj2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="ksSj3 != null">
+                <bind name="ksSj3Like" value="'%'+ksSj3+'%'"/>
+                and ks_sj3 like #{ksSj3Like}
+                <!--and ks_sj3 = #{ksSj3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jsSj3 != null">
+                <bind name="jsSj3Like" value="'%'+jsSj3+'%'"/>
+                and js_sj3 like #{jsSj3Like}
+                <!--and js_sj3 = #{jsSj3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ksSj4 != null">
+                <bind name="ksSj4Like" value="'%'+ksSj4+'%'"/>
+                and ks_sj4 like #{ksSj4Like}
+                <!--and ks_sj4 = #{ksSj4,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jsSj4 != null">
+                <bind name="jsSj4Like" value="'%'+jsSj4+'%'"/>
+                and js_sj4 like #{jsSj4Like}
+                <!--and js_sj4 = #{jsSj4,jdbcType=VARCHAR}-->
+            </if>
+            <if test="regserial != null">
+                <bind name="regserialLike" value="'%'+regserial+'%'"/>
+                and regserial like #{regserialLike}
+                <!--and regserial = #{regserial,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mj_shid_real
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or bh = #{keys}
+                or sd_name like #{keysLike}
+                or kssj = #{keys}
+                or jssj = #{keys}
+                or ks_month = #{keys}
+                or js_month = #{keys}
+                or ks_day = #{keys}
+                or js_day = #{keys}
+                or ks_week = #{keys}
+                or js_week = #{keys}
+                or ks_sj1 like #{keysLike}
+                or js_sj1 like #{keysLike}
+                or ks_sj2 like #{keysLike}
+                or js_sj2 like #{keysLike}
+                or sj = #{keys}
+                or gly_no like #{keysLike}
+                or ks_sj3 like #{keysLike}
+                or js_sj3 like #{keysLike}
+                or ks_sj4 like #{keysLike}
+                or js_sj4 like #{keysLike}
+                or regserial like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        mj_shid_real
+        where (bh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.bh})
+        </foreach>
+    </delete>
+</mapper>

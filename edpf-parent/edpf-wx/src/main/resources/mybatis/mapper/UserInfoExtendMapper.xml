@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.UserInfoExtendMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.UserInfoExtendEntity">
+    <id column="user_serial" jdbcType="VARCHAR" property="userSerial" />
+    <result column="head_image" jdbcType="VARCHAR" property="headImage" />
+    <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1" />
+    <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2" />
+    <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3" />
+    <result column="ct_user" jdbcType="VARCHAR" property="ctUser" />
+    <result column="ct_date" jdbcType="VARCHAR" property="ctDate" />
+    <result column="lt_user" jdbcType="VARCHAR" property="ltUser" />
+    <result column="lt_date" jdbcType="VARCHAR" property="ltDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_serial, head_image, spare_col1, spare_col2, spare_col3, ct_user, ct_date, lt_user, 
+    lt_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info_extend
+    where user_serial = #{userSerial,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_info_extend
+    where user_serial = #{userSerial,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edwx.entity.UserInfoExtendEntity">
+    insert into user_info_extend (user_serial, head_image, spare_col1, 
+      spare_col2, spare_col3, ct_user, 
+      ct_date, lt_user, lt_date
+      )
+    values (#{userSerial,jdbcType=VARCHAR}, #{headImage,jdbcType=VARCHAR}, #{spareCol1,jdbcType=VARCHAR}, 
+      #{spareCol2,jdbcType=VARCHAR}, #{spareCol3,jdbcType=VARCHAR}, #{ctUser,jdbcType=VARCHAR}, 
+      #{ctDate,jdbcType=VARCHAR}, #{ltUser,jdbcType=VARCHAR}, #{ltDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edwx.entity.UserInfoExtendEntity">
+    insert into user_info_extend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userSerial != null">
+        user_serial,
+      </if>
+      <if test="headImage != null">
+        head_image,
+      </if>
+      <if test="spareCol1 != null">
+        spare_col1,
+      </if>
+      <if test="spareCol2 != null">
+        spare_col2,
+      </if>
+      <if test="spareCol3 != null">
+        spare_col3,
+      </if>
+      <if test="ctUser != null">
+        ct_user,
+      </if>
+      <if test="ctDate != null">
+        ct_date,
+      </if>
+      <if test="ltUser != null">
+        lt_user,
+      </if>
+      <if test="ltDate != null">
+        lt_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userSerial != null">
+        #{userSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="headImage != null">
+        #{headImage,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol1 != null">
+        #{spareCol1,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol2 != null">
+        #{spareCol2,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol3 != null">
+        #{spareCol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUser != null">
+        #{ctUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ctDate != null">
+        #{ctDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ltUser != null">
+        #{ltUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ltDate != null">
+        #{ltDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.UserInfoExtendEntity">
+    update user_info_extend
+    <set>
+      <if test="headImage != null">
+        head_image = #{headImage,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol1 != null">
+        spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol2 != null">
+        spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+      </if>
+      <if test="spareCol3 != null">
+        spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUser != null">
+        ct_user = #{ctUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ctDate != null">
+        ct_date = #{ctDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ltUser != null">
+        lt_user = #{ltUser,jdbcType=VARCHAR},
+      </if>
+      <if test="ltDate != null">
+        lt_date = #{ltDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_serial = #{userSerial,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.UserInfoExtendEntity">
+    update user_info_extend
+    set head_image = #{headImage,jdbcType=VARCHAR},
+      spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+      spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+      spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+      ct_user = #{ctUser,jdbcType=VARCHAR},
+      ct_date = #{ctDate,jdbcType=VARCHAR},
+      lt_user = #{ltUser,jdbcType=VARCHAR},
+      lt_date = #{ltDate,jdbcType=VARCHAR}
+    where user_serial = #{userSerial,jdbcType=VARCHAR}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edwx.entity.UserInfoExtendEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info_extend
+    <where>
+      <if test="userSerial != null">
+        <bind name="userSerialLike" value="'%'+userSerial+'%'" />
+        and user_serial like #{userSerialLike}
+        <!--and user_serial = #{userSerial,jdbcType=VARCHAR}-->
+      </if>
+      <if test="headImage != null">
+        <bind name="headImageLike" value="'%'+headImage+'%'" />
+        and head_image like #{headImageLike}
+        <!--and head_image = #{headImage,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol1 != null">
+        <bind name="spareCol1Like" value="'%'+spareCol1+'%'" />
+        and spare_col1 like #{spareCol1Like}
+        <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol2 != null">
+        <bind name="spareCol2Like" value="'%'+spareCol2+'%'" />
+        and spare_col2 like #{spareCol2Like}
+        <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+      </if>
+      <if test="spareCol3 != null">
+        <bind name="spareCol3Like" value="'%'+spareCol3+'%'" />
+        and spare_col3 like #{spareCol3Like}
+        <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ctUser != null">
+        <bind name="ctUserLike" value="'%'+ctUser+'%'" />
+        and ct_user like #{ctUserLike}
+        <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ctDate != null">
+        <bind name="ctDateLike" value="'%'+ctDate+'%'" />
+        and ct_date like #{ctDateLike}
+        <!--and ct_date = #{ctDate,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ltUser != null">
+        <bind name="ltUserLike" value="'%'+ltUser+'%'" />
+        and lt_user like #{ltUserLike}
+        <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+      </if>
+      <if test="ltDate != null">
+        <bind name="ltDateLike" value="'%'+ltDate+'%'" />
+        and lt_date like #{ltDateLike}
+        <!--and lt_date = #{ltDate,jdbcType=VARCHAR}-->
+      </if>
+    </where>
+  </select>
+</mapper>

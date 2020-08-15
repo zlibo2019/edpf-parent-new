@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisCardUserMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisCardUserEntity">
+        <id column="xh" jdbcType="INTEGER" property="xh"/>
+        <result column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="ac_type" jdbcType="CHAR" property="acType"/>
+        <result column="vis_serial" jdbcType="BIGINT" property="visSerial"/>
+        <result column="card_hao" jdbcType="VARCHAR" property="cardHao"/>
+        <result column="vis_flg" jdbcType="INTEGER" property="visFlg"/>
+        <result column="up_jl" jdbcType="INTEGER" property="upJl"/>
+        <result column="kssj" jdbcType="TIMESTAMP" property="kssj"/>
+        <result column="jssj" jdbcType="TIMESTAMP" property="jssj"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        xh, bh, ac_type, vis_serial, card_hao, vis_flg, up_jl, kssj, jssj, sj, gly_no
+    </sql>
+    <select id="selectCardCount" parameterType="com.weds.edwx.entity.VisRegisterEntity" resultType="java.lang.Integer">
+        select COUNT(1)
+        from Vis_card_user
+        where vis_serial = #{visSerial}
+          and vis_flg = 0
+    </select>
+    <select id="selectCardNormalCount" parameterType="com.weds.edwx.entity.VisCardUserEntity"
+            resultType="java.lang.Integer">
+        select count(b.card_hao)
+        FROM dt_user a
+                 inner join dt_card b on a.user_serial = b.user_serial
+        where <![CDATA[  isnull(a.user_lx, 0) <> 30 ]]> and b.card_hao = #{cardHao}
+    </select>
+
+    <insert id="insertUpdate1Mj" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_1(jdev_bh,jdata_str)
+        select c.dev_serial,'110,1,0,'+cast(c.dev_order as varchar)+',3,'
+        + cast(#{visCard} as varchar)+','+ cast(#{visKssj} as varchar)+','
+        + cast(#{visJssj} as varchar)+',0,255,00:00,23:59,00:00,00:00'
+        from vis_Region_door b
+        inner join st_door_real d on b.gate_bh=d.bh and isnull(d.door_lx,0)=0
+        inner join st_doorfx_real c on b.gate_bh=c.gate_bh and c.fx=0
+        where d.vis_flg=1 and b.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="insertUpdate1Tk" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_1(jdev_bh,jdata_str)
+        select t3.dev_serial,'110,1,0,'+cast(t2.floor_order as varchar)+',0,'
+        + cast(#{visCard} as varchar)+','+ cast(#{visKssj} as varchar)+','
+        + cast(#{visJssj} as varchar)+',0,255,00:00,23:59,00:00,00:00'
+        from vis_region_floor t1 join lift_floors t2 on t1.floor_bh = t2.floor_bh
+        and t1.elevator_bh = t2.elevator_bh
+        join lift_elevator t3 on t2.elevator_bh = t3.bh
+        where t1.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="insertUpdate4Kq" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_4 (jdev_bh, jdodata)
+        select c.dev_serial, '1073741824'
+        from vis_Region_door b
+        inner join st_door_real d on b.gate_bh = d.bh and isnull(d.door_lx, 0) = 1
+        inner join st_doorfx_real c on b.gate_bh = c.gate_bh and c.fx = 0
+        where d.vis_flg = 1
+        and b.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="cancelUpdate1Mj" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_1 (jdev_bh, jdata_str)
+        select c.dev_serial, '110,3,0,' + cast(c.dev_order as varchar) + ',3,' + cast(#{visCard} as varchar)
+        from vis_Region_door b
+        inner join st_door_real d on b.gate_bh = d.bh and isnull(d.door_lx, 0) = 0
+        inner join st_doorfx_real c on b.gate_bh = c.gate_bh and c.fx = 0
+        where d.vis_flg = 1
+        and b.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="cancelUpdate1Tk" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_1 (jdev_bh, jdata_str)
+        select t3.dev_serial, '110,3,0,' + cast(t2.floor_order as varchar) + ',0,' + cast(#{visCard} as varchar)
+        from vis_region_floor t1 join lift_floors t2 on t1.floor_bh = t2.floor_bh
+        and t1.elevator_bh = t2.elevator_bh
+        join lift_elevator t3 on t2.elevator_bh = t3.bh
+        where t1.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="cancelUpdate4Kq" parameterType="com.weds.edwx.entity.VisRegisterEntity">
+        insert into jreal_update_4 (jdev_bh, jdodata)
+        select c.dev_serial, '1073741824'
+        from vis_Region_door b
+        inner join st_door_real d on b.gate_bh = d.bh and isnull(d.door_lx, 0) = 1
+        inner join st_doorfx_real c on b.gate_bh = c.gate_bh and c.fx = 0
+        where d.vis_flg = 1
+        and b.bh in
+        <foreach collection="visArea.split(',')" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </insert>
+
+    <select id="haveCards" resultType="Integer">
+        select count(1)
+        from Vis_card_user
+        where vis_serial = #{visSerial}
+          and vis_flg = 0
+          and cast(vis_serial as varchar(20)) != card_hao
+    </select>
+
+    <select id="haveCardsOrQrcode" resultType="Integer">
+        select count(1)
+        from Vis_card_user
+        where vis_flg = 0
+        <if test="visSerial != null">
+            and vis_serial = #{visSerial,jdbcType=BIGINT}
+        </if>
+        <if test="cardHao != null">
+            and card_hao = #{cardHao,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_card_user
+        where xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from Vis_card_user
+        where xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisCardUserEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_card_user (bh, ac_type, vis_serial,
+        card_hao, vis_flg, up_jl,
+        kssj, jssj, sj,
+        gly_no)
+        values (#{bh,jdbcType=INTEGER}, #{acType,jdbcType=CHAR}, #{visSerial,jdbcType=BIGINT},
+        #{cardHao,jdbcType=VARCHAR}, #{visFlg,jdbcType=INTEGER}, #{upJl,jdbcType=INTEGER},
+        #{kssj,jdbcType=TIMESTAMP}, #{jssj,jdbcType=TIMESTAMP}, #{sj,jdbcType=TIMESTAMP},
+        #{glyNo,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisCardUserEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into Vis_card_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="acType != null">
+                ac_type,
+            </if>
+            <if test="visSerial != null">
+                vis_serial,
+            </if>
+            <if test="cardHao != null">
+                card_hao,
+            </if>
+            <if test="visFlg != null">
+                vis_flg,
+            </if>
+            <if test="upJl != null">
+                up_jl,
+            </if>
+            <if test="kssj != null">
+                kssj,
+            </if>
+            <if test="jssj != null">
+                jssj,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bh != null">
+                #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="acType != null">
+                #{acType,jdbcType=CHAR},
+            </if>
+            <if test="visSerial != null">
+                #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="cardHao != null">
+                #{cardHao,jdbcType=VARCHAR},
+            </if>
+            <if test="visFlg != null">
+                #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="upJl != null">
+                #{upJl,jdbcType=INTEGER},
+            </if>
+            <if test="kssj != null">
+                #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateCancelCard" parameterType="com.weds.edwx.entity.VisCardUserEntity">
+        update Vis_card_user
+        <set>
+            <if test="acType != null">
+                ac_type = #{acType,jdbcType=CHAR},
+            </if>
+            <if test="cardHao != null">
+                card_hao = #{cardHao,jdbcType=VARCHAR},
+            </if>
+            <if test="visFlg != null">
+                vis_flg = #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="upJl != null">
+                up_jl = #{upJl,jdbcType=INTEGER},
+            </if>
+            <if test="kssj != null">
+                kssj = #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                jssj = #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="visSerial != null">
+                and vis_serial = #{visSerial,jdbcType=BIGINT}
+            </if>
+        </where>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisCardUserEntity">
+        update Vis_card_user
+        <set>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=INTEGER},
+            </if>
+            <if test="acType != null">
+                ac_type = #{acType,jdbcType=CHAR},
+            </if>
+            <if test="visSerial != null">
+                vis_serial = #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="cardHao != null">
+                card_hao = #{cardHao,jdbcType=VARCHAR},
+            </if>
+            <if test="visFlg != null">
+                vis_flg = #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="upJl != null">
+                up_jl = #{upJl,jdbcType=INTEGER},
+            </if>
+            <if test="kssj != null">
+                kssj = #{kssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jssj != null">
+                jssj = #{jssj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisCardUserEntity">
+        update Vis_card_user
+        set bh         = #{bh,jdbcType=INTEGER},
+            ac_type    = #{acType,jdbcType=CHAR},
+            vis_serial = #{visSerial,jdbcType=BIGINT},
+            card_hao   = #{cardHao,jdbcType=VARCHAR},
+            vis_flg    = #{visFlg,jdbcType=INTEGER},
+            up_jl      = #{upJl,jdbcType=INTEGER},
+            kssj       = #{kssj,jdbcType=TIMESTAMP},
+            jssj       = #{jssj,jdbcType=TIMESTAMP},
+            sj         = #{sj,jdbcType=TIMESTAMP},
+            gly_no     = #{glyNo,jdbcType=NVARCHAR}
+        where xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisCardUserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_card_user
+        <where>
+            <if test="xh != null">
+                and xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="acType != null">
+                <bind name="acTypeLike" value="'%'+acType+'%'"/>
+                and ac_type like #{acTypeLike}
+                <!--and ac_type = #{acType,jdbcType=CHAR}-->
+            </if>
+            <if test="visSerial != null">
+                and vis_serial = #{visSerial,jdbcType=BIGINT}
+            </if>
+            <if test="cardHao != null">
+                <bind name="cardHaoLike" value="'%'+cardHao+'%'"/>
+                and card_hao like #{cardHaoLike}
+                <!--and card_hao = #{cardHao,jdbcType=VARCHAR}-->
+            </if>
+            <if test="visFlg != null">
+                and vis_flg = #{visFlg,jdbcType=INTEGER}
+            </if>
+            <if test="upJl != null">
+                and up_jl = #{upJl,jdbcType=INTEGER}
+            </if>
+            <if test="kssj != null">
+                and kssj = #{kssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="jssj != null">
+                and jssj = #{jssj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Vis_card_user
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or ac_type like #{keysLike}
+                or card_hao like #{keysLike}
+                or gly_no like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        Vis_card_user
+        where (xh) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.xh})
+        </foreach>
+    </delete>
+</mapper>

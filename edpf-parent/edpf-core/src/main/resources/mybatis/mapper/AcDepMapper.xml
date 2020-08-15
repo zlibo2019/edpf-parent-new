@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.AcDepMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.AcDepEntity">
+        <id column="dep_serial" jdbcType="INTEGER" property="depSerial"/>
+        <result column="dep_parent" jdbcType="INTEGER" property="depParent"/>
+        <result column="dep_order" jdbcType="INTEGER" property="depOrder"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+        <result column="dep_no" jdbcType="VARCHAR" property="depNo"/>
+        <result column="dep_rule" jdbcType="NVARCHAR" property="depRule"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="module_id" jdbcType="CHAR" property="moduleId"/>
+        <result column="Dep_type" jdbcType="INTEGER" property="depType"/>
+        <result column="regserial" jdbcType="NVARCHAR" property="regserial"/>
+        <result column="dep_state" jdbcType="INTEGER" property="depState"/>
+        <result column="dep_lx" jdbcType="INTEGER" property="depLx"/>
+        <result column="dep_place" jdbcType="INTEGER" property="depPlace"/>
+        <result column="Dep_x_point" jdbcType="INTEGER" property="depXPoint"/>
+        <result column="Dep_Y_point" jdbcType="INTEGER" property="depYPoint"/>
+        <result column="Dep_lock" jdbcType="INTEGER" property="depLock"/>
+        <result column="Dep_sex" jdbcType="INTEGER" property="depSex"/>
+        <result column="Dep_floor" jdbcType="INTEGER" property="depFloor"/>
+        <result column="dep_number" jdbcType="VARCHAR" property="depNumber"/>
+        <result column="old_dep_no" jdbcType="VARCHAR" property="oldDepNo"/>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="dep_define" jdbcType="INTEGER" property="depDefine"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        dep_serial, dep_parent, dep_order, dep_name, dep_no, dep_rule, sj, module_id, Dep_type,
+                    regserial, dep_state, dep_lx, dep_place, Dep_x_point, Dep_Y_point, Dep_lock, Dep_sex,
+                    Dep_floor, dep_number, old_dep_no, id, dep_define
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_ac_dep
+        where dep_serial = #{depSerial,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from dt_ac_dep
+        where dep_serial = #{depSerial,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.AcDepEntity">
+        insert into dt_ac_dep (dep_serial,
+                               dep_parent,
+                               dep_order,
+                               dep_name,
+                               dep_no,
+                               dep_rule,
+                               sj,
+                               module_id,
+                               Dep_type,
+                               regserial,
+                               dep_state,
+                               dep_lx,
+                               dep_place,
+                               Dep_x_point,
+                               Dep_Y_point,
+                               Dep_lock,
+                               Dep_sex,
+                               Dep_floor,
+                               dep_number,
+                               old_dep_no,
+                               id,
+                               dep_define)
+        values (#{depSerial,jdbcType=INTEGER},
+                #{depParent,jdbcType=INTEGER},
+                #{depOrder,jdbcType=INTEGER},
+                #{depName,jdbcType=NVARCHAR},
+                #{depNo,jdbcType=VARCHAR},
+                #{depRule,jdbcType=NVARCHAR},
+                #{sj,jdbcType=TIMESTAMP},
+                #{moduleId,jdbcType=CHAR},
+                #{depType,jdbcType=INTEGER},
+                #{regserial,jdbcType=NVARCHAR},
+                #{depState,jdbcType=INTEGER},
+                #{depLx,jdbcType=INTEGER},
+                #{depPlace,jdbcType=INTEGER},
+                #{depXPoint,jdbcType=INTEGER},
+                #{depYPoint,jdbcType=INTEGER},
+                #{depLock,jdbcType=INTEGER},
+                #{depSex,jdbcType=INTEGER},
+                #{depFloor,jdbcType=INTEGER},
+                #{depNumber,jdbcType=VARCHAR},
+                #{oldDepNo,jdbcType=VARCHAR},
+                #{id,jdbcType=INTEGER},
+                #{depDefine,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.AcDepEntity">
+        insert into dt_ac_dep
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="depSerial != null">
+                dep_serial,
+            </if>
+            <if test="depParent != null">
+                dep_parent,
+            </if>
+            <if test="depOrder != null">
+                dep_order,
+            </if>
+            <if test="depName != null">
+                dep_name,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="depRule != null">
+                dep_rule,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
+            <if test="depType != null">
+                Dep_type,
+            </if>
+            <if test="regserial != null">
+                regserial,
+            </if>
+            <if test="depState != null">
+                dep_state,
+            </if>
+            <if test="depLx != null">
+                dep_lx,
+            </if>
+            <if test="depPlace != null">
+                dep_place,
+            </if>
+            <if test="depXPoint != null">
+                Dep_x_point,
+            </if>
+            <if test="depYPoint != null">
+                Dep_Y_point,
+            </if>
+            <if test="depLock != null">
+                Dep_lock,
+            </if>
+            <if test="depSex != null">
+                Dep_sex,
+            </if>
+            <if test="depFloor != null">
+                Dep_floor,
+            </if>
+            <if test="depNumber != null">
+                dep_number,
+            </if>
+            <if test="oldDepNo != null">
+                old_dep_no,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="depDefine != null">
+                dep_define,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="depSerial != null">
+                #{depSerial,jdbcType=INTEGER},
+            </if>
+            <if test="depParent != null">
+                #{depParent,jdbcType=INTEGER},
+            </if>
+            <if test="depOrder != null">
+                #{depOrder,jdbcType=INTEGER},
+            </if>
+            <if test="depName != null">
+                #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="depRule != null">
+                #{depRule,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId,jdbcType=CHAR},
+            </if>
+            <if test="depType != null">
+                #{depType,jdbcType=INTEGER},
+            </if>
+            <if test="regserial != null">
+                #{regserial,jdbcType=NVARCHAR},
+            </if>
+            <if test="depState != null">
+                #{depState,jdbcType=INTEGER},
+            </if>
+            <if test="depLx != null">
+                #{depLx,jdbcType=INTEGER},
+            </if>
+            <if test="depPlace != null">
+                #{depPlace,jdbcType=INTEGER},
+            </if>
+            <if test="depXPoint != null">
+                #{depXPoint,jdbcType=INTEGER},
+            </if>
+            <if test="depYPoint != null">
+                #{depYPoint,jdbcType=INTEGER},
+            </if>
+            <if test="depLock != null">
+                #{depLock,jdbcType=INTEGER},
+            </if>
+            <if test="depSex != null">
+                #{depSex,jdbcType=INTEGER},
+            </if>
+            <if test="depFloor != null">
+                #{depFloor,jdbcType=INTEGER},
+            </if>
+            <if test="depNumber != null">
+                #{depNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="oldDepNo != null">
+                #{oldDepNo,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="depDefine != null">
+                #{depDefine,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.AcDepEntity">
+        update dt_ac_dep
+        <set>
+            <if test="depParent != null">
+                dep_parent = #{depParent,jdbcType=INTEGER},
+            </if>
+            <if test="depOrder != null">
+                dep_order = #{depOrder,jdbcType=INTEGER},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="depRule != null">
+                dep_rule = #{depRule,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="moduleId != null">
+                module_id = #{moduleId,jdbcType=CHAR},
+            </if>
+            <if test="depType != null">
+                Dep_type = #{depType,jdbcType=INTEGER},
+            </if>
+            <if test="regserial != null">
+                regserial = #{regserial,jdbcType=NVARCHAR},
+            </if>
+            <if test="depState != null">
+                dep_state = #{depState,jdbcType=INTEGER},
+            </if>
+            <if test="depLx != null">
+                dep_lx = #{depLx,jdbcType=INTEGER},
+            </if>
+            <if test="depPlace != null">
+                dep_place = #{depPlace,jdbcType=INTEGER},
+            </if>
+            <if test="depXPoint != null">
+                Dep_x_point = #{depXPoint,jdbcType=INTEGER},
+            </if>
+            <if test="depYPoint != null">
+                Dep_Y_point = #{depYPoint,jdbcType=INTEGER},
+            </if>
+            <if test="depLock != null">
+                Dep_lock = #{depLock,jdbcType=INTEGER},
+            </if>
+            <if test="depSex != null">
+                Dep_sex = #{depSex,jdbcType=INTEGER},
+            </if>
+            <if test="depFloor != null">
+                Dep_floor = #{depFloor,jdbcType=INTEGER},
+            </if>
+            <if test="depNumber != null">
+                dep_number = #{depNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="oldDepNo != null">
+                old_dep_no = #{oldDepNo,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="depDefine != null">
+                dep_define = #{depDefine,jdbcType=INTEGER},
+            </if>
+        </set>
+        where dep_serial = #{depSerial,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.AcDepEntity">
+        update dt_ac_dep
+        set dep_parent  = #{depParent,jdbcType=INTEGER},
+            dep_order   = #{depOrder,jdbcType=INTEGER},
+            dep_name    = #{depName,jdbcType=NVARCHAR},
+            dep_no      = #{depNo,jdbcType=VARCHAR},
+            dep_rule    = #{depRule,jdbcType=NVARCHAR},
+            sj          = #{sj,jdbcType=TIMESTAMP},
+            module_id   = #{moduleId,jdbcType=CHAR},
+            Dep_type    = #{depType,jdbcType=INTEGER},
+            regserial   = #{regserial,jdbcType=NVARCHAR},
+            dep_state   = #{depState,jdbcType=INTEGER},
+            dep_lx      = #{depLx,jdbcType=INTEGER},
+            dep_place   = #{depPlace,jdbcType=INTEGER},
+            Dep_x_point = #{depXPoint,jdbcType=INTEGER},
+            Dep_Y_point = #{depYPoint,jdbcType=INTEGER},
+            Dep_lock    = #{depLock,jdbcType=INTEGER},
+            Dep_sex     = #{depSex,jdbcType=INTEGER},
+            Dep_floor   = #{depFloor,jdbcType=INTEGER},
+            dep_number  = #{depNumber,jdbcType=VARCHAR},
+            old_dep_no  = #{oldDepNo,jdbcType=VARCHAR},
+            id          = #{id,jdbcType=INTEGER},
+            dep_define  = #{depDefine,jdbcType=INTEGER}
+        where dep_serial = #{depSerial,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectDinePlace" parameterType="com.weds.edpf.core.entity.AcDepEntity" resultMap="BaseResultMap">
+        select * from dt_ac_dep where dep_define = 0 and dep_parent in (select dep_serial from dt_ac_dep where dep_define = -1)
+    </select>
+
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.AcDepEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_ac_dep
+        <where>
+            <if test="depSerial != null">
+                and dep_parent in (select dep_parent from dt_ac_dep where dep_serial = #{depSerial,jdbcType=INTEGER})
+            </if>
+            <if test="depParent != null">
+                and dep_parent = #{depParent,jdbcType=INTEGER}
+            </if>
+            <if test="depOrder != null">
+                and dep_order = #{depOrder,jdbcType=INTEGER}
+            </if>
+            <if test="depName != null">
+                <bind name="depNameLike" value="'%'+depName+'%'"/>
+                and dep_name like #{depNameLike}
+                <!--and dep_name = #{depName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="depRule != null">
+                <bind name="depRuleLike" value="'%'+depRule+'%'"/>
+                and dep_rule like #{depRuleLike}
+                <!--and dep_rule = #{depRule,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="moduleId != null">
+                <bind name="moduleIdLike" value="'%'+moduleId+'%'"/>
+                and module_id like #{moduleIdLike}
+                <!--and module_id = #{moduleId,jdbcType=CHAR}-->
+            </if>
+            <if test="depType != null">
+                and Dep_type = #{depType,jdbcType=INTEGER}
+            </if>
+            <if test="regserial != null">
+                <bind name="regserialLike" value="'%'+regserial+'%'"/>
+                and regserial like #{regserialLike}
+                <!--and regserial = #{regserial,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depState != null">
+                and dep_state = #{depState,jdbcType=INTEGER}
+            </if>
+            <if test="depLx != null">
+                and dep_lx = #{depLx,jdbcType=INTEGER}
+            </if>
+            <if test="depPlace != null">
+                and dep_place = #{depPlace,jdbcType=INTEGER}
+            </if>
+            <if test="depXPoint != null">
+                and Dep_x_point = #{depXPoint,jdbcType=INTEGER}
+            </if>
+            <if test="depYPoint != null">
+                and Dep_Y_point = #{depYPoint,jdbcType=INTEGER}
+            </if>
+            <if test="depLock != null">
+                and Dep_lock = #{depLock,jdbcType=INTEGER}
+            </if>
+            <if test="depSex != null">
+                and Dep_sex = #{depSex,jdbcType=INTEGER}
+            </if>
+            <if test="depFloor != null">
+                and Dep_floor = #{depFloor,jdbcType=INTEGER}
+            </if>
+            <if test="depNumber != null">
+                <bind name="depNumberLike" value="'%'+depNumber+'%'"/>
+                and dep_number like #{depNumberLike}
+                <!--and dep_number = #{depNumber,jdbcType=VARCHAR}-->
+            </if>
+            <if test="oldDepNo != null">
+                <bind name="oldDepNoLike" value="'%'+oldDepNo+'%'"/>
+                and old_dep_no like #{oldDepNoLike}
+                <!--and old_dep_no = #{oldDepNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="depDefine != null">
+                and dep_define = #{depDefine,jdbcType=INTEGER}
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (dep_serial = #{keys} or
+                dep_parent = #{keys} or
+                dep_order = #{keys} or
+                dep_name like #{keysLike} or
+                dep_no like #{keysLike} or
+                dep_rule like #{keysLike} or
+                sj = #{keys} or
+                module_id like #{keysLike} or
+                Dep_type = #{keys} or
+                regserial like #{keysLike} or
+                dep_state = #{keys} or
+                dep_lx = #{keys} or
+                dep_place = #{keys} or
+                Dep_x_point = #{keys} or
+                Dep_Y_point = #{keys} or
+                Dep_lock = #{keys} or
+                Dep_sex = #{keys} or
+                Dep_floor = #{keys} or
+                dep_number like #{keysLike} or
+                old_dep_no like #{keysLike} or
+                id = #{keys} or
+                dep_define = #{keys})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        dt_ac_dep
+        where (dep_serial) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.depSerial})
+        </foreach>
+    </delete>
+</mapper>

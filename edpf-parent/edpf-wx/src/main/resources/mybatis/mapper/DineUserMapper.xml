@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.DineUserMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.DineUserEntity">
+        <id column="USER_SERIAL" jdbcType="INTEGER" property="userSerial"/>
+        <result column="IS_AUTO" jdbcType="INTEGER" property="isAuto"/>
+        <result column="SPARE_COL1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="SPARE_COL2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="SPARE_COL3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="DINE_BZ" jdbcType="NVARCHAR" property="dineBz"/>
+        <result column="SJ" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="GLY_NO" jdbcType="NVARCHAR" property="glyNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        USER_SERIAL, IS_AUTO, SPARE_COL1, SPARE_COL2, SPARE_COL3, DINE_BZ, SJ, GLY_NO
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from DINE_USER
+        where USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from DINE_USER
+        where USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.DineUserEntity">
+        insert into DINE_USER (USER_SERIAL, IS_AUTO, SPARE_COL1, SPARE_COL2, SPARE_COL3, DINE_BZ, SJ, GLY_NO)
+        values (#{userSerial,jdbcType=INTEGER},
+                #{isAuto,jdbcType=INTEGER},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{dineBz,jdbcType=NVARCHAR},
+                #{sj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=NVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.DineUserEntity">
+        insert into DINE_USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                USER_SERIAL,
+            </if>
+            <if test="isAuto != null">
+                IS_AUTO,
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1,
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2,
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3,
+            </if>
+            <if test="dineBz != null">
+                DINE_BZ,
+            </if>
+            <if test="sj != null">
+                SJ,
+            </if>
+            <if test="glyNo != null">
+                GLY_NO,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=INTEGER},
+            </if>
+            <if test="isAuto != null">
+                #{isAuto,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="dineBz != null">
+                #{dineBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.DineUserEntity">
+        update DINE_USER
+        <set>
+            <if test="isAuto != null">
+                IS_AUTO = #{isAuto,jdbcType=INTEGER},
+            </if>
+            <if test="spareCol1 != null">
+                SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="dineBz != null">
+                DINE_BZ = #{dineBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                SJ = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                GLY_NO = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+        </set>
+        where USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.DineUserEntity">
+        update DINE_USER
+        set IS_AUTO    = #{isAuto,jdbcType=INTEGER},
+            SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR},
+            SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR},
+            SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR},
+            DINE_BZ    = #{dineBz,jdbcType=NVARCHAR},
+            SJ         = #{sj,jdbcType=TIMESTAMP},
+            GLY_NO     = #{glyNo,jdbcType=NVARCHAR}
+        where USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.DineUserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from DINE_USER
+        <where>
+            <if test="userSerial != null">
+                and USER_SERIAL = #{userSerial,jdbcType=INTEGER}
+            </if>
+            <if test="isAuto != null">
+                and IS_AUTO = #{isAuto,jdbcType=INTEGER}
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and SPARE_COL1 like #{spareCol1Like}
+                <!--and SPARE_COL1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and SPARE_COL2 like #{spareCol2Like}
+                <!--and SPARE_COL2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and SPARE_COL3 like #{spareCol3Like}
+                <!--and SPARE_COL3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="dineBz != null">
+                and DINE_BZ = #{dineBz,jdbcType=NVARCHAR}
+            </if>
+            <if test="sj != null">
+                and SJ = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                and GLY_NO = #{glyNo,jdbcType=NVARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

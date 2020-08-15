@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.VisUserMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.VisUserEntity">
+        <id column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="vis_serial" jdbcType="BIGINT" property="visSerial"/>
+        <result column="vis_id" jdbcType="NVARCHAR" property="visId"/>
+        <result column="vis_police" jdbcType="NVARCHAR" property="visPolice"/>
+        <result column="idc_sj" jdbcType="INTEGER" property="idcSj"/>
+        <result column="vis_lname" jdbcType="NVARCHAR" property="visLname"/>
+        <result column="comp_no" jdbcType="CHAR" property="compNo"/>
+        <result column="dep_no" jdbcType="CHAR" property="depNo"/>
+        <result column="comp_name" jdbcType="NVARCHAR" property="compName"/>
+        <result column="dep_name" jdbcType="NVARCHAR" property="depName"/>
+        <result column="vis_ac" jdbcType="INTEGER" property="visAc"/>
+        <result column="vis_duty" jdbcType="NVARCHAR" property="visDuty"/>
+        <result column="vis_finger" jdbcType="NVARCHAR" property="visFinger"/>
+        <result column="pact_begin" jdbcType="TIMESTAMP" property="pactBegin"/>
+        <result column="pact_end" jdbcType="TIMESTAMP" property="pactEnd"/>
+        <result column="vis_photo" jdbcType="INTEGER" property="visPhoto"/>
+        <result column="vis_sex" jdbcType="NVARCHAR" property="visSex"/>
+        <result column="vis_nation" jdbcType="NVARCHAR" property="visNation"/>
+        <result column="vis_xueli" jdbcType="NVARCHAR" property="visXueli"/>
+        <result column="vis_native" jdbcType="NVARCHAR" property="visNative"/>
+        <result column="vis_birthday" jdbcType="TIMESTAMP" property="visBirthday"/>
+        <result column="vis_post" jdbcType="NVARCHAR" property="visPost"/>
+        <result column="vis_linkman" jdbcType="NVARCHAR" property="visLinkman"/>
+        <result column="vis_telephone" jdbcType="NVARCHAR" property="visTelephone"/>
+        <result column="vis_address" jdbcType="NVARCHAR" property="visAddress"/>
+        <result column="vis_email" jdbcType="NVARCHAR" property="visEmail"/>
+        <result column="vis_bz" jdbcType="NVARCHAR" property="visBz"/>
+        <result column="vis_sj" jdbcType="TIMESTAMP" property="visSj"/>
+        <result column="gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="vis_flg" jdbcType="INTEGER" property="visFlg"/>
+        <result column="face_photo" jdbcType="VARCHAR" property="facePhoto"/>
+        <result column="face_photo_flag" jdbcType="VARCHAR" property="facePhotoFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        open_id, vis_serial, vis_id, vis_police, idc_sj, vis_lname, comp_no, dep_no, comp_name,
+                 dep_name, vis_ac, vis_duty, vis_finger, pact_begin, pact_end, vis_photo, vis_sex,
+                 vis_nation, vis_xueli, vis_native, vis_birthday, vis_post, vis_linkman, vis_telephone,
+                 vis_address, vis_email, vis_bz, vis_sj, gly_no, vis_flg, face_photo, face_photo_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_user
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByVisSerial" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_user
+        where vis_serial = #{visSerial,jdbcType=BIGINT}
+    </select>
+    <select id="selectByCardId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_user
+        where vis_id = #{visId,jdbcType=NVARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from vis_user
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.VisUserEntity">
+        insert into vis_user (vis_serial,
+                              open_id,
+                              vis_id,
+                              vis_police,
+                              idc_sj,
+                              vis_lname,
+                              comp_no,
+                              dep_no,
+                              comp_name,
+                              dep_name,
+                              vis_ac,
+                              vis_duty,
+                              vis_finger,
+                              pact_begin,
+                              pact_end,
+                              vis_photo,
+                              vis_sex,
+                              vis_nation,
+                              vis_xueli,
+                              vis_native,
+                              vis_birthday,
+                              vis_post,
+                              vis_linkman,
+                              vis_telephone,
+                              vis_address,
+                              vis_email,
+                              vis_bz,
+                              vis_sj,
+                              gly_no,
+                              vis_flg,
+                              face_photo,
+                              face_photo_flag)
+        values (#{visSerial,jdbcType=BIGINT},
+                #{openId,jdbcType=VARCHAR},
+                #{visId,jdbcType=NVARCHAR},
+                #{visPolice,jdbcType=NVARCHAR},
+                #{idcSj,jdbcType=INTEGER},
+                #{visLname,jdbcType=NVARCHAR},
+                #{compNo,jdbcType=CHAR},
+                #{depNo,jdbcType=CHAR},
+                #{compName,jdbcType=NVARCHAR},
+                #{depName,jdbcType=NVARCHAR},
+                #{visAc,jdbcType=INTEGER},
+                #{visDuty,jdbcType=NVARCHAR},
+                #{visFinger,jdbcType=NVARCHAR},
+                #{pactBegin,jdbcType=TIMESTAMP},
+                #{pactEnd,jdbcType=TIMESTAMP},
+                #{visPhoto,jdbcType=INTEGER},
+                #{visSex,jdbcType=NVARCHAR},
+                #{visNation,jdbcType=NVARCHAR},
+                #{visXueli,jdbcType=NVARCHAR},
+                #{visNative,jdbcType=NVARCHAR},
+                #{visBirthday,jdbcType=TIMESTAMP},
+                #{visPost,jdbcType=NVARCHAR},
+                #{visLinkman,jdbcType=NVARCHAR},
+                #{visTelephone,jdbcType=NVARCHAR},
+                #{visAddress,jdbcType=NVARCHAR},
+                #{visEmail,jdbcType=NVARCHAR},
+                #{visBz,jdbcType=NVARCHAR},
+                #{visSj,jdbcType=TIMESTAMP},
+                #{glyNo,jdbcType=NVARCHAR},
+                #{visFlg,jdbcType=INTEGER},
+                #{facePhoto,jdbcType=VARCHAR},
+                #{facePhotoFlag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.VisUserEntity">
+        insert into vis_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                vis_serial,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="visId != null">
+                vis_id,
+            </if>
+            <if test="visPolice != null">
+                vis_police,
+            </if>
+            <if test="idcSj != null">
+                idc_sj,
+            </if>
+            <if test="visLname != null">
+                vis_lname,
+            </if>
+            <if test="compNo != null">
+                comp_no,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="compName != null">
+                comp_name,
+            </if>
+            <if test="depName != null">
+                dep_name,
+            </if>
+            <if test="visAc != null">
+                vis_ac,
+            </if>
+            <if test="visDuty != null">
+                vis_duty,
+            </if>
+            <if test="visFinger != null">
+                vis_finger,
+            </if>
+            <if test="pactBegin != null">
+                pact_begin,
+            </if>
+            <if test="pactEnd != null">
+                pact_end,
+            </if>
+            <if test="visPhoto != null">
+                vis_photo,
+            </if>
+            <if test="visSex != null">
+                vis_sex,
+            </if>
+            <if test="visNation != null">
+                vis_nation,
+            </if>
+            <if test="visXueli != null">
+                vis_xueli,
+            </if>
+            <if test="visNative != null">
+                vis_native,
+            </if>
+            <if test="visBirthday != null">
+                vis_birthday,
+            </if>
+            <if test="visPost != null">
+                vis_post,
+            </if>
+            <if test="visLinkman != null">
+                vis_linkman,
+            </if>
+            <if test="visTelephone != null">
+                vis_telephone,
+            </if>
+            <if test="visAddress != null">
+                vis_address,
+            </if>
+            <if test="visEmail != null">
+                vis_email,
+            </if>
+            <if test="visBz != null">
+                vis_bz,
+            </if>
+            <if test="visSj != null">
+                vis_sj,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="visFlg != null">
+                vis_flg,
+            </if>
+            <if test="facePhoto != null">
+                face_photo,
+            </if>
+            <if test="facePhotoFlag != null">
+                face_photo_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="visSerial != null">
+                #{visSerial,jdbcType=BIGINT}
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="visId != null">
+                #{visId,jdbcType=NVARCHAR},
+            </if>
+            <if test="visPolice != null">
+                #{visPolice,jdbcType=NVARCHAR},
+            </if>
+            <if test="idcSj != null">
+                #{idcSj,jdbcType=INTEGER},
+            </if>
+            <if test="visLname != null">
+                #{visLname,jdbcType=NVARCHAR},
+            </if>
+            <if test="compNo != null">
+                #{compNo,jdbcType=CHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="compName != null">
+                #{compName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAc != null">
+                #{visAc,jdbcType=INTEGER},
+            </if>
+            <if test="visDuty != null">
+                #{visDuty,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFinger != null">
+                #{visFinger,jdbcType=NVARCHAR},
+            </if>
+            <if test="pactBegin != null">
+                #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPhoto != null">
+                #{visPhoto,jdbcType=INTEGER},
+            </if>
+            <if test="visSex != null">
+                #{visSex,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNation != null">
+                #{visNation,jdbcType=NVARCHAR},
+            </if>
+            <if test="visXueli != null">
+                #{visXueli,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNative != null">
+                #{visNative,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBirthday != null">
+                #{visBirthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPost != null">
+                #{visPost,jdbcType=NVARCHAR},
+            </if>
+            <if test="visLinkman != null">
+                #{visLinkman,jdbcType=NVARCHAR},
+            </if>
+            <if test="visTelephone != null">
+                #{visTelephone,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAddress != null">
+                #{visAddress,jdbcType=NVARCHAR},
+            </if>
+            <if test="visEmail != null">
+                #{visEmail,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBz != null">
+                #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visSj != null">
+                #{visSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFlg != null">
+                #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="facePhoto != null">
+                #{facePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="facePhotoFlag != null">
+                #{facePhotoFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.VisUserEntity">
+        update vis_user
+        <set>
+            <if test="visSerial != null">
+                vis_serial = #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visId != null">
+                vis_id = #{visId,jdbcType=NVARCHAR},
+            </if>
+            <if test="visPolice != null">
+                vis_police = #{visPolice,jdbcType=NVARCHAR},
+            </if>
+            <if test="idcSj != null">
+                idc_sj = #{idcSj,jdbcType=INTEGER},
+            </if>
+            <if test="visLname != null">
+                vis_lname = #{visLname,jdbcType=NVARCHAR},
+            </if>
+            <if test="compNo != null">
+                comp_no = #{compNo,jdbcType=CHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="compName != null">
+                comp_name = #{compName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAc != null">
+                vis_ac = #{visAc,jdbcType=INTEGER},
+            </if>
+            <if test="visDuty != null">
+                vis_duty = #{visDuty,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFinger != null">
+                vis_finger = #{visFinger,jdbcType=NVARCHAR},
+            </if>
+            <if test="pactBegin != null">
+                pact_begin = #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                pact_end = #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPhoto != null">
+                vis_photo = #{visPhoto,jdbcType=INTEGER},
+            </if>
+            <if test="visSex != null">
+                vis_sex = #{visSex,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNation != null">
+                vis_nation = #{visNation,jdbcType=NVARCHAR},
+            </if>
+            <if test="visXueli != null">
+                vis_xueli = #{visXueli,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNative != null">
+                vis_native = #{visNative,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBirthday != null">
+                vis_birthday = #{visBirthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPost != null">
+                vis_post = #{visPost,jdbcType=NVARCHAR},
+            </if>
+            <if test="visLinkman != null">
+                vis_linkman = #{visLinkman,jdbcType=NVARCHAR},
+            </if>
+            <if test="visTelephone != null">
+                vis_telephone = #{visTelephone,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAddress != null">
+                vis_address = #{visAddress,jdbcType=NVARCHAR},
+            </if>
+            <if test="visEmail != null">
+                vis_email = #{visEmail,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBz != null">
+                vis_bz = #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visSj != null">
+                vis_sj = #{visSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFlg != null">
+                vis_flg = #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="facePhoto != null">
+                face_photo = #{facePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="facePhotoFlag != null">
+                face_photo_flag = #{facePhotoFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByIdSelective" parameterType="com.weds.edwx.entity.VisUserEntity">
+        update vis_user
+        <set>
+            <if test="visSerial != null">
+                vis_serial = #{visSerial,jdbcType=BIGINT},
+            </if>
+            <if test="visPolice != null">
+                vis_police = #{visPolice,jdbcType=NVARCHAR},
+            </if>
+            <if test="idcSj != null">
+                idc_sj = #{idcSj,jdbcType=INTEGER},
+            </if>
+            <if test="visLname != null">
+                vis_lname = #{visLname,jdbcType=NVARCHAR},
+            </if>
+            <if test="compNo != null">
+                comp_no = #{compNo,jdbcType=CHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=CHAR},
+            </if>
+            <if test="compName != null">
+                comp_name = #{compName,jdbcType=NVARCHAR},
+            </if>
+            <if test="depName != null">
+                dep_name = #{depName,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAc != null">
+                vis_ac = #{visAc,jdbcType=INTEGER},
+            </if>
+            <if test="visDuty != null">
+                vis_duty = #{visDuty,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFinger != null">
+                vis_finger = #{visFinger,jdbcType=NVARCHAR},
+            </if>
+            <if test="pactBegin != null">
+                pact_begin = #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                pact_end = #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPhoto != null">
+                vis_photo = #{visPhoto,jdbcType=INTEGER},
+            </if>
+            <if test="visSex != null">
+                vis_sex = #{visSex,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNation != null">
+                vis_nation = #{visNation,jdbcType=NVARCHAR},
+            </if>
+            <if test="visXueli != null">
+                vis_xueli = #{visXueli,jdbcType=NVARCHAR},
+            </if>
+            <if test="visNative != null">
+                vis_native = #{visNative,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBirthday != null">
+                vis_birthday = #{visBirthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visPost != null">
+                vis_post = #{visPost,jdbcType=NVARCHAR},
+            </if>
+            <if test="visLinkman != null">
+                vis_linkman = #{visLinkman,jdbcType=NVARCHAR},
+            </if>
+            <if test="visTelephone != null">
+                vis_telephone = #{visTelephone,jdbcType=NVARCHAR},
+            </if>
+            <if test="visAddress != null">
+                vis_address = #{visAddress,jdbcType=NVARCHAR},
+            </if>
+            <if test="visEmail != null">
+                vis_email = #{visEmail,jdbcType=NVARCHAR},
+            </if>
+            <if test="visBz != null">
+                vis_bz = #{visBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="visSj != null">
+                vis_sj = #{visSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="visFlg != null">
+                vis_flg = #{visFlg,jdbcType=INTEGER},
+            </if>
+            <if test="facePhoto != null">
+                face_photo = #{facePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="facePhotoFlag != null">
+                face_photo_flag = #{facePhotoFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where vis_id = #{visId,jdbcType=NVARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.VisUserEntity">
+        update vis_user
+        set vis_serial      = #{visSerial,jdbcType=BIGINT},
+            vis_id          = #{visId,jdbcType=NVARCHAR},
+            vis_police      = #{visPolice,jdbcType=NVARCHAR},
+            idc_sj          = #{idcSj,jdbcType=INTEGER},
+            vis_lname       = #{visLname,jdbcType=NVARCHAR},
+            comp_no         = #{compNo,jdbcType=CHAR},
+            dep_no          = #{depNo,jdbcType=CHAR},
+            comp_name       = #{compName,jdbcType=NVARCHAR},
+            dep_name        = #{depName,jdbcType=NVARCHAR},
+            vis_ac          = #{visAc,jdbcType=INTEGER},
+            vis_duty        = #{visDuty,jdbcType=NVARCHAR},
+            vis_finger      = #{visFinger,jdbcType=NVARCHAR},
+            pact_begin      = #{pactBegin,jdbcType=TIMESTAMP},
+            pact_end        = #{pactEnd,jdbcType=TIMESTAMP},
+            vis_photo       = #{visPhoto,jdbcType=INTEGER},
+            vis_sex         = #{visSex,jdbcType=NVARCHAR},
+            vis_nation      = #{visNation,jdbcType=NVARCHAR},
+            vis_xueli       = #{visXueli,jdbcType=NVARCHAR},
+            vis_native      = #{visNative,jdbcType=NVARCHAR},
+            vis_birthday    = #{visBirthday,jdbcType=TIMESTAMP},
+            vis_post        = #{visPost,jdbcType=NVARCHAR},
+            vis_linkman     = #{visLinkman,jdbcType=NVARCHAR},
+            vis_telephone   = #{visTelephone,jdbcType=NVARCHAR},
+            vis_address     = #{visAddress,jdbcType=NVARCHAR},
+            vis_email       = #{visEmail,jdbcType=NVARCHAR},
+            vis_bz          = #{visBz,jdbcType=NVARCHAR},
+            vis_sj          = #{visSj,jdbcType=TIMESTAMP},
+            gly_no          = #{glyNo,jdbcType=NVARCHAR},
+            vis_flg         = #{visFlg,jdbcType=INTEGER},
+            face_photo      = #{facePhoto,jdbcType=VARCHAR},
+            face_photo_flag = #{facePhotoFlag,jdbcType=VARCHAR}
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.VisUserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_user
+        <where>
+            <if test="openId != null">
+                <bind name="openIdLike" value="'%'+openId+'%'"/>
+                and open_id like #{openIdLike}
+                <!--and open_id = #{openId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="visSerial != null">
+                and vis_serial = #{visSerial,jdbcType=BIGINT}
+            </if>
+            <if test="visId != null">
+                <bind name="visIdLike" value="'%'+visId+'%'"/>
+                and vis_id like #{visIdLike}
+                <!--and vis_id = #{visId,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visPolice != null">
+                <bind name="visPoliceLike" value="'%'+visPolice+'%'"/>
+                and vis_police like #{visPoliceLike}
+                <!--and vis_police = #{visPolice,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="idcSj != null">
+                and idc_sj = #{idcSj,jdbcType=INTEGER}
+            </if>
+            <if test="visLname != null">
+                <bind name="visLnameLike" value="'%'+visLname+'%'"/>
+                and vis_lname like #{visLnameLike}
+                <!--and vis_lname = #{visLname,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="compNo != null">
+                <bind name="compNoLike" value="'%'+compNo+'%'"/>
+                and comp_no like #{compNoLike}
+                <!--and comp_no = #{compNo,jdbcType=CHAR}-->
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=CHAR}-->
+            </if>
+            <if test="compName != null">
+                <bind name="compNameLike" value="'%'+compName+'%'"/>
+                and comp_name like #{compNameLike}
+                <!--and comp_name = #{compName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="depName != null">
+                <bind name="depNameLike" value="'%'+depName+'%'"/>
+                and dep_name like #{depNameLike}
+                <!--and dep_name = #{depName,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visAc != null">
+                and vis_ac = #{visAc,jdbcType=INTEGER}
+            </if>
+            <if test="visDuty != null">
+                <bind name="visDutyLike" value="'%'+visDuty+'%'"/>
+                and vis_duty like #{visDutyLike}
+                <!--and vis_duty = #{visDuty,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visFinger != null">
+                <bind name="visFingerLike" value="'%'+visFinger+'%'"/>
+                and vis_finger like #{visFingerLike}
+                <!--and vis_finger = #{visFinger,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="pactBegin != null">
+                and pact_begin = #{pactBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="pactEnd != null">
+                and pact_end = #{pactEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visPhoto != null">
+                and vis_photo = #{visPhoto,jdbcType=INTEGER}
+            </if>
+            <if test="visSex != null">
+                <bind name="visSexLike" value="'%'+visSex+'%'"/>
+                and vis_sex like #{visSexLike}
+                <!--and vis_sex = #{visSex,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visNation != null">
+                <bind name="visNationLike" value="'%'+visNation+'%'"/>
+                and vis_nation like #{visNationLike}
+                <!--and vis_nation = #{visNation,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visXueli != null">
+                <bind name="visXueliLike" value="'%'+visXueli+'%'"/>
+                and vis_xueli like #{visXueliLike}
+                <!--and vis_xueli = #{visXueli,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visNative != null">
+                <bind name="visNativeLike" value="'%'+visNative+'%'"/>
+                and vis_native like #{visNativeLike}
+                <!--and vis_native = #{visNative,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visBirthday != null">
+                and vis_birthday = #{visBirthday,jdbcType=TIMESTAMP}
+            </if>
+            <if test="visPost != null">
+                <bind name="visPostLike" value="'%'+visPost+'%'"/>
+                and vis_post like #{visPostLike}
+                <!--and vis_post = #{visPost,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visLinkman != null">
+                <bind name="visLinkmanLike" value="'%'+visLinkman+'%'"/>
+                and vis_linkman like #{visLinkmanLike}
+                <!--and vis_linkman = #{visLinkman,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visTelephone != null">
+                <bind name="visTelephoneLike" value="'%'+visTelephone+'%'"/>
+                and vis_telephone like #{visTelephoneLike}
+                <!--and vis_telephone = #{visTelephone,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visAddress != null">
+                <bind name="visAddressLike" value="'%'+visAddress+'%'"/>
+                and vis_address like #{visAddressLike}
+                <!--and vis_address = #{visAddress,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visEmail != null">
+                <bind name="visEmailLike" value="'%'+visEmail+'%'"/>
+                and vis_email like #{visEmailLike}
+                <!--and vis_email = #{visEmail,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visBz != null">
+                <bind name="visBzLike" value="'%'+visBz+'%'"/>
+                and vis_bz like #{visBzLike}
+                <!--and vis_bz = #{visBz,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visSj != null">
+                and vis_sj = #{visSj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=NVARCHAR}-->
+            </if>
+            <if test="visFlg != null">
+                and vis_flg = #{visFlg,jdbcType=INTEGER}
+            </if>
+            <if test="facePhoto != null">
+                <bind name="facePhotoLike" value="'%'+facePhoto+'%'"/>
+                and face_photo like #{facePhotoLike}
+                <!--and face_photo = #{facePhoto,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from vis_user
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or open_id like #{keysLike}
+                or vis_id like #{keysLike}
+                or vis_police like #{keysLike}
+                or vis_lname like #{keysLike}
+                or comp_no like #{keysLike}
+                or dep_no like #{keysLike}
+                or comp_name like #{keysLike}
+                or dep_name like #{keysLike}
+                or vis_duty like #{keysLike}
+                or vis_finger like #{keysLike}
+                or vis_sex like #{keysLike}
+                or vis_nation like #{keysLike}
+                or vis_xueli like #{keysLike}
+                or vis_native like #{keysLike}
+                or vis_post like #{keysLike}
+                or vis_linkman like #{keysLike}
+                or vis_telephone like #{keysLike}
+                or vis_address like #{keysLike}
+                or vis_email like #{keysLike}
+                or vis_bz like #{keysLike}
+                or gly_no like #{keysLike}
+                or face_photo like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        vis_user
+        where (open_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.openId})
+        </foreach>
+    </delete>
+</mapper>

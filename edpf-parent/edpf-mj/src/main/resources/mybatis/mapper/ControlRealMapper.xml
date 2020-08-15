@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.ControlRealMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.ControlRealEntity">
+    <id column="dev_serial" jdbcType="CHAR" property="devSerial" />
+    <id column="dev_order" jdbcType="INTEGER" property="devOrder" />
+    <result column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="dev_name" jdbcType="NVARCHAR" property="devName" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dev_serial, dev_order, xh, dev_name, sj
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_control_real
+    where dev_serial = #{devSerial,jdbcType=CHAR}
+      and dev_order = #{devOrder,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from st_control_real
+    where dev_serial = #{devSerial,jdbcType=CHAR}
+      and dev_order = #{devOrder,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edmj.entity.ControlRealEntity">
+    insert into st_control_real (dev_serial, dev_order, xh, 
+      dev_name, sj)
+    values (#{devSerial,jdbcType=CHAR}, #{devOrder,jdbcType=INTEGER}, #{xh,jdbcType=INTEGER}, 
+      #{devName,jdbcType=NVARCHAR}, #{sj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    st_control_real
+    (dev_serial,dev_order,xh,dev_name,sj)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.devSerial,jdbcType=CHAR},#{item.devOrder,jdbcType=INTEGER},#{item.xh,jdbcType=INTEGER},#{item.devName,jdbcType=NVARCHAR},#{item.sj,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.weds.edmj.entity.ControlRealEntity">
+    insert into st_control_real
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="devSerial != null">
+        dev_serial,
+      </if>
+      <if test="devOrder != null">
+        dev_order,
+      </if>
+      <if test="xh != null">
+        xh,
+      </if>
+      <if test="devName != null">
+        dev_name,
+      </if>
+      <if test="sj != null">
+        sj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="devSerial != null">
+        #{devSerial,jdbcType=CHAR},
+      </if>
+      <if test="devOrder != null">
+        #{devOrder,jdbcType=INTEGER},
+      </if>
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="devName != null">
+        #{devName,jdbcType=NVARCHAR},
+      </if>
+      <if test="sj != null">
+        #{sj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.ControlRealEntity">
+    update st_control_real
+    <set>
+      <if test="xh != null">
+        xh = #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="devName != null">
+        dev_name = #{devName,jdbcType=NVARCHAR},
+      </if>
+      <if test="sj != null">
+        sj = #{sj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dev_serial = #{devSerial,jdbcType=CHAR}
+      and dev_order = #{devOrder,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.ControlRealEntity">
+    update st_control_real
+    set xh = #{xh,jdbcType=INTEGER},
+      dev_name = #{devName,jdbcType=NVARCHAR},
+      sj = #{sj,jdbcType=TIMESTAMP}
+    where dev_serial = #{devSerial,jdbcType=CHAR}
+      and dev_order = #{devOrder,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.DeviceEntity" resultMap="BaseResultMap">
+    select
+    a.dev_name,a.dev_serial,a.dev_order,case when  b.xh is null then 0 else 1 end as isUse
+    from
+    st_control_real a left join st_doorfx_real b on a.dev_serial=b.dev_serial and a.dev_order=b.dev_order and b.fx=0
+    where a.dev_serial=#{bh}
+    order by a.dev_order
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from st_control_real
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or dev_serial like #{keysLike}
+        or dev_order = #{keys}
+        or xh = #{keys}
+        or dev_name like #{keysLike}
+        or sj = #{keys}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    st_control_real
+    where (dev_serial,dev_order) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.devSerial},#{item.devOrder})
+    </foreach>
+  </delete>
+</mapper>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.MsgSendMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.MsgSendEntity">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USER_SERIAL" jdbcType="BIGINT" property="userSerial"/>
+        <result column="MSG_STATE" jdbcType="INTEGER" property="msgState"/>
+        <result column="RECORD_DATE" jdbcType="VARCHAR" property="recordDate"/>
+        <result column="INSERT_DATE" jdbcType="VARCHAR" property="insertDate"/>
+        <result column="SEND_DATE" jdbcType="VARCHAR" property="sendDate"/>
+        <result column="TEMPLET_ID" jdbcType="VARCHAR" property="templetId"/>
+        <result column="MES_CONTENT" jdbcType="VARCHAR" property="mesContent"/>
+        <result column="MSG_XH" jdbcType="VARCHAR" property="msgXh"/>
+
+        <result column="openId" jdbcType="VARCHAR" property="openId"/>
+        <result column="MES_FUNCTION" jdbcType="VARCHAR" property="mesFunction"/>
+        <result column="TEMPLET_CONTENT" jdbcType="VARCHAR" property="templetContent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, USER_SERIAL, MSG_STATE, RECORD_DATE, INSERT_DATE, SEND_DATE, TEMPLET_ID, MES_CONTENT,
+            MSG_XH
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from MSG_SEND
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from MSG_SEND
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.MsgSendEntity">
+        insert into MSG_SEND (ID,
+                              USER_SERIAL,
+                              MSG_STATE,
+                              RECORD_DATE,
+                              INSERT_DATE,
+                              SEND_DATE,
+                              TEMPLET_ID,
+                              MES_CONTENT,
+                              MSG_XH)
+        values (#{id,jdbcType=BIGINT},
+                #{userSerial,jdbcType=BIGINT},
+                #{msgState,jdbcType=INTEGER},
+                #{recordDate,jdbcType=VARCHAR},
+                #{insertDate,jdbcType=VARCHAR},
+                #{sendDate,jdbcType=VARCHAR},
+                #{templetId,jdbcType=VARCHAR},
+                #{mesContent,jdbcType=VARCHAR},
+                #{msgXh,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.MsgSendEntity">
+        insert into MSG_SEND
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="userSerial != null">
+                USER_SERIAL,
+            </if>
+            <if test="msgState != null">
+                MSG_STATE,
+            </if>
+            <if test="recordDate != null">
+                RECORD_DATE,
+            </if>
+            <if test="insertDate != null">
+                INSERT_DATE,
+            </if>
+            <if test="sendDate != null">
+                SEND_DATE,
+            </if>
+            <if test="templetId != null">
+                TEMPLET_ID,
+            </if>
+            <if test="mesContent != null">
+                MES_CONTENT,
+            </if>
+            <if test="msgXh != null">
+                MSG_XH,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="msgState != null">
+                #{msgState,jdbcType=INTEGER},
+            </if>
+            <if test="recordDate != null">
+                #{recordDate,jdbcType=VARCHAR},
+            </if>
+            <if test="insertDate != null">
+                #{insertDate,jdbcType=VARCHAR},
+            </if>
+            <if test="sendDate != null">
+                #{sendDate,jdbcType=VARCHAR},
+            </if>
+            <if test="templetId != null">
+                #{templetId,jdbcType=VARCHAR},
+            </if>
+            <if test="mesContent != null">
+                #{mesContent,jdbcType=VARCHAR},
+            </if>
+            <if test="msgXh != null">
+                #{msgXh,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.MsgSendEntity">
+        update MSG_SEND
+        <set>
+            <if test="userSerial != null">
+                USER_SERIAL = #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="msgState != null">
+                MSG_STATE = #{msgState,jdbcType=INTEGER},
+            </if>
+            <if test="recordDate != null">
+                RECORD_DATE = #{recordDate,jdbcType=VARCHAR},
+            </if>
+            <if test="insertDate != null">
+                INSERT_DATE = #{insertDate,jdbcType=VARCHAR},
+            </if>
+            <if test="sendDate != null">
+                SEND_DATE = #{sendDate,jdbcType=VARCHAR},
+            </if>
+            <if test="templetId != null">
+                TEMPLET_ID = #{templetId,jdbcType=VARCHAR},
+            </if>
+            <if test="mesContent != null">
+                MES_CONTENT = #{mesContent,jdbcType=VARCHAR},
+            </if>
+            <if test="msgXh != null">
+                MSG_XH = #{msgXh,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.MsgSendEntity">
+        update MSG_SEND
+        set USER_SERIAL = #{userSerial,jdbcType=BIGINT},
+            MSG_STATE   = #{msgState,jdbcType=INTEGER},
+            RECORD_DATE = #{recordDate,jdbcType=VARCHAR},
+            INSERT_DATE = #{insertDate,jdbcType=VARCHAR},
+            SEND_DATE   = #{sendDate,jdbcType=VARCHAR},
+            TEMPLET_ID  = #{templetId,jdbcType=VARCHAR},
+            MES_CONTENT = #{mesContent,jdbcType=VARCHAR},
+            MSG_XH      = #{msgXh,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.MsgSendEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from MSG_SEND
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userSerial != null">
+                and USER_SERIAL = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="msgState != null">
+                and MSG_STATE = #{msgState,jdbcType=INTEGER}
+            </if>
+            <if test="recordDate != null">
+                <bind name="recordDateLike" value="'%'+recordDate+'%'"/>
+                and RECORD_DATE like #{recordDateLike}
+                <!--and RECORD_DATE = #{recordDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="insertDate != null">
+                <bind name="insertDateLike" value="'%'+insertDate+'%'"/>
+                and INSERT_DATE like #{insertDateLike}
+                <!--and INSERT_DATE = #{insertDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="sendDate != null">
+                <bind name="sendDateLike" value="'%'+sendDate+'%'"/>
+                and SEND_DATE like #{sendDateLike}
+                <!--and SEND_DATE = #{sendDate,jdbcType=VARCHAR}-->
+            </if>
+            <if test="templetId != null">
+                <bind name="templetIdLike" value="'%'+templetId+'%'"/>
+                and TEMPLET_ID like #{templetIdLike}
+                <!--and TEMPLET_ID = #{templetId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="mesContent != null">
+                <bind name="mesContentLike" value="'%'+mesContent+'%'"/>
+                and MES_CONTENT like #{mesContentLike}
+                <!--and MES_CONTENT = #{mesContent,jdbcType=VARCHAR}-->
+            </if>
+            <if test="msgXh != null">
+                <bind name="msgXhLike" value="'%'+msgXh+'%'"/>
+                and MSG_XH like #{msgXhLike}
+                <!--and MSG_XH = #{msgXh,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from MSG_SEND
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or RECORD_DATE like #{keysLike}
+                or INSERT_DATE like #{keysLike}
+                or SEND_DATE like #{keysLike}
+                or TEMPLET_ID like #{keysLike}
+                or MES_CONTENT like #{keysLike}
+                or MSG_XH like #{keysLike}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        MSG_SEND
+        where (ID) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.id})
+        </foreach>
+    </delete>
+    <select id="selectMsgListYun" resultMap="BaseResultMap">
+        select top 25 a.USER_SERIAL, c.openId, a.MES_CONTENT, a.RECORD_DATE, a.MSG_XH, a.id, a.TEMPLET_ID
+        from MSG_SEND a
+                 inner join (select user_serial, openId, send_status from wx_login_openid
+                             union
+                             select vis_serial, open_id, 0 from vis_user where open_id is not null
+                                                                           and open_id != '')
+                c on a.USER_SERIAL = c.user_serial
+        WHERE isnull(a.MSG_STATE, 0) = 0
+          and isnull(c.send_status, 0) = 0
+        order by a.record_date
+    </select>
+    <select id="selectMsgList" resultMap="BaseResultMap">
+        select top 25 a.USER_SERIAL,
+                   c.openId,
+                   a.MES_CONTENT,
+                   a.RECORD_DATE,
+                   b.TEMPLET_CONTENT,
+                   b.MES_FUNCTION,
+                   a.MSG_XH,
+                   a.id
+        from MSG_SEND a
+                 inner join (select user_serial, openId, send_status from wx_login_openid
+                             union
+                             select vis_serial, open_id, 0 from vis_user where open_id is not null
+                                                                           and open_id != '')
+                c on a.USER_SERIAL = c.user_serial
+                 inner join MSG_TEMPLET b on a.TEMPLET_ID = b.TEMPLET_ID
+        WHERE isnull(a.MSG_STATE, 0) = 0
+          and b.USE_FLG = 1
+          and isnull(c.send_status, 0) = 0
+        order by a.record_date
+    </select>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.DineMealMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.DineMealEntity">
+        <id column="Xh" jdbcType="INTEGER" property="xh"/>
+        <result column="meal_bh" jdbcType="NVARCHAR" property="mealBh"/>
+        <result column="meal_name" jdbcType="NVARCHAR" property="mealName"/>
+        <result column="kssj" jdbcType="NVARCHAR" property="kssj"/>
+        <result column="jssj" jdbcType="NVARCHAR" property="jssj"/>
+        <result column="dine_Vali" jdbcType="INTEGER" property="dineVali"/>
+        <result column="bz" jdbcType="NVARCHAR" property="bz"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="Gly_no" jdbcType="NVARCHAR" property="glyNo"/>
+        <result column="meal_ble" jdbcType="INTEGER" property="mealBle"/>
+        <result column="Owner_no" jdbcType="VARCHAR" property="ownerNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        Xh, meal_bh, meal_name, kssj, jssj, dine_Vali, bz, sj, Gly_no, meal_ble, Owner_no
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dine_meal
+        where Xh = #{xh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from dine_meal
+        where Xh = #{xh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.DineMealEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into dine_meal (meal_bh, meal_name, kssj,
+        jssj, dine_Vali, bz,
+        sj, Gly_no, meal_ble,
+        Owner_no)
+        values (#{mealBh,jdbcType=NVARCHAR}, #{mealName,jdbcType=NVARCHAR}, #{kssj,jdbcType=NVARCHAR},
+        #{jssj,jdbcType=NVARCHAR}, #{dineVali,jdbcType=INTEGER}, #{bz,jdbcType=NVARCHAR},
+        #{sj,jdbcType=TIMESTAMP}, #{glyNo,jdbcType=NVARCHAR}, #{mealBle,jdbcType=INTEGER},
+        #{ownerNo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.DineMealEntity">
+        <selectKey keyProperty="xh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into dine_meal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mealBh != null">
+                meal_bh,
+            </if>
+            <if test="mealName != null">
+                meal_name,
+            </if>
+            <if test="kssj != null">
+                kssj,
+            </if>
+            <if test="jssj != null">
+                jssj,
+            </if>
+            <if test="dineVali != null">
+                dine_Vali,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="glyNo != null">
+                Gly_no,
+            </if>
+            <if test="mealBle != null">
+                meal_ble,
+            </if>
+            <if test="ownerNo != null">
+                Owner_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mealBh != null">
+                #{mealBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="mealName != null">
+                #{mealName,jdbcType=NVARCHAR},
+            </if>
+            <if test="kssj != null">
+                #{kssj,jdbcType=NVARCHAR},
+            </if>
+            <if test="jssj != null">
+                #{jssj,jdbcType=NVARCHAR},
+            </if>
+            <if test="dineVali != null">
+                #{dineVali,jdbcType=INTEGER},
+            </if>
+            <if test="bz != null">
+                #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="mealBle != null">
+                #{mealBle,jdbcType=INTEGER},
+            </if>
+            <if test="ownerNo != null">
+                #{ownerNo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.DineMealEntity">
+        update dine_meal
+        <set>
+            <if test="mealBh != null">
+                meal_bh = #{mealBh,jdbcType=NVARCHAR},
+            </if>
+            <if test="mealName != null">
+                meal_name = #{mealName,jdbcType=NVARCHAR},
+            </if>
+            <if test="kssj != null">
+                kssj = #{kssj,jdbcType=NVARCHAR},
+            </if>
+            <if test="jssj != null">
+                jssj = #{jssj,jdbcType=NVARCHAR},
+            </if>
+            <if test="dineVali != null">
+                dine_Vali = #{dineVali,jdbcType=INTEGER},
+            </if>
+            <if test="bz != null">
+                bz = #{bz,jdbcType=NVARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="glyNo != null">
+                Gly_no = #{glyNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="mealBle != null">
+                meal_ble = #{mealBle,jdbcType=INTEGER},
+            </if>
+            <if test="ownerNo != null">
+                Owner_no = #{ownerNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.DineMealEntity">
+        update dine_meal
+        set meal_bh   = #{mealBh,jdbcType=NVARCHAR},
+            meal_name = #{mealName,jdbcType=NVARCHAR},
+            kssj      = #{kssj,jdbcType=NVARCHAR},
+            jssj      = #{jssj,jdbcType=NVARCHAR},
+            dine_Vali = #{dineVali,jdbcType=INTEGER},
+            bz        = #{bz,jdbcType=NVARCHAR},
+            sj        = #{sj,jdbcType=TIMESTAMP},
+            Gly_no    = #{glyNo,jdbcType=NVARCHAR},
+            meal_ble  = #{mealBle,jdbcType=INTEGER},
+            Owner_no  = #{ownerNo,jdbcType=VARCHAR}
+        where Xh = #{xh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.DineMealEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dine_meal
+        <where>
+            <if test="xh != null">
+                and Xh = #{xh,jdbcType=INTEGER}
+            </if>
+            <if test="mealBh != null">
+                and meal_bh = #{mealBh,jdbcType=NVARCHAR}
+            </if>
+            <if test="mealName != null">
+                and meal_name = #{mealName,jdbcType=NVARCHAR}
+            </if>
+            <if test="kssj != null">
+                and kssj = #{kssj,jdbcType=NVARCHAR}
+            </if>
+            <if test="jssj != null">
+                and jssj = #{jssj,jdbcType=NVARCHAR}
+            </if>
+            <if test="dineVali != null">
+                and dine_Vali = #{dineVali,jdbcType=INTEGER}
+            </if>
+            <if test="bz != null">
+                and bz = #{bz,jdbcType=NVARCHAR}
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="glyNo != null">
+                and Gly_no = #{glyNo,jdbcType=NVARCHAR}
+            </if>
+            <if test="mealBle != null">
+                and meal_ble = #{mealBle,jdbcType=INTEGER}
+            </if>
+            <if test="ownerNo != null">
+                <bind name="ownerNoLike" value="'%'+ownerNo+'%'"/>
+                and Owner_no like #{ownerNoLike}
+                <!--and Owner_no = #{ownerNo,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByMealBh" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dine_meal
+        where meal_bh = #{mealBh,jdbcType=NVARCHAR} and meal_ble = 0
+    </select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.CardMapper">
+  <resultMap id="BaseResultMap" type="com.weds.edwx.entity.CardEntity">
+    <id column="card_serial" jdbcType="CHAR" property="cardSerial" />
+    <result column="xh" jdbcType="INTEGER" property="xh" />
+    <result column="lx" jdbcType="INTEGER" property="lx" />
+    <result column="gly_no" jdbcType="NVARCHAR" property="glyNo" />
+    <result column="card_photo" jdbcType="VARCHAR" property="cardPhoto" />
+    <result column="sj" jdbcType="TIMESTAMP" property="sj" />
+    <result column="user_serial" jdbcType="BIGINT" property="userSerial" />
+    <result column="card_lx" jdbcType="INTEGER" property="cardLx" />
+    <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_hao" jdbcType="VARCHAR" property="cardHao" />
+    <result column="card_order" jdbcType="INTEGER" property="cardOrder" />
+    <result column="card_bz" jdbcType="NVARCHAR" property="cardBz" />
+    <result column="card_verify" jdbcType="VARCHAR" property="cardVerify" />
+    <result column="readd_count" jdbcType="INTEGER" property="readdCount" />
+    <result column="loss_count" jdbcType="INTEGER" property="lossCount" />
+    <result column="Card_work" jdbcType="INTEGER" property="cardWork" />
+    <result column="card_form" jdbcType="NVARCHAR" property="cardForm" />
+    <result column="isCardReplace" jdbcType="INTEGER" property="iscardreplace" />
+    <result column="iscarddel" jdbcType="INTEGER" property="iscarddel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    card_serial, xh, lx, gly_no, card_photo, sj, user_serial, card_lx, card_type, card_hao, 
+    card_order, card_bz, card_verify, readd_count, loss_count, Card_work, card_form, 
+    isCardReplace, iscarddel
+  </sql>
+  <select id="getCardState" parameterType="com.weds.edwx.entity.CardEntity" resultMap="BaseResultMap">
+    select top 1 a.user_serial,b.card_lx,b.card_serial,isnull(b.card_type,11) card_type from
+    dt_user a
+    inner join dt_ac_user c on a.user_serial=c.user_serial
+    left join dt_card b on a.user_serial=b.user_serial and (b.card_type=0 or(b.card_type=1 and readd_count=0))
+    where a.user_serial=#{userSerial} and (a.user_type &lt; 51)
+  </select>
+</mapper>

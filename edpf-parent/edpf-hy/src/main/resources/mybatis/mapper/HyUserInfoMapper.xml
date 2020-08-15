@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edhy.mapper.HyUserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edhy.entity.HyUserInfoEntity">
+        <!--<id column="user_id" jdbcType="VARCHAR" property="userId"/>-->
+        <result column="coach_id" jdbcType="VARCHAR" property="coachId"/>
+        <result column="member_ship" jdbcType="VARCHAR" property="memberShip"/>
+        <result column="custom_source" jdbcType="VARCHAR" property="customSource"/>
+        <result column="introducer" jdbcType="VARCHAR" property="introducer"/>
+        <result column="member_num" jdbcType="INTEGER" property="memberNum"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col21" jdbcType="VARCHAR" property="spareCol21"/>
+        <result column="spare_col22" jdbcType="VARCHAR" property="spareCol22"/>
+        <result column="spare_col23" jdbcType="VARCHAR" property="spareCol23"/>
+        <result column="spare_col24" jdbcType="VARCHAR" property="spareCol24"/>
+        <result column="spare_col25" jdbcType="VARCHAR" property="spareCol25"/>
+        <result column="spare_col26" jdbcType="VARCHAR" property="spareCol26"/>
+
+        <result column="coach_name" jdbcType="VARCHAR" property="coachName"/>
+
+        <result column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="user_lname" jdbcType="VARCHAR" property="userLname"/>
+        <result column="user_fname" jdbcType="VARCHAR" property="userFname"/>
+        <result column="dep_no" jdbcType="VARCHAR" property="depNo"/>
+        <result column="user_dep" jdbcType="INTEGER" property="userDep"/>
+        <result column="user_depname" jdbcType="VARCHAR" property="userDepname"/>
+        <result column="user_workday" jdbcType="TIMESTAMP" property="userWorkday"/>
+        <result column="user_duty" jdbcType="VARCHAR" property="userDuty"/>
+        <result column="user_card" jdbcType="VARCHAR" property="userCard"/>
+        <result column="user_finger" jdbcType="VARCHAR" property="userFinger"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="pwd_begin" jdbcType="TIMESTAMP" property="pwdBegin"/>
+        <result column="pwd_end" jdbcType="TIMESTAMP" property="pwdEnd"/>
+        <result column="user_type" jdbcType="SMALLINT" property="userType"/>
+        <result column="pact_begin" jdbcType="TIMESTAMP" property="pactBegin"/>
+        <result column="pact_end" jdbcType="TIMESTAMP" property="pactEnd"/>
+        <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
+        <result column="user_photo" jdbcType="INTEGER" property="userPhoto"/>
+        <result column="user_sex" jdbcType="VARCHAR" property="userSex"/>
+        <result column="user_nation" jdbcType="VARCHAR" property="userNation"/>
+        <result column="user_xueli" jdbcType="VARCHAR" property="userXueli"/>
+        <result column="user_native" jdbcType="VARCHAR" property="userNative"/>
+        <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday"/>
+        <result column="user_id" jdbcType="VARCHAR" property="credNo"/>
+        <result column="user_post" jdbcType="VARCHAR" property="userPost"/>
+        <result column="user_linkman" jdbcType="VARCHAR" property="userLinkman"/>
+        <result column="user_telephone" jdbcType="VARCHAR" property="userTelephone"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="user_1" jdbcType="VARCHAR" property="user1"/>
+        <result column="user_2" jdbcType="VARCHAR" property="user2"/>
+        <result column="user_bz" jdbcType="VARCHAR" property="userBz"/>
+        <result column="kq_rule" jdbcType="VARCHAR" property="kqRule"/>
+        <result column="kq_taoban" jdbcType="VARCHAR" property="kqTaoban"/>
+        <result column="kq_tiaoxiu" jdbcType="INTEGER" property="kqTiaoxiu"/>
+        <result column="xf_time" jdbcType="TIMESTAMP" property="xfTime"/>
+        <result column="xf_jiange" jdbcType="INTEGER" property="xfJiange"/>
+        <result column="xf_je" jdbcType="INTEGER" property="xfJe"/>
+        <result column="user_sj" jdbcType="TIMESTAMP" property="userSj"/>
+        <result column="user_rank" jdbcType="VARCHAR" property="userRank"/>
+        <result column="gly_img" jdbcType="INTEGER" property="glyImg"/>
+        <result column="user_ac" jdbcType="INTEGER" property="userAc"/>
+        <result column="user_gsbh" jdbcType="VARCHAR" property="userGsbh"/>
+        <result column="user_yglx" jdbcType="VARCHAR" property="userYglx"/>
+        <result column="user_zhbh" jdbcType="VARCHAR" property="userZhbh"/>
+        <result column="user_zhlx" jdbcType="VARCHAR" property="userZhlx"/>
+        <result column="user_txm" jdbcType="VARCHAR" property="userTxm"/>
+        <result column="user_lx" jdbcType="INTEGER" property="userLx"/>
+        <result column="user_mj" jdbcType="INTEGER" property="userMj"/>
+        <result column="dep_no_add" jdbcType="VARCHAR" property="depNoAdd"/>
+        <result column="zh" jdbcType="VARCHAR" property="zh"/>
+        <result column="khsj" jdbcType="VARCHAR" property="khsj"/>
+        <result column="user_identity" jdbcType="INTEGER" property="userIdentity"/>
+        <result column="carno" jdbcType="VARCHAR" property="carno"/>
+        <result column="user_face" jdbcType="INTEGER" property="userFace"/>
+        <result column="lx" jdbcType="VARCHAR" property="lx"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, coach_id, member_ship, custom_source, introducer, member_num, remark, spare_col21,
+                 spare_col22, spare_col23, spare_col24, spare_col25, spare_col26
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select t1.coach_id, t1.member_ship, t1.custom_source, t1.introducer, t1.member_num, t1.remark, t2.*
+        from ed_hy_user_info t1
+                 join dt_user t2 on t1.user_id = t2.user_serial and t2.user_type &lt; 51
+        where t1.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_hy_user_info
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edhy.entity.HyUserInfoEntity">
+        insert into ed_hy_user_info (user_id,
+                                     coach_id,
+                                     member_ship,
+                                     custom_source,
+                                     introducer,
+                                     member_num,
+                                     remark,
+                                     spare_col21,
+                                     spare_col22,
+                                     spare_col23,
+                                     spare_col24,
+                                     spare_col25,
+                                     spare_col26)
+        values (#{userId,jdbcType=VARCHAR},
+                #{coachId,jdbcType=VARCHAR},
+                #{memberShip,jdbcType=VARCHAR},
+                #{customSource,jdbcType=VARCHAR},
+                #{introducer,jdbcType=VARCHAR},
+                #{memberNum,jdbcType=INTEGER},
+                #{remark,jdbcType=VARCHAR},
+                #{spareCol21,jdbcType=VARCHAR},
+                #{spareCol22,jdbcType=VARCHAR},
+                #{spareCol23,jdbcType=VARCHAR},
+                #{spareCol24,jdbcType=VARCHAR},
+                #{spareCol25,jdbcType=VARCHAR},
+                #{spareCol26,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edhy.entity.HyUserInfoEntity">
+        insert into ed_hy_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="coachId != null">
+                coach_id,
+            </if>
+            <if test="memberShip != null">
+                member_ship,
+            </if>
+            <if test="customSource != null">
+                custom_source,
+            </if>
+            <if test="introducer != null">
+                introducer,
+            </if>
+            <if test="memberNum != null">
+                member_num,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="spareCol21 != null">
+                spare_col21,
+            </if>
+            <if test="spareCol22 != null">
+                spare_col22,
+            </if>
+            <if test="spareCol23 != null">
+                spare_col23,
+            </if>
+            <if test="spareCol24 != null">
+                spare_col24,
+            </if>
+            <if test="spareCol25 != null">
+                spare_col25,
+            </if>
+            <if test="spareCol26 != null">
+                spare_col26,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="coachId != null">
+                #{coachId,jdbcType=VARCHAR},
+            </if>
+            <if test="memberShip != null">
+                #{memberShip,jdbcType=VARCHAR},
+            </if>
+            <if test="customSource != null">
+                #{customSource,jdbcType=VARCHAR},
+            </if>
+            <if test="introducer != null">
+                #{introducer,jdbcType=VARCHAR},
+            </if>
+            <if test="memberNum != null">
+                #{memberNum,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol21 != null">
+                #{spareCol21,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol22 != null">
+                #{spareCol22,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol23 != null">
+                #{spareCol23,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol24 != null">
+                #{spareCol24,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol25 != null">
+                #{spareCol25,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol26 != null">
+                #{spareCol26,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edhy.entity.HyUserInfoEntity">
+        update ed_hy_user_info
+        <set>
+            <if test="coachId != null">
+                coach_id = #{coachId,jdbcType=VARCHAR},
+            </if>
+            <if test="memberShip != null">
+                member_ship = #{memberShip,jdbcType=VARCHAR},
+            </if>
+            <if test="customSource != null">
+                custom_source = #{customSource,jdbcType=VARCHAR},
+            </if>
+            <if test="introducer != null">
+                introducer = #{introducer,jdbcType=VARCHAR},
+            </if>
+            <if test="memberNum != null">
+                member_num = #{memberNum,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol21 != null">
+                spare_col21 = #{spareCol21,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol22 != null">
+                spare_col22 = #{spareCol22,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol23 != null">
+                spare_col23 = #{spareCol23,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol24 != null">
+                spare_col24 = #{spareCol24,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol25 != null">
+                spare_col25 = #{spareCol25,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol26 != null">
+                spare_col26 = #{spareCol26,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edhy.entity.HyUserInfoEntity">
+        update ed_hy_user_info
+        set coach_id      = #{coachId,jdbcType=VARCHAR},
+            member_ship   = #{memberShip,jdbcType=VARCHAR},
+            custom_source = #{customSource,jdbcType=VARCHAR},
+            introducer    = #{introducer,jdbcType=VARCHAR},
+            member_num    = #{memberNum,jdbcType=INTEGER},
+            remark        = #{remark,jdbcType=VARCHAR},
+            spare_col21   = #{spareCol21,jdbcType=VARCHAR},
+            spare_col22   = #{spareCol22,jdbcType=VARCHAR},
+            spare_col23   = #{spareCol23,jdbcType=VARCHAR},
+            spare_col24   = #{spareCol24,jdbcType=VARCHAR},
+            spare_col25   = #{spareCol25,jdbcType=VARCHAR},
+            spare_col26   = #{spareCol26,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edhy.entity.HyUserInfoEntity" resultMap="BaseResultMap">
+        select t1.coach_id, t1.member_ship, t1.custom_source, t1.introducer, t1.member_num, t1.remark, t2.*,
+        t3.user_lname as coach_name
+        from ed_hy_user_info t1 join dt_user t2 on t1.user_id = t2.user_serial and t2.user_type &lt; 51 left join
+        dt_user t3 on t1.coach_id = t3.user_serial and t3.user_type &lt; 51
+        <where>
+            <if test="userId != null">
+                <bind name="userIdLike" value="'%'+userId+'%'"/>
+                and user_id like #{userIdLike}
+                <!--and user_id = #{userId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="coachId != null">
+                <bind name="coachIdLike" value="'%'+coachId+'%'"/>
+                and coach_id like #{coachIdLike}
+                <!--and coach_id = #{coachId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="memberShip != null">
+                <bind name="memberShipLike" value="'%'+memberShip+'%'"/>
+                and member_ship like #{memberShipLike}
+                <!--and member_ship = #{memberShip,jdbcType=VARCHAR}-->
+            </if>
+            <if test="customSource != null">
+                <bind name="customSourceLike" value="'%'+customSource+'%'"/>
+                and custom_source like #{customSourceLike}
+                <!--and custom_source = #{customSource,jdbcType=VARCHAR}-->
+            </if>
+            <if test="introducer != null">
+                <bind name="introducerLike" value="'%'+introducer+'%'"/>
+                and introducer like #{introducerLike}
+                <!--and introducer = #{introducer,jdbcType=VARCHAR}-->
+            </if>
+            <if test="memberNum != null">
+                and member_num = #{memberNum,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol21 != null">
+                <bind name="spareCol21Like" value="'%'+spareCol21+'%'"/>
+                and spare_col21 like #{spareCol21Like}
+                <!--and spare_col21 = #{spareCol21,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol22 != null">
+                <bind name="spareCol22Like" value="'%'+spareCol22+'%'"/>
+                and spare_col22 like #{spareCol22Like}
+                <!--and spare_col22 = #{spareCol22,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol23 != null">
+                <bind name="spareCol23Like" value="'%'+spareCol23+'%'"/>
+                and spare_col23 like #{spareCol23Like}
+                <!--and spare_col23 = #{spareCol23,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol24 != null">
+                <bind name="spareCol24Like" value="'%'+spareCol24+'%'"/>
+                and spare_col24 like #{spareCol24Like}
+                <!--and spare_col24 = #{spareCol24,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol25 != null">
+                <bind name="spareCol25Like" value="'%'+spareCol25+'%'"/>
+                and spare_col25 like #{spareCol25Like}
+                <!--and spare_col25 = #{spareCol25,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol26 != null">
+                <bind name="spareCol26Like" value="'%'+spareCol26+'%'"/>
+                and spare_col26 like #{spareCol26Like}
+                <!--and spare_col26 = #{spareCol26,jdbcType=VARCHAR}-->
+            </if>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                and (user_id like #{keysLike} or
+                coach_id like #{keysLike} or
+                member_ship like #{keysLike} or
+                custom_source like #{keysLike} or
+                introducer like #{keysLike} or
+                member_num = #{keys} or
+                remark like #{keysLike} or
+                spare_col21 like #{keysLike} or
+                spare_col22 like #{keysLike} or
+                spare_col23 like #{keysLike} or
+                spare_col24 like #{keysLike} or
+                spare_col25 like #{keysLike} or
+                spare_col26 like #{keysLike})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_hy_user_info
+        where (user_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.userId})
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.DineGlobalMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.DineGlobalEntity">
+        <id column="bh" jdbcType="INTEGER" property="bh"/>
+        <result column="is_allow" jdbcType="INTEGER" property="isAllow"/>
+        <result column="is_cord" jdbcType="INTEGER" property="isCord"/>
+        <result column="gly_no" jdbcType="VARCHAR" property="glyNo"/>
+        <result column="sj" jdbcType="TIMESTAMP" property="sj"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        bh, is_allow, is_cord, gly_no, sj, remark
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dine_global
+        where bh = #{bh,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from dine_global
+        where bh = #{bh,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.DineGlobalEntity">
+        <selectKey keyProperty="bh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into dine_global (is_allow, is_cord, gly_no,
+        sj, remark)
+        values (#{isAllow,jdbcType=INTEGER}, #{isCord,jdbcType=INTEGER}, #{glyNo,jdbcType=VARCHAR},
+        #{sj,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.DineGlobalEntity">
+        <selectKey keyProperty="bh" order="AFTER" resultType="java.lang.Integer">
+            SELECT SCOPE_IDENTITY()
+        </selectKey>
+        insert into dine_global
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isAllow != null">
+                is_allow,
+            </if>
+            <if test="isCord != null">
+                is_cord,
+            </if>
+            <if test="glyNo != null">
+                gly_no,
+            </if>
+            <if test="sj != null">
+                sj,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isAllow != null">
+                #{isAllow,jdbcType=INTEGER},
+            </if>
+            <if test="isCord != null">
+                #{isCord,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                #{glyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.DineGlobalEntity">
+        update dine_global
+        <set>
+            <if test="isAllow != null">
+                is_allow = #{isAllow,jdbcType=INTEGER},
+            </if>
+            <if test="isCord != null">
+                is_cord = #{isCord,jdbcType=INTEGER},
+            </if>
+            <if test="glyNo != null">
+                gly_no = #{glyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="sj != null">
+                sj = #{sj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.DineGlobalEntity">
+        update dine_global
+        set is_allow = #{isAllow,jdbcType=INTEGER},
+            is_cord  = #{isCord,jdbcType=INTEGER},
+            gly_no   = #{glyNo,jdbcType=VARCHAR},
+            sj       = #{sj,jdbcType=TIMESTAMP},
+            remark   = #{remark,jdbcType=VARCHAR}
+        where bh = #{bh,jdbcType=INTEGER}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.DineGlobalEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dine_global
+        <where>
+            <if test="bh != null">
+                and bh = #{bh,jdbcType=INTEGER}
+            </if>
+            <if test="isAllow != null">
+                and is_allow = #{isAllow,jdbcType=INTEGER}
+            </if>
+            <if test="isCord != null">
+                and is_cord = #{isCord,jdbcType=INTEGER}
+            </if>
+            <if test="glyNo != null">
+                <bind name="glyNoLike" value="'%'+glyNo+'%'"/>
+                and gly_no like #{glyNoLike}
+                <!--and gly_no = #{glyNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="sj != null">
+                and sj = #{sj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+</mapper>

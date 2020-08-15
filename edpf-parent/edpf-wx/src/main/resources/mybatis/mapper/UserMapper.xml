@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edwx.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edwx.entity.UserEntity">
+        <id column="user_serial" jdbcType="BIGINT" property="userSerial"/>
+        <result column="user_no" jdbcType="NVARCHAR" property="userNo"/>
+        <result column="user_lname" jdbcType="NVARCHAR" property="userLname"/>
+        <result column="user_fname" jdbcType="NVARCHAR" property="userFname"/>
+        <result column="dep_no" jdbcType="VARCHAR" property="depNo"/>
+        <result column="user_dep" jdbcType="INTEGER" property="userDep"/>
+        <result column="user_depname" jdbcType="NVARCHAR" property="userDepname"/>
+        <result column="user_workday" jdbcType="TIMESTAMP" property="userWorkday"/>
+        <result column="user_duty" jdbcType="NVARCHAR" property="userDuty"/>
+        <result column="user_card" jdbcType="NVARCHAR" property="userCard"/>
+        <result column="user_finger" jdbcType="NVARCHAR" property="userFinger"/>
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="pwd_begin" jdbcType="TIMESTAMP" property="pwdBegin"/>
+        <result column="pwd_end" jdbcType="TIMESTAMP" property="pwdEnd"/>
+        <result column="user_type" jdbcType="SMALLINT" property="userType"/>
+        <result column="pact_begin" jdbcType="TIMESTAMP" property="pactBegin"/>
+        <result column="pact_end" jdbcType="TIMESTAMP" property="pactEnd"/>
+        <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
+        <result column="user_photo" jdbcType="INTEGER" property="userPhoto"/>
+        <result column="user_sex" jdbcType="NVARCHAR" property="userSex"/>
+        <result column="user_nation" jdbcType="NVARCHAR" property="userNation"/>
+        <result column="user_xueli" jdbcType="NVARCHAR" property="userXueli"/>
+        <result column="user_native" jdbcType="NVARCHAR" property="userNative"/>
+        <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday"/>
+        <result column="user_id" jdbcType="NVARCHAR" property="userId"/>
+        <result column="user_post" jdbcType="NVARCHAR" property="userPost"/>
+        <result column="user_linkman" jdbcType="NVARCHAR" property="userLinkman"/>
+        <result column="user_telephone" jdbcType="NVARCHAR" property="userTelephone"/>
+        <result column="user_address" jdbcType="NVARCHAR" property="userAddress"/>
+        <result column="user_email" jdbcType="NVARCHAR" property="userEmail"/>
+        <result column="user_1" jdbcType="NVARCHAR" property="user1"/>
+        <result column="user_2" jdbcType="NVARCHAR" property="user2"/>
+        <result column="user_bz" jdbcType="NVARCHAR" property="userBz"/>
+        <result column="kq_rule" jdbcType="VARCHAR" property="kqRule"/>
+        <result column="kq_taoban" jdbcType="NVARCHAR" property="kqTaoban"/>
+        <result column="kq_tiaoxiu" jdbcType="INTEGER" property="kqTiaoxiu"/>
+        <result column="xf_time" jdbcType="TIMESTAMP" property="xfTime"/>
+        <result column="xf_jiange" jdbcType="INTEGER" property="xfJiange"/>
+        <result column="xf_je" jdbcType="INTEGER" property="xfJe"/>
+        <result column="user_sj" jdbcType="TIMESTAMP" property="userSj"/>
+        <result column="user_rank" jdbcType="NVARCHAR" property="userRank"/>
+        <result column="gly_img" jdbcType="INTEGER" property="glyImg"/>
+        <result column="user_ac" jdbcType="INTEGER" property="userAc"/>
+        <result column="user_gsbh" jdbcType="VARCHAR" property="userGsbh"/>
+        <result column="user_yglx" jdbcType="VARCHAR" property="userYglx"/>
+        <result column="user_zhbh" jdbcType="VARCHAR" property="userZhbh"/>
+        <result column="user_zhlx" jdbcType="VARCHAR" property="userZhlx"/>
+        <result column="user_txm" jdbcType="VARCHAR" property="userTxm"/>
+        <result column="user_lx" jdbcType="INTEGER" property="userLx"/>
+        <result column="user_mj" jdbcType="INTEGER" property="userMj"/>
+        <result column="user_identity" jdbcType="INTEGER" property="userIdentity"/>
+        <result column="user_face" jdbcType="INTEGER" property="userFace"/>
+        <result column="lx" jdbcType="VARCHAR" property="lx"/>
+        <result column="ac_money" jdbcType="VARCHAR" property="acMoney"/>
+        <result column="openid" jdbcType="VARCHAR" property="openId"/>
+        <result column="unionid" jdbcType="VARCHAR" property="unionId"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_serial, user_no, user_lname, user_fname, dep_no, user_dep, user_depname, user_workday,
+                     user_duty, user_card, user_finger, user_password, pwd_begin, pwd_end, user_type,
+                     pact_begin, pact_end, user_level, user_photo, user_sex, user_nation, user_xueli,
+                     user_native, user_birthday, user_id, user_post, user_linkman, user_telephone, user_address,
+                     user_email, user_1, user_2, user_bz, kq_rule, kq_taoban, kq_tiaoxiu, xf_time, xf_jiange,
+                     xf_je, user_sj, user_rank, gly_img, user_ac, user_gsbh, user_yglx, user_zhbh, user_zhlx,
+                     user_txm, user_lx, user_mj, user_identity, user_face, lx, spare_col1, spare_col2
+    </sql>
+    <select id="userLoginCheck" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select user_serial, user_lname, lx, user_no
+        from dt_user
+        where user_no = #{userNo}
+          and user_password = #{userPassword}
+          and user_type &lt;51
+    </select>
+    <select id="selectByUserNo" parameterType="String" resultMap="BaseResultMap">
+        select *
+        from dt_user
+        where (user_no = #{userNo} or user_telephone = #{userNo})
+          and user_type &lt;51
+    </select>
+    <select id="checkUserPwdBySerial" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_user
+        where user_serial = #{userSerial}
+        and user_password = #{userPassword}
+    </select>
+    <select id="merchantLoginCheck" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select user_no as user_serial, user_lname, login_name as user_no
+        FROM dt_owner
+        where login_name = #{userNo}
+          and login_password = #{userPassword}
+    </select>
+    <update id="updatePwd" parameterType="com.weds.edwx.entity.UserEntity">
+        update dt_user
+        set user_password = #{newPassword}
+        where user_serial = #{userSerial}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_user
+        where user_serial = #{userSerial,jdbcType=BIGINT}
+    </select>
+    <select id="selectByUnionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select b.user_serial, b.user_lname, b.user_no, b.lx, a.openid, a.unionid
+        from wx_login_openid a
+                 inner join dt_user b on a.user_serial = b.user_serial
+        where b.user_type &lt; 51
+          and a.UNIONID = #{unionId}
+    </select>
+    <select id="getCardInfo" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select a.user_lname,
+               a.user_serial,
+               a.user_no,
+               a.user_depname,
+               a.user_card,
+               convert(varchar, b.ac_money / 100)                                      as ac_money,
+               case isnull(a.user_card, '0') when '0' then 0 when '' then 0 else 1 end as user_lx
+        from dt_user a
+                 inner join dt_ac_link b on a.user_serial = b.user_serial
+        where a.user_serial = #{userSerial}
+          and user_type &lt;51
+    </select>
+    <insert id="insertPublic" parameterType="com.weds.edwx.entity.UserEntity">
+        insert into wt_public (lx,
+                               log_type,
+                               is_all,
+                               user_serial,
+                               card_serial,
+                               new_number,
+                               old_number,
+                               log_sj,
+                               log_ip,
+                               gly_no)
+        select 8,
+               6,
+               0,
+               #{userSerial},
+               card_serial,
+               '',
+               '',
+               #{userSj},
+               '',
+               #{userSerial}
+        from dt_card
+        where user_serial = #{userSerial}
+          and card_hao = #{userCard}
+    </insert>
+    <select id="selectUserCard" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select a.user_serial, a.user_card
+        from dt_user a
+                 inner join dt_card b on a.user_serial = b.user_serial and b.card_type = 0
+        where <![CDATA[(a.user_card <> '' and a.user_card is not null)
+          and a.user_type < 51 ]]> and a.user_serial = #{userSerial}
+    </select>
+    <select id="selectCodeKey" parameterType="java.lang.String" resultType="java.lang.String">
+        select code_key
+        from wt_reg
+        where reg_no = #{regNo}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dt_user
+        where user_serial = #{userSerial,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edwx.entity.UserEntity">
+        insert into dt_user (user_serial,
+                             user_no,
+                             user_lname,
+                             user_fname,
+                             dep_no,
+                             user_dep,
+                             user_depname,
+                             user_workday,
+                             user_duty,
+                             user_card,
+                             user_finger,
+                             user_password,
+                             pwd_begin,
+                             pwd_end,
+                             user_type,
+                             pact_begin,
+                             pact_end,
+                             user_level,
+                             user_photo,
+                             user_sex,
+                             user_nation,
+                             user_xueli,
+                             user_native,
+                             user_birthday,
+                             user_id,
+                             user_post,
+                             user_linkman,
+                             user_telephone,
+                             user_address,
+                             user_email,
+                             user_1,
+                             user_2,
+                             user_bz,
+                             kq_rule,
+                             kq_taoban,
+                             kq_tiaoxiu,
+                             xf_time,
+                             xf_jiange,
+                             xf_je,
+                             user_sj,
+                             user_rank,
+                             gly_img,
+                             user_ac,
+                             user_gsbh,
+                             user_yglx,
+                             user_zhbh,
+                             user_zhlx,
+                             user_txm,
+                             user_lx,
+                             user_mj,
+                             user_identity,
+                             user_face,
+                             lx)
+        values (#{userSerial,jdbcType=BIGINT},
+                #{userNo,jdbcType=NVARCHAR},
+                #{userLname,jdbcType=NVARCHAR},
+                #{userFname,jdbcType=NVARCHAR},
+                #{depNo,jdbcType=VARCHAR},
+                #{userDep,jdbcType=INTEGER},
+                #{userDepname,jdbcType=NVARCHAR},
+                #{userWorkday,jdbcType=TIMESTAMP},
+                #{userDuty,jdbcType=NVARCHAR},
+                #{userCard,jdbcType=NVARCHAR},
+                #{userFinger,jdbcType=NVARCHAR},
+                #{userPassword,jdbcType=VARCHAR},
+                #{pwdBegin,jdbcType=TIMESTAMP},
+                #{pwdEnd,jdbcType=TIMESTAMP},
+                #{userType,jdbcType=SMALLINT},
+                #{pactBegin,jdbcType=TIMESTAMP},
+                #{pactEnd,jdbcType=TIMESTAMP},
+                #{userLevel,jdbcType=INTEGER},
+                #{userPhoto,jdbcType=INTEGER},
+                #{userSex,jdbcType=NVARCHAR},
+                #{userNation,jdbcType=NVARCHAR},
+                #{userXueli,jdbcType=NVARCHAR},
+                #{userNative,jdbcType=NVARCHAR},
+                #{userBirthday,jdbcType=TIMESTAMP},
+                #{userId,jdbcType=NVARCHAR},
+                #{userPost,jdbcType=NVARCHAR},
+                #{userLinkman,jdbcType=NVARCHAR},
+                #{userTelephone,jdbcType=NVARCHAR},
+                #{userAddress,jdbcType=NVARCHAR},
+                #{userEmail,jdbcType=NVARCHAR},
+                #{user1,jdbcType=NVARCHAR},
+                #{user2,jdbcType=NVARCHAR},
+                #{userBz,jdbcType=NVARCHAR},
+                #{kqRule,jdbcType=VARCHAR},
+                #{kqTaoban,jdbcType=NVARCHAR},
+                #{kqTiaoxiu,jdbcType=INTEGER},
+                #{xfTime,jdbcType=TIMESTAMP},
+                #{xfJiange,jdbcType=INTEGER},
+                #{xfJe,jdbcType=INTEGER},
+                #{userSj,jdbcType=TIMESTAMP},
+                #{userRank,jdbcType=NVARCHAR},
+                #{glyImg,jdbcType=INTEGER},
+                #{userAc,jdbcType=INTEGER},
+                #{userGsbh,jdbcType=VARCHAR},
+                #{userYglx,jdbcType=VARCHAR},
+                #{userZhbh,jdbcType=VARCHAR},
+                #{userZhlx,jdbcType=VARCHAR},
+                #{userTxm,jdbcType=VARCHAR},
+                #{userLx,jdbcType=INTEGER},
+                #{userMj,jdbcType=INTEGER},
+                #{userIdentity,jdbcType=INTEGER},
+                #{userFace,jdbcType=INTEGER},
+                #{lx,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edwx.entity.UserEntity">
+        insert into dt_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                user_serial,
+            </if>
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="userLname != null">
+                user_lname,
+            </if>
+            <if test="userFname != null">
+                user_fname,
+            </if>
+            <if test="depNo != null">
+                dep_no,
+            </if>
+            <if test="userDep != null">
+                user_dep,
+            </if>
+            <if test="userDepname != null">
+                user_depname,
+            </if>
+            <if test="userWorkday != null">
+                user_workday,
+            </if>
+            <if test="userDuty != null">
+                user_duty,
+            </if>
+            <if test="userCard != null">
+                user_card,
+            </if>
+            <if test="userFinger != null">
+                user_finger,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="pwdBegin != null">
+                pwd_begin,
+            </if>
+            <if test="pwdEnd != null">
+                pwd_end,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="pactBegin != null">
+                pact_begin,
+            </if>
+            <if test="pactEnd != null">
+                pact_end,
+            </if>
+            <if test="userLevel != null">
+                user_level,
+            </if>
+            <if test="userPhoto != null">
+                user_photo,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userNation != null">
+                user_nation,
+            </if>
+            <if test="userXueli != null">
+                user_xueli,
+            </if>
+            <if test="userNative != null">
+                user_native,
+            </if>
+            <if test="userBirthday != null">
+                user_birthday,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userPost != null">
+                user_post,
+            </if>
+            <if test="userLinkman != null">
+                user_linkman,
+            </if>
+            <if test="userTelephone != null">
+                user_telephone,
+            </if>
+            <if test="userAddress != null">
+                user_address,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="user1 != null">
+                user_1,
+            </if>
+            <if test="user2 != null">
+                user_2,
+            </if>
+            <if test="userBz != null">
+                user_bz,
+            </if>
+            <if test="kqRule != null">
+                kq_rule,
+            </if>
+            <if test="kqTaoban != null">
+                kq_taoban,
+            </if>
+            <if test="kqTiaoxiu != null">
+                kq_tiaoxiu,
+            </if>
+            <if test="xfTime != null">
+                xf_time,
+            </if>
+            <if test="xfJiange != null">
+                xf_jiange,
+            </if>
+            <if test="xfJe != null">
+                xf_je,
+            </if>
+            <if test="userSj != null">
+                user_sj,
+            </if>
+            <if test="userRank != null">
+                user_rank,
+            </if>
+            <if test="glyImg != null">
+                gly_img,
+            </if>
+            <if test="userAc != null">
+                user_ac,
+            </if>
+            <if test="userGsbh != null">
+                user_gsbh,
+            </if>
+            <if test="userYglx != null">
+                user_yglx,
+            </if>
+            <if test="userZhbh != null">
+                user_zhbh,
+            </if>
+            <if test="userZhlx != null">
+                user_zhlx,
+            </if>
+            <if test="userTxm != null">
+                user_txm,
+            </if>
+            <if test="userLx != null">
+                user_lx,
+            </if>
+            <if test="userMj != null">
+                user_mj,
+            </if>
+            <if test="userIdentity != null">
+                user_identity,
+            </if>
+            <if test="userFace != null">
+                user_face,
+            </if>
+            <if test="lx != null">
+                lx,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userSerial != null">
+                #{userSerial,jdbcType=BIGINT},
+            </if>
+            <if test="userNo != null">
+                #{userNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="userLname != null">
+                #{userLname,jdbcType=NVARCHAR},
+            </if>
+            <if test="userFname != null">
+                #{userFname,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userDep != null">
+                #{userDep,jdbcType=INTEGER},
+            </if>
+            <if test="userDepname != null">
+                #{userDepname,jdbcType=NVARCHAR},
+            </if>
+            <if test="userWorkday != null">
+                #{userWorkday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userDuty != null">
+                #{userDuty,jdbcType=NVARCHAR},
+            </if>
+            <if test="userCard != null">
+                #{userCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="userFinger != null">
+                #{userFinger,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="pwdBegin != null">
+                #{pwdBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pwdEnd != null">
+                #{pwdEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="pactBegin != null">
+                #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userLevel != null">
+                #{userLevel,jdbcType=INTEGER},
+            </if>
+            <if test="userPhoto != null">
+                #{userPhoto,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=NVARCHAR},
+            </if>
+            <if test="userNation != null">
+                #{userNation,jdbcType=NVARCHAR},
+            </if>
+            <if test="userXueli != null">
+                #{userXueli,jdbcType=NVARCHAR},
+            </if>
+            <if test="userNative != null">
+                #{userNative,jdbcType=NVARCHAR},
+            </if>
+            <if test="userBirthday != null">
+                #{userBirthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPost != null">
+                #{userPost,jdbcType=NVARCHAR},
+            </if>
+            <if test="userLinkman != null">
+                #{userLinkman,jdbcType=NVARCHAR},
+            </if>
+            <if test="userTelephone != null">
+                #{userTelephone,jdbcType=NVARCHAR},
+            </if>
+            <if test="userAddress != null">
+                #{userAddress,jdbcType=NVARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=NVARCHAR},
+            </if>
+            <if test="user1 != null">
+                #{user1,jdbcType=NVARCHAR},
+            </if>
+            <if test="user2 != null">
+                #{user2,jdbcType=NVARCHAR},
+            </if>
+            <if test="userBz != null">
+                #{userBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="kqRule != null">
+                #{kqRule,jdbcType=VARCHAR},
+            </if>
+            <if test="kqTaoban != null">
+                #{kqTaoban,jdbcType=NVARCHAR},
+            </if>
+            <if test="kqTiaoxiu != null">
+                #{kqTiaoxiu,jdbcType=INTEGER},
+            </if>
+            <if test="xfTime != null">
+                #{xfTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="xfJiange != null">
+                #{xfJiange,jdbcType=INTEGER},
+            </if>
+            <if test="xfJe != null">
+                #{xfJe,jdbcType=INTEGER},
+            </if>
+            <if test="userSj != null">
+                #{userSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userRank != null">
+                #{userRank,jdbcType=NVARCHAR},
+            </if>
+            <if test="glyImg != null">
+                #{glyImg,jdbcType=INTEGER},
+            </if>
+            <if test="userAc != null">
+                #{userAc,jdbcType=INTEGER},
+            </if>
+            <if test="userGsbh != null">
+                #{userGsbh,jdbcType=VARCHAR},
+            </if>
+            <if test="userYglx != null">
+                #{userYglx,jdbcType=VARCHAR},
+            </if>
+            <if test="userZhbh != null">
+                #{userZhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="userZhlx != null">
+                #{userZhlx,jdbcType=VARCHAR},
+            </if>
+            <if test="userTxm != null">
+                #{userTxm,jdbcType=VARCHAR},
+            </if>
+            <if test="userLx != null">
+                #{userLx,jdbcType=INTEGER},
+            </if>
+            <if test="userMj != null">
+                #{userMj,jdbcType=INTEGER},
+            </if>
+            <if test="userIdentity != null">
+                #{userIdentity,jdbcType=INTEGER},
+            </if>
+            <if test="userFace != null">
+                #{userFace,jdbcType=INTEGER},
+            </if>
+            <if test="lx != null">
+                #{lx,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edwx.entity.UserEntity">
+        update dt_user
+        <set>
+            <if test="userNo != null">
+                user_no = #{userNo,jdbcType=NVARCHAR},
+            </if>
+            <if test="userLname != null">
+                user_lname = #{userLname,jdbcType=NVARCHAR},
+            </if>
+            <if test="userFname != null">
+                user_fname = #{userFname,jdbcType=NVARCHAR},
+            </if>
+            <if test="depNo != null">
+                dep_no = #{depNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userDep != null">
+                user_dep = #{userDep,jdbcType=INTEGER},
+            </if>
+            <if test="userDepname != null">
+                user_depname = #{userDepname,jdbcType=NVARCHAR},
+            </if>
+            <if test="userWorkday != null">
+                user_workday = #{userWorkday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userDuty != null">
+                user_duty = #{userDuty,jdbcType=NVARCHAR},
+            </if>
+            <if test="userCard != null">
+                user_card = #{userCard,jdbcType=NVARCHAR},
+            </if>
+            <if test="userFinger != null">
+                user_finger = #{userFinger,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="pwdBegin != null">
+                pwd_begin = #{pwdBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pwdEnd != null">
+                pwd_end = #{pwdEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="pactBegin != null">
+                pact_begin = #{pactBegin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="pactEnd != null">
+                pact_end = #{pactEnd,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userLevel != null">
+                user_level = #{userLevel,jdbcType=INTEGER},
+            </if>
+            <if test="userPhoto != null">
+                user_photo = #{userPhoto,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=NVARCHAR},
+            </if>
+            <if test="userNation != null">
+                user_nation = #{userNation,jdbcType=NVARCHAR},
+            </if>
+            <if test="userXueli != null">
+                user_xueli = #{userXueli,jdbcType=NVARCHAR},
+            </if>
+            <if test="userNative != null">
+                user_native = #{userNative,jdbcType=NVARCHAR},
+            </if>
+            <if test="userBirthday != null">
+                user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=NVARCHAR},
+            </if>
+            <if test="userPost != null">
+                user_post = #{userPost,jdbcType=NVARCHAR},
+            </if>
+            <if test="userLinkman != null">
+                user_linkman = #{userLinkman,jdbcType=NVARCHAR},
+            </if>
+            <if test="userTelephone != null">
+                user_telephone = #{userTelephone,jdbcType=NVARCHAR},
+            </if>
+            <if test="userAddress != null">
+                user_address = #{userAddress,jdbcType=NVARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=NVARCHAR},
+            </if>
+            <if test="user1 != null">
+                user_1 = #{user1,jdbcType=NVARCHAR},
+            </if>
+            <if test="user2 != null">
+                user_2 = #{user2,jdbcType=NVARCHAR},
+            </if>
+            <if test="userBz != null">
+                user_bz = #{userBz,jdbcType=NVARCHAR},
+            </if>
+            <if test="kqRule != null">
+                kq_rule = #{kqRule,jdbcType=VARCHAR},
+            </if>
+            <if test="kqTaoban != null">
+                kq_taoban = #{kqTaoban,jdbcType=NVARCHAR},
+            </if>
+            <if test="kqTiaoxiu != null">
+                kq_tiaoxiu = #{kqTiaoxiu,jdbcType=INTEGER},
+            </if>
+            <if test="xfTime != null">
+                xf_time = #{xfTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="xfJiange != null">
+                xf_jiange = #{xfJiange,jdbcType=INTEGER},
+            </if>
+            <if test="xfJe != null">
+                xf_je = #{xfJe,jdbcType=INTEGER},
+            </if>
+            <if test="userSj != null">
+                user_sj = #{userSj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userRank != null">
+                user_rank = #{userRank,jdbcType=NVARCHAR},
+            </if>
+            <if test="glyImg != null">
+                gly_img = #{glyImg,jdbcType=INTEGER},
+            </if>
+            <if test="userAc != null">
+                user_ac = #{userAc,jdbcType=INTEGER},
+            </if>
+            <if test="userGsbh != null">
+                user_gsbh = #{userGsbh,jdbcType=VARCHAR},
+            </if>
+            <if test="userYglx != null">
+                user_yglx = #{userYglx,jdbcType=VARCHAR},
+            </if>
+            <if test="userZhbh != null">
+                user_zhbh = #{userZhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="userZhlx != null">
+                user_zhlx = #{userZhlx,jdbcType=VARCHAR},
+            </if>
+            <if test="userTxm != null">
+                user_txm = #{userTxm,jdbcType=VARCHAR},
+            </if>
+            <if test="userLx != null">
+                user_lx = #{userLx,jdbcType=INTEGER},
+            </if>
+            <if test="userMj != null">
+                user_mj = #{userMj,jdbcType=INTEGER},
+            </if>
+            <if test="userIdentity != null">
+                user_identity = #{userIdentity,jdbcType=INTEGER},
+            </if>
+            <if test="userFace != null">
+                user_face = #{userFace,jdbcType=INTEGER},
+            </if>
+            <if test="lx != null">
+                lx = #{lx,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_serial = #{userSerial,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edwx.entity.UserEntity">
+        update dt_user
+        set user_no        = #{userNo,jdbcType=NVARCHAR},
+            user_lname     = #{userLname,jdbcType=NVARCHAR},
+            user_fname     = #{userFname,jdbcType=NVARCHAR},
+            dep_no         = #{depNo,jdbcType=VARCHAR},
+            user_dep       = #{userDep,jdbcType=INTEGER},
+            user_depname   = #{userDepname,jdbcType=NVARCHAR},
+            user_workday   = #{userWorkday,jdbcType=TIMESTAMP},
+            user_duty      = #{userDuty,jdbcType=NVARCHAR},
+            user_card      = #{userCard,jdbcType=NVARCHAR},
+            user_finger    = #{userFinger,jdbcType=NVARCHAR},
+            user_password  = #{userPassword,jdbcType=VARCHAR},
+            pwd_begin      = #{pwdBegin,jdbcType=TIMESTAMP},
+            pwd_end        = #{pwdEnd,jdbcType=TIMESTAMP},
+            user_type      = #{userType,jdbcType=SMALLINT},
+            pact_begin     = #{pactBegin,jdbcType=TIMESTAMP},
+            pact_end       = #{pactEnd,jdbcType=TIMESTAMP},
+            user_level     = #{userLevel,jdbcType=INTEGER},
+            user_photo     = #{userPhoto,jdbcType=INTEGER},
+            user_sex       = #{userSex,jdbcType=NVARCHAR},
+            user_nation    = #{userNation,jdbcType=NVARCHAR},
+            user_xueli     = #{userXueli,jdbcType=NVARCHAR},
+            user_native    = #{userNative,jdbcType=NVARCHAR},
+            user_birthday  = #{userBirthday,jdbcType=TIMESTAMP},
+            user_id        = #{userId,jdbcType=NVARCHAR},
+            user_post      = #{userPost,jdbcType=NVARCHAR},
+            user_linkman   = #{userLinkman,jdbcType=NVARCHAR},
+            user_telephone = #{userTelephone,jdbcType=NVARCHAR},
+            user_address   = #{userAddress,jdbcType=NVARCHAR},
+            user_email     = #{userEmail,jdbcType=NVARCHAR},
+            user_1         = #{user1,jdbcType=NVARCHAR},
+            user_2         = #{user2,jdbcType=NVARCHAR},
+            user_bz        = #{userBz,jdbcType=NVARCHAR},
+            kq_rule        = #{kqRule,jdbcType=VARCHAR},
+            kq_taoban      = #{kqTaoban,jdbcType=NVARCHAR},
+            kq_tiaoxiu     = #{kqTiaoxiu,jdbcType=INTEGER},
+            xf_time        = #{xfTime,jdbcType=TIMESTAMP},
+            xf_jiange      = #{xfJiange,jdbcType=INTEGER},
+            xf_je          = #{xfJe,jdbcType=INTEGER},
+            user_sj        = #{userSj,jdbcType=TIMESTAMP},
+            user_rank      = #{userRank,jdbcType=NVARCHAR},
+            gly_img        = #{glyImg,jdbcType=INTEGER},
+            user_ac        = #{userAc,jdbcType=INTEGER},
+            user_gsbh      = #{userGsbh,jdbcType=VARCHAR},
+            user_yglx      = #{userYglx,jdbcType=VARCHAR},
+            user_zhbh      = #{userZhbh,jdbcType=VARCHAR},
+            user_zhlx      = #{userZhlx,jdbcType=VARCHAR},
+            user_txm       = #{userTxm,jdbcType=VARCHAR},
+            user_lx        = #{userLx,jdbcType=INTEGER},
+            user_mj        = #{userMj,jdbcType=INTEGER},
+            user_identity  = #{userIdentity,jdbcType=INTEGER},
+            user_face      = #{userFace,jdbcType=INTEGER},
+            lx             = #{lx,jdbcType=VARCHAR}
+        where user_serial = #{userSerial,jdbcType=BIGINT}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edwx.entity.UserEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dt_user
+        <where>
+            <if test="userSerial != null">
+                and user_serial = #{userSerial,jdbcType=BIGINT}
+            </if>
+            <if test="userNo != null">
+                and user_no = #{userNo,jdbcType=NVARCHAR}
+            </if>
+            <if test="userLname != null">
+                and user_lname = #{userLname,jdbcType=NVARCHAR}
+            </if>
+            <if test="userFname != null">
+                and user_fname = #{userFname,jdbcType=NVARCHAR}
+            </if>
+            <if test="depNo != null">
+                <bind name="depNoLike" value="'%'+depNo+'%'"/>
+                and dep_no like #{depNoLike}
+                <!--and dep_no = #{depNo,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userDep != null">
+                and user_dep = #{userDep,jdbcType=INTEGER}
+            </if>
+            <if test="userDepname != null">
+                and user_depname = #{userDepname,jdbcType=NVARCHAR}
+            </if>
+            <if test="userWorkday != null">
+                and user_workday = #{userWorkday,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userDuty != null">
+                and user_duty = #{userDuty,jdbcType=NVARCHAR}
+            </if>
+            <if test="userCard != null">
+                and user_card = #{userCard,jdbcType=NVARCHAR}
+            </if>
+            <if test="userFinger != null">
+                and user_finger = #{userFinger,jdbcType=NVARCHAR}
+            </if>
+            <if test="userPassword != null">
+                <bind name="userPasswordLike" value="'%'+userPassword+'%'"/>
+                and user_password like #{userPasswordLike}
+                <!--and user_password = #{userPassword,jdbcType=VARCHAR}-->
+            </if>
+            <if test="pwdBegin != null">
+                and pwd_begin = #{pwdBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="pwdEnd != null">
+                and pwd_end = #{pwdEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userType != null">
+                and user_type = #{userType,jdbcType=SMALLINT}
+            </if>
+            <if test="pactBegin != null">
+                and pact_begin = #{pactBegin,jdbcType=TIMESTAMP}
+            </if>
+            <if test="pactEnd != null">
+                and pact_end = #{pactEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userLevel != null">
+                and user_level = #{userLevel,jdbcType=INTEGER}
+            </if>
+            <if test="userPhoto != null">
+                and user_photo = #{userPhoto,jdbcType=INTEGER}
+            </if>
+            <if test="userSex != null">
+                and user_sex = #{userSex,jdbcType=NVARCHAR}
+            </if>
+            <if test="userNation != null">
+                and user_nation = #{userNation,jdbcType=NVARCHAR}
+            </if>
+            <if test="userXueli != null">
+                and user_xueli = #{userXueli,jdbcType=NVARCHAR}
+            </if>
+            <if test="userNative != null">
+                and user_native = #{userNative,jdbcType=NVARCHAR}
+            </if>
+            <if test="userBirthday != null">
+                and user_birthday = #{userBirthday,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=NVARCHAR}
+            </if>
+            <if test="userPost != null">
+                and user_post = #{userPost,jdbcType=NVARCHAR}
+            </if>
+            <if test="userLinkman != null">
+                and user_linkman = #{userLinkman,jdbcType=NVARCHAR}
+            </if>
+            <if test="userTelephone != null">
+                and user_telephone = #{userTelephone,jdbcType=NVARCHAR}
+            </if>
+            <if test="userAddress != null">
+                and user_address = #{userAddress,jdbcType=NVARCHAR}
+            </if>
+            <if test="userEmail != null">
+                and user_email = #{userEmail,jdbcType=NVARCHAR}
+            </if>
+            <if test="user1 != null">
+                and user_1 = #{user1,jdbcType=NVARCHAR}
+            </if>
+            <if test="user2 != null">
+                and user_2 = #{user2,jdbcType=NVARCHAR}
+            </if>
+            <if test="userBz != null">
+                and user_bz = #{userBz,jdbcType=NVARCHAR}
+            </if>
+            <if test="kqRule != null">
+                <bind name="kqRuleLike" value="'%'+kqRule+'%'"/>
+                and kq_rule like #{kqRuleLike}
+                <!--and kq_rule = #{kqRule,jdbcType=VARCHAR}-->
+            </if>
+            <if test="kqTaoban != null">
+                and kq_taoban = #{kqTaoban,jdbcType=NVARCHAR}
+            </if>
+            <if test="kqTiaoxiu != null">
+                and kq_tiaoxiu = #{kqTiaoxiu,jdbcType=INTEGER}
+            </if>
+            <if test="xfTime != null">
+                and xf_time = #{xfTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="xfJiange != null">
+                and xf_jiange = #{xfJiange,jdbcType=INTEGER}
+            </if>
+            <if test="xfJe != null">
+                and xf_je = #{xfJe,jdbcType=INTEGER}
+            </if>
+            <if test="userSj != null">
+                and user_sj = #{userSj,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userRank != null">
+                and user_rank = #{userRank,jdbcType=NVARCHAR}
+            </if>
+            <if test="glyImg != null">
+                and gly_img = #{glyImg,jdbcType=INTEGER}
+            </if>
+            <if test="userAc != null">
+                and user_ac = #{userAc,jdbcType=INTEGER}
+            </if>
+            <if test="userGsbh != null">
+                <bind name="userGsbhLike" value="'%'+userGsbh+'%'"/>
+                and user_gsbh like #{userGsbhLike}
+                <!--and user_gsbh = #{userGsbh,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userYglx != null">
+                <bind name="userYglxLike" value="'%'+userYglx+'%'"/>
+                and user_yglx like #{userYglxLike}
+                <!--and user_yglx = #{userYglx,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userZhbh != null">
+                <bind name="userZhbhLike" value="'%'+userZhbh+'%'"/>
+                and user_zhbh like #{userZhbhLike}
+                <!--and user_zhbh = #{userZhbh,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userZhlx != null">
+                <bind name="userZhlxLike" value="'%'+userZhlx+'%'"/>
+                and user_zhlx like #{userZhlxLike}
+                <!--and user_zhlx = #{userZhlx,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userTxm != null">
+                <bind name="userTxmLike" value="'%'+userTxm+'%'"/>
+                and user_txm like #{userTxmLike}
+                <!--and user_txm = #{userTxm,jdbcType=VARCHAR}-->
+            </if>
+            <if test="userLx != null">
+                and user_lx = #{userLx,jdbcType=INTEGER}
+            </if>
+            <if test="userMj != null">
+                and user_mj = #{userMj,jdbcType=INTEGER}
+            </if>
+            <if test="userIdentity != null">
+                and user_identity = #{userIdentity,jdbcType=INTEGER}
+            </if>
+            <if test="userFace != null">
+                and user_face = #{userFace,jdbcType=INTEGER}
+            </if>
+            <if test="lx != null">
+                <bind name="lxLike" value="'%'+lx+'%'"/>
+                and lx like #{lxLike}
+                <!--and lx = #{lx,jdbcType=VARCHAR}-->
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edmj.mapper.JrealUpdate0Mapper">
+  <resultMap id="BaseResultMap" type="com.weds.edmj.entity.JrealUpdate0Entity">
+    <id column="jsig" jdbcType="INTEGER" property="jsig" />
+    <result column="jdev_id" jdbcType="INTEGER" property="jdevId" />
+    <result column="jdev_bh" jdbcType="CHAR" property="jdevBh" />
+    <result column="jdodata" jdbcType="INTEGER" property="jdodata" />
+    <result column="juser_id" jdbcType="INTEGER" property="juserId" />
+    <result column="jdata_str" jdbcType="VARCHAR" property="jdataStr" />
+    <result column="jext_type" jdbcType="INTEGER" property="jextType" />
+    <result column="jtime" jdbcType="TIMESTAMP" property="jtime" />
+    <result column="joperator" jdbcType="NVARCHAR" property="joperator" />
+    <result column="jip_addr" jdbcType="VARCHAR" property="jipAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    jsig, jdev_id, jdev_bh, jdodata, juser_id, jdata_str, jext_type, jtime, joperator, 
+    jip_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jreal_update_0
+    where jsig = #{jsig,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jreal_update_0
+    where jsig = #{jsig,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    insert into jreal_update_0 (jsig, jdev_id, jdev_bh, 
+      jdodata, juser_id, jdata_str, 
+      jext_type, jtime, joperator, 
+      jip_addr)
+    values (#{jsig,jdbcType=INTEGER}, #{jdevId,jdbcType=INTEGER}, #{jdevBh,jdbcType=CHAR}, 
+      #{jdodata,jdbcType=INTEGER}, #{juserId,jdbcType=INTEGER}, #{jdataStr,jdbcType=VARCHAR}, 
+      #{jextType,jdbcType=INTEGER}, #{jtime,jdbcType=TIMESTAMP}, #{joperator,jdbcType=NVARCHAR}, 
+      #{jipAddr,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="List">
+    insert into
+    jreal_update_0
+    (jsig,jdev_id,jdev_bh,jdodata,juser_id,jdata_str,jext_type,jtime,joperator,jip_addr)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.jsig,jdbcType=INTEGER},#{item.jdevId,jdbcType=INTEGER},#{item.jdevBh,jdbcType=CHAR},#{item.jdodata,jdbcType=INTEGER},#{item.juserId,jdbcType=INTEGER},#{item.jdataStr,jdbcType=VARCHAR},#{item.jextType,jdbcType=INTEGER},#{item.jtime,jdbcType=TIMESTAMP},#{item.joperator,jdbcType=NVARCHAR},#{item.jipAddr,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertUpdate0FullBath" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+    insert into jreal_update_0(jdev_bh,jdodata)
+    select distinct dev_serial,1073741824 from st_doorfx_real where  fx=0
+    and gate_bh in
+    <foreach open="(" close=")" collection="gateList" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+  </insert>
+  <insert id="insertUpdate1FullBath" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+    insert into jreal_update_1(jdev_bh,jdodata)
+    select distinct dev_serial,1073741824 from st_doorfx_real where  fx=0
+    and gate_bh in
+    <foreach open="(" close=")" collection="gateList" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+  </insert>
+  <insert id="insertUpdate1MjIncrementBath" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+    insert into jreal_update_1(jdev_bh,jdata_str)
+    select n.dev_serial,
+    '101,1,0,'+m.user_card+','+cast(#{ruleNo} as varchar(10))
+    +','+cast(n.dev_order as varchar(10))+','+cast(#{fx} as varchar(10))+','
+    +isnull(isnull(left(CONVERT(varchar(100), m.pact_begin, 20),10),'2000-01-01')+' 00:00:00,'
+    + left(CONVERT(varchar(100), m.pact_end, 20),10)+' 23:59:59','')
+    from
+    (
+    select a.user_card,a.pact_begin,a.pact_end
+    from dt_user a inner join dt_card b on a.user_serial=b.user_serial and b.card_type=0
+    where <![CDATA[  (a.user_card<>'' and a.user_card is not null) and a.user_type<51  ]]>
+    and a.user_serial in
+    <foreach open="(" close=")" collection="userList" index="index" item="item" separator=",">
+        #{item}
+    </foreach>
+    )m
+    join
+    (select dev_serial,dev_order from st_doorfx_real
+    where fx=0  <![CDATA[  and  dev_order <>9]]>  and gate_bh in
+    <foreach open="(" close=")" collection="gateList" index="index" item="item" separator=",">
+        #{item}
+    </foreach>
+    ) n
+    on 1=1
+</insert>
+    <insert id="insertUpdate1MjIncrementCopyUser" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into jreal_update_1(jdev_bh,jdata_str)
+        select n.dev_serial,
+        '101,1,0,'+m.user_card+','+cast(n.rule_no as varchar(10))
+        +','+cast(n.dev_order as varchar(10))+','+cast(n.fx as varchar(10))+','
+        +isnull(isnull(left(CONVERT(varchar(100), m.pact_begin, 20),10),'2000-01-01')+' 00:00:00,'
+        + left(CONVERT(varchar(100), m.pact_end, 20),10)+' 23:59:59','')
+        from
+        (
+        select a.user_card,a.pact_begin,a.pact_end
+        from dt_user a inner join dt_card b on a.user_serial=b.user_serial and b.card_type=0
+        where <![CDATA[  (a.user_card<>'' and a.user_card is not null) and a.user_type<51  ]]>
+        and a.user_serial in
+        <foreach open="(" close=")" collection="userList" index="index" item="item" separator=",">
+            #{item}
+        </foreach>
+        )m
+        join
+        (select a.dev_serial,a.dev_order,a.fx,b.rule_no from st_doorfx_real a inner join
+        (select gate_bh,FX,rule_no from MJ_USER_RULE_REAL where user_serial=#{userSerial}) b
+        on a.gate_bh=b.Gate_bh and a.fx=b.FX  <![CDATA[ and a.dev_order<>9 ]]>
+        ) n
+        on 1=1
+    </insert>
+  <insert id="insertUpdate1KqIncrementBath" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+    insert into jreal_update_1(jdev_bh,jdodata,juser_id,jdata_str)
+    select n.dev_serial,
+    dbo.juser_to_jdodata(isnull(a.user_finger,'0')+','+CAST(isnull(a.user_face,0) as varchar),isnull(a.user_photo,0)),
+    a.user_serial,
+    '1,1,'+convert(varchar(10),a.user_serial)+','+isnull(a.user_no,'')+','
+    +isnull(a.user_lname,'')+','+isnull(a.user_card,'')+','+isnull(a.user_finger,'0000000000')
+    +','+convert(varchar(10),isnull(a.user_photo,0))+','+isnull(a.user_password,'')
+    +','+isnull(CONVERT(varchar(10),a.user_birthday,120),'')
+    +','+cast(isnull(a.user_level,0) as varchar(10))+','
+    +convert(varchar(20),isnull(a.pact_begin,GETDATE()),23)+' 00:00:00'+','
+    +convert(varchar(20),isnull(a.pact_end,DATEADD(YEAR,50,GETDATE())),23)+' 23:59:59'+','
+    +cast(#{ruleNo} as varchar(10))+','+cast(isnull(a.user_depname,'') as varchar(200))+','
+    +cast(isnull(a.user_face,'0') as varchar(4))+','
+    from
+    (
+    select user_card,pact_begin,pact_end,user_finger,user_face,user_photo,user_serial,user_no,
+    user_lname,user_password,user_birthday,user_level,user_depname
+    from dt_user
+    where <![CDATA[ user_type<51 ]]>
+    and user_serial in
+    <foreach open="(" close=")" collection="userList" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    )a
+    join
+    (select dev_serial from st_doorfx_real
+    where fx=0  <![CDATA[  and  dev_order=9]]>  and gate_bh in
+    <foreach open="(" close=")" collection="gateList" index="index" item="item" separator=",">
+      #{item}
+    </foreach>
+    ) n
+    on 1=1
+  </insert>
+    <insert id="insertUpdate1KqIncrementCopyUser" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into jreal_update_1(jdev_bh,jdodata,juser_id,jdata_str)
+        select n.dev_serial,
+        dbo.juser_to_jdodata(isnull(a.user_finger,'0')+','+CAST(isnull(a.user_face,0) as varchar),isnull(a.user_photo,0)),
+        a.user_serial,
+        '1,1,'+convert(varchar(10),a.user_serial)+','+isnull(a.user_no,'')+','
+        +isnull(a.user_lname,'')+','+isnull(a.user_card,'')+','+isnull(a.user_finger,'0000000000')
+        +','+convert(varchar(10),isnull(a.user_photo,0))+','+isnull(a.user_password,'')
+        +','+isnull(CONVERT(varchar(10),a.user_birthday,120),'')
+        +','+cast(isnull(a.user_level,0) as varchar(10))+','
+        +convert(varchar(20),isnull(a.pact_begin,GETDATE()),23)+' 00:00:00'+','
+        +convert(varchar(20),isnull(a.pact_end,DATEADD(YEAR,50,GETDATE())),23)+' 23:59:59'+','
+        +cast(n.rule_no as varchar(10))+','+cast(isnull(a.user_depname,'') as varchar(200))+','
+        +cast(isnull(a.user_face,'0') as varchar(4))+','
+        from
+        (
+        select user_card,pact_begin,pact_end,user_finger,user_face,user_photo,user_serial,user_no,
+        user_lname,user_password,user_birthday,user_level,user_depname
+        from dt_user
+        where <![CDATA[ user_type<51 ]]>
+        and user_serial in
+        <foreach open="(" close=")" collection="userList" index="index" item="item" separator=",">
+            #{item}
+        </foreach>
+        )a
+        join
+        (select a.dev_serial,a.dev_order,a.fx,b.rule_no from st_doorfx_real a inner join
+        (select gate_bh,FX,rule_no from MJ_USER_RULE_REAL where user_serial=#{userSerial}) b
+        on a.gate_bh=b.Gate_bh and a.fx=b.FX  <![CDATA[ and a.dev_order=9 and a.fx=0 ]]>
+        ) n
+        on 1=1
+    </insert>
+    <insert id="insertUpdate1Mj" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into jreal_update_1(jdev_bh,jdata_str)
+        select #{devSerial},
+        '101,1,0,'+m.user_card+','+cast(#{ruleNo} as varchar(10))
+        +','+cast(#{devOrder} as varchar(10))+','+cast(#{fx} as varchar(10))+','
+        +isnull(isnull(left(CONVERT(varchar(100), m.pact_begin, 20),10),'2000-01-01')+' 00:00:00,'
+        + left(CONVERT(varchar(100), m.pact_end, 20),10)+' 23:59:59','')
+        from
+        dt_user m where
+        <![CDATA[  m.user_serial=#{userSerial} and (m.user_card<>'' and m.user_card is not null) ]]>
+
+    </insert>
+    <insert id="insertUpdate1Kq" parameterType="com.weds.edmj.entity.MjUserRuleRealEntity">
+        insert into jreal_update_1(jdev_bh,jdodata,juser_id,jdata_str)
+        select #{devSerial},
+        dbo.juser_to_jdodata(isnull(a.user_finger,'0')+','+CAST(isnull(a.user_face,0) as varchar),isnull(a.user_photo,0)),
+        a.user_serial,
+        '1,1,'+convert(varchar(10),a.user_serial)+','+isnull(a.user_no,'')+','
+        +isnull(a.user_lname,'')+','+isnull(a.user_card,'')+','+isnull(a.user_finger,'0000000000')
+        +','+convert(varchar(10),isnull(a.user_photo,0))+','+isnull(a.user_password,'')
+        +','+isnull(CONVERT(varchar(10),a.user_birthday,120),'')
+        +','+cast(isnull(a.user_level,0) as varchar(10))+','
+        +convert(varchar(20),isnull(a.pact_begin,GETDATE()),23)+' 00:00:00'+','
+        +convert(varchar(20),isnull(a.pact_end,DATEADD(YEAR,50,GETDATE())),23)+' 23:59:59'+','
+        +cast(#{ruleNo} as varchar(10))+','+cast(isnull(a.user_depname,'') as varchar(200))+','
+        +cast(isnull(a.user_face,'0') as varchar(4))+','
+        from
+         dt_user a where
+        <![CDATA[  a.user_serial=#{userSerial} ]]>
+    </insert>
+  <insert id="insertSelective0" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    insert into jreal_update_0
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        jsig,
+      </if>
+      <if test="jdevId != null">
+        jdev_id,
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh,
+      </if>
+      <if test="jdodata != null">
+        jdodata,
+      </if>
+      <if test="juserId != null">
+        juser_id,
+      </if>
+      <if test="jdataStr != null">
+        jdata_str,
+      </if>
+      <if test="jextType != null">
+        jext_type,
+      </if>
+      <if test="jtime != null">
+        jtime,
+      </if>
+      <if test="joperator != null">
+        joperator,
+      </if>
+      <if test="jipAddr != null">
+        jip_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        #{jsig,jdbcType=INTEGER},
+      </if>
+      <if test="jdevId != null">
+        #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jdodata != null">
+        #{jdodata,jdbcType=INTEGER},
+      </if>
+      <if test="juserId != null">
+        #{juserId,jdbcType=INTEGER},
+      </if>
+      <if test="jdataStr != null">
+        #{jdataStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jextType != null">
+        #{jextType,jdbcType=INTEGER},
+      </if>
+      <if test="jtime != null">
+        #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joperator != null">
+        #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective1" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    insert into jreal_update_1
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        jsig,
+      </if>
+      <if test="jdevId != null">
+        jdev_id,
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh,
+      </if>
+      <if test="jdodata != null">
+        jdodata,
+      </if>
+      <if test="juserId != null">
+        juser_id,
+      </if>
+      <if test="jdataStr != null">
+        jdata_str,
+      </if>
+      <if test="jextType != null">
+        jext_type,
+      </if>
+      <if test="jtime != null">
+        jtime,
+      </if>
+      <if test="joperator != null">
+        joperator,
+      </if>
+      <if test="jipAddr != null">
+        jip_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        #{jsig,jdbcType=INTEGER},
+      </if>
+      <if test="jdevId != null">
+        #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jdodata != null">
+        #{jdodata,jdbcType=INTEGER},
+      </if>
+      <if test="juserId != null">
+        #{juserId,jdbcType=INTEGER},
+      </if>
+      <if test="jdataStr != null">
+        #{jdataStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jextType != null">
+        #{jextType,jdbcType=INTEGER},
+      </if>
+      <if test="jtime != null">
+        #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joperator != null">
+        #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective2" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    insert into jreal_update_2
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        jsig,
+      </if>
+      <if test="jdevId != null">
+        jdev_id,
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh,
+      </if>
+      <if test="jdodata != null">
+        jdodata,
+      </if>
+      <if test="juserId != null">
+        juser_id,
+      </if>
+      <if test="jdataStr != null">
+        jdata_str,
+      </if>
+      <if test="jextType != null">
+        jext_type,
+      </if>
+      <if test="jtime != null">
+        jtime,
+      </if>
+      <if test="joperator != null">
+        joperator,
+      </if>
+      <if test="jipAddr != null">
+        jip_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        #{jsig,jdbcType=INTEGER},
+      </if>
+      <if test="jdevId != null">
+        #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jdodata != null">
+        #{jdodata,jdbcType=INTEGER},
+      </if>
+      <if test="juserId != null">
+        #{juserId,jdbcType=INTEGER},
+      </if>
+      <if test="jdataStr != null">
+        #{jdataStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jextType != null">
+        #{jextType,jdbcType=INTEGER},
+      </if>
+      <if test="jtime != null">
+        #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joperator != null">
+        #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective3" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    insert into jreal_update_3
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        jsig,
+      </if>
+      <if test="jdevId != null">
+        jdev_id,
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh,
+      </if>
+      <if test="jdodata != null">
+        jdodata,
+      </if>
+      <if test="juserId != null">
+        juser_id,
+      </if>
+      <if test="jdataStr != null">
+        jdata_str,
+      </if>
+      <if test="jextType != null">
+        jext_type,
+      </if>
+      <if test="jtime != null">
+        jtime,
+      </if>
+      <if test="joperator != null">
+        joperator,
+      </if>
+      <if test="jipAddr != null">
+        jip_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jsig != null">
+        #{jsig,jdbcType=INTEGER},
+      </if>
+      <if test="jdevId != null">
+        #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jdodata != null">
+        #{jdodata,jdbcType=INTEGER},
+      </if>
+      <if test="juserId != null">
+        #{juserId,jdbcType=INTEGER},
+      </if>
+      <if test="jdataStr != null">
+        #{jdataStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jextType != null">
+        #{jextType,jdbcType=INTEGER},
+      </if>
+      <if test="jtime != null">
+        #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joperator != null">
+        #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    update jreal_update_0
+    <set>
+      <if test="jdevId != null">
+        jdev_id = #{jdevId,jdbcType=INTEGER},
+      </if>
+      <if test="jdevBh != null">
+        jdev_bh = #{jdevBh,jdbcType=CHAR},
+      </if>
+      <if test="jdodata != null">
+        jdodata = #{jdodata,jdbcType=INTEGER},
+      </if>
+      <if test="juserId != null">
+        juser_id = #{juserId,jdbcType=INTEGER},
+      </if>
+      <if test="jdataStr != null">
+        jdata_str = #{jdataStr,jdbcType=VARCHAR},
+      </if>
+      <if test="jextType != null">
+        jext_type = #{jextType,jdbcType=INTEGER},
+      </if>
+      <if test="jtime != null">
+        jtime = #{jtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="joperator != null">
+        joperator = #{joperator,jdbcType=NVARCHAR},
+      </if>
+      <if test="jipAddr != null">
+        jip_addr = #{jipAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jsig = #{jsig,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weds.edmj.entity.JrealUpdate0Entity">
+    update jreal_update_0
+    set jdev_id = #{jdevId,jdbcType=INTEGER},
+      jdev_bh = #{jdevBh,jdbcType=CHAR},
+      jdodata = #{jdodata,jdbcType=INTEGER},
+      juser_id = #{juserId,jdbcType=INTEGER},
+      jdata_str = #{jdataStr,jdbcType=VARCHAR},
+      jext_type = #{jextType,jdbcType=INTEGER},
+      jtime = #{jtime,jdbcType=TIMESTAMP},
+      joperator = #{joperator,jdbcType=NVARCHAR},
+      jip_addr = #{jipAddr,jdbcType=VARCHAR}
+    where jsig = #{jsig,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByEntity" parameterType="com.weds.edmj.entity.JrealUpdate0Entity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jreal_update_0
+    <where>
+      <if test="jsig != null">
+        and jsig = #{jsig,jdbcType=INTEGER}
+      </if>
+      <if test="jdevId != null">
+        and jdev_id = #{jdevId,jdbcType=INTEGER}
+      </if>
+      <if test="jdevBh != null">
+        <bind name="jdevBhLike" value="'%'+jdevBh+'%'" />
+        and jdev_bh like #{jdevBhLike}
+        <!--and jdev_bh = #{jdevBh,jdbcType=CHAR}-->
+      </if>
+      <if test="jdodata != null">
+        and jdodata = #{jdodata,jdbcType=INTEGER}
+      </if>
+      <if test="juserId != null">
+        and juser_id = #{juserId,jdbcType=INTEGER}
+      </if>
+      <if test="jdataStr != null">
+        <bind name="jdataStrLike" value="'%'+jdataStr+'%'" />
+        and jdata_str like #{jdataStrLike}
+        <!--and jdata_str = #{jdataStr,jdbcType=VARCHAR}-->
+      </if>
+      <if test="jextType != null">
+        and jext_type = #{jextType,jdbcType=INTEGER}
+      </if>
+      <if test="jtime != null">
+        and jtime = #{jtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="joperator != null">
+        <bind name="joperatorLike" value="'%'+joperator+'%'" />
+        and joperator like #{joperatorLike}
+        <!--and joperator = #{joperator,jdbcType=NVARCHAR}-->
+      </if>
+      <if test="jipAddr != null">
+        <bind name="jipAddrLike" value="'%'+jipAddr+'%'" />
+        and jip_addr like #{jipAddrLike}
+        <!--and jip_addr = #{jipAddr,jdbcType=VARCHAR}-->
+      </if>
+    </where>
+  </select>
+  <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jreal_update_0
+    <where>
+      <if test="keys != null">
+        <bind name="keysLike" value="'%'+keys+'%'" />
+        or jsig = #{keys}
+        or jdev_id = #{keys}
+        or jdev_bh like #{keysLike}
+        or jdodata = #{keys}
+        or juser_id = #{keys}
+        or jdata_str like #{keysLike}
+        or jext_type = #{keys}
+        or jtime = #{keys}
+        or joperator like #{keysLike}
+        or jip_addr like #{keysLike}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatchByKeys" parameterType="List">
+    delete from
+    jreal_update_0
+    where (jsig) in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      (#{item.jsig})
+    </foreach>
+  </delete>
+</mapper>

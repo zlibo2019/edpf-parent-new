@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weds.edpf.core.mapper.JobUnitMapper">
+    <resultMap id="BaseResultMap" type="com.weds.edpf.core.entity.JobUnitEntity">
+        <id column="job_id" jdbcType="VARCHAR" property="jobId"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="job_path" jdbcType="VARCHAR" property="jobPath"/>
+        <result column="seq_type" jdbcType="VARCHAR" property="seqType"/>
+        <result column="seq_expr" jdbcType="VARCHAR" property="seqExpr"/>
+        <result column="use_type" jdbcType="VARCHAR" property="useType"/>
+        <result column="use_flag" jdbcType="VARCHAR" property="useFlag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="spare_col1" jdbcType="VARCHAR" property="spareCol1"/>
+        <result column="spare_col2" jdbcType="VARCHAR" property="spareCol2"/>
+        <result column="spare_col3" jdbcType="VARCHAR" property="spareCol3"/>
+        <result column="ct_user" jdbcType="VARCHAR" property="ctUser"/>
+        <result column="ct_date" jdbcType="TIMESTAMP" property="ctDate"/>
+        <result column="lt_user" jdbcType="VARCHAR" property="ltUser"/>
+        <result column="lt_date" jdbcType="TIMESTAMP" property="ltDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        job_id, job_name, job_path, seq_type, seq_expr, use_type, use_flag, remark, spare_col1,
+                spare_col2, spare_col3, ct_user, ct_date, lt_user, lt_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_job_unit
+        where job_id = #{jobId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from ed_job_unit
+        where job_id = #{jobId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.weds.edpf.core.entity.JobUnitEntity">
+        insert into ed_job_unit (job_id,
+                                 job_name,
+                                 job_path,
+                                 seq_type,
+                                 seq_expr,
+                                 use_type,
+                                 use_flag,
+                                 remark,
+                                 spare_col1,
+                                 spare_col2,
+                                 spare_col3,
+                                 ct_user,
+                                 ct_date,
+                                 lt_user,
+                                 lt_date)
+        values (#{jobId,jdbcType=VARCHAR},
+                #{jobName,jdbcType=VARCHAR},
+                #{jobPath,jdbcType=VARCHAR},
+                #{seqType,jdbcType=VARCHAR},
+                #{seqExpr,jdbcType=VARCHAR},
+                #{useType,jdbcType=VARCHAR},
+                #{useFlag,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR},
+                #{spareCol1,jdbcType=VARCHAR},
+                #{spareCol2,jdbcType=VARCHAR},
+                #{spareCol3,jdbcType=VARCHAR},
+                #{ctUser,jdbcType=VARCHAR},
+                #{ctDate,jdbcType=TIMESTAMP},
+                #{ltUser,jdbcType=VARCHAR},
+                #{ltDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.weds.edpf.core.entity.JobUnitEntity">
+        insert into ed_job_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                job_id,
+            </if>
+            <if test="jobName != null">
+                job_name,
+            </if>
+            <if test="jobPath != null">
+                job_path,
+            </if>
+            <if test="seqType != null">
+                seq_type,
+            </if>
+            <if test="seqExpr != null">
+                seq_expr,
+            </if>
+            <if test="useType != null">
+                use_type,
+            </if>
+            <if test="useFlag != null">
+                use_flag,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1,
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2,
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3,
+            </if>
+            <if test="ctUser != null">
+                ct_user,
+            </if>
+            <if test="ctDate != null">
+                ct_date,
+            </if>
+            <if test="ltUser != null">
+                lt_user,
+            </if>
+            <if test="ltDate != null">
+                lt_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobPath != null">
+                #{jobPath,jdbcType=VARCHAR},
+            </if>
+            <if test="seqType != null">
+                #{seqType,jdbcType=VARCHAR},
+            </if>
+            <if test="seqExpr != null">
+                #{seqExpr,jdbcType=VARCHAR},
+            </if>
+            <if test="useType != null">
+                #{useType,jdbcType=VARCHAR},
+            </if>
+            <if test="useFlag != null">
+                #{useFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.weds.edpf.core.entity.JobUnitEntity">
+        update ed_job_unit
+        <set>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobPath != null">
+                job_path = #{jobPath,jdbcType=VARCHAR},
+            </if>
+            <if test="seqType != null">
+                seq_type = #{seqType,jdbcType=VARCHAR},
+            </if>
+            <if test="seqExpr != null">
+                seq_expr = #{seqExpr,jdbcType=VARCHAR},
+            </if>
+            <if test="useType != null">
+                use_type = #{useType,jdbcType=VARCHAR},
+            </if>
+            <if test="useFlag != null">
+                use_flag = #{useFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol1 != null">
+                spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol2 != null">
+                spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            </if>
+            <if test="spareCol3 != null">
+                spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            </if>
+            <if test="ctUser != null">
+                ct_user = #{ctUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ctDate != null">
+                ct_date = #{ctDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ltUser != null">
+                lt_user = #{ltUser,jdbcType=VARCHAR},
+            </if>
+            <if test="ltDate != null">
+                lt_date = #{ltDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where job_id = #{jobId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.weds.edpf.core.entity.JobUnitEntity">
+        update ed_job_unit
+        set job_name   = #{jobName,jdbcType=VARCHAR},
+            job_path   = #{jobPath,jdbcType=VARCHAR},
+            seq_type   = #{seqType,jdbcType=VARCHAR},
+            seq_expr   = #{seqExpr,jdbcType=VARCHAR},
+            use_type   = #{useType,jdbcType=VARCHAR},
+            use_flag   = #{useFlag,jdbcType=VARCHAR},
+            remark     = #{remark,jdbcType=VARCHAR},
+            spare_col1 = #{spareCol1,jdbcType=VARCHAR},
+            spare_col2 = #{spareCol2,jdbcType=VARCHAR},
+            spare_col3 = #{spareCol3,jdbcType=VARCHAR},
+            ct_user    = #{ctUser,jdbcType=VARCHAR},
+            ct_date    = #{ctDate,jdbcType=TIMESTAMP},
+            lt_user    = #{ltUser,jdbcType=VARCHAR},
+            lt_date    = #{ltDate,jdbcType=TIMESTAMP}
+        where job_id = #{jobId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectListByEntity" parameterType="com.weds.edpf.core.entity.JobUnitEntity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_job_unit
+        <where>
+            <if test="jobId != null">
+                <bind name="jobIdLike" value="'%'+jobId+'%'"/>
+                and job_id like #{jobIdLike}
+                <!--and job_id = #{jobId,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jobName != null">
+                <bind name="jobNameLike" value="'%'+jobName+'%'"/>
+                and job_name like #{jobNameLike}
+                <!--and job_name = #{jobName,jdbcType=VARCHAR}-->
+            </if>
+            <if test="jobPath != null">
+                <bind name="jobPathLike" value="'%'+jobPath+'%'"/>
+                and job_path like #{jobPathLike}
+                <!--and job_path = #{jobPath,jdbcType=VARCHAR}-->
+            </if>
+            <if test="seqType != null">
+                <bind name="seqTypeLike" value="'%'+seqType+'%'"/>
+                and seq_type like #{seqTypeLike}
+                <!--and seq_type = #{seqType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="seqExpr != null">
+                <bind name="seqExprLike" value="'%'+seqExpr+'%'"/>
+                and seq_expr like #{seqExprLike}
+                <!--and seq_expr = #{seqExpr,jdbcType=VARCHAR}-->
+            </if>
+            <if test="useType != null">
+                <bind name="useTypeLike" value="'%'+useType+'%'"/>
+                and use_type like #{useTypeLike}
+                <!--and use_type = #{useType,jdbcType=VARCHAR}-->
+            </if>
+            <if test="useFlag != null">
+                <bind name="useFlagLike" value="'%'+useFlag+'%'"/>
+                and use_flag like #{useFlagLike}
+                <!--and use_flag = #{useFlag,jdbcType=VARCHAR}-->
+            </if>
+            <if test="remark != null">
+                <bind name="remarkLike" value="'%'+remark+'%'"/>
+                and remark like #{remarkLike}
+                <!--and remark = #{remark,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol1 != null">
+                <bind name="spareCol1Like" value="'%'+spareCol1+'%'"/>
+                and spare_col1 like #{spareCol1Like}
+                <!--and spare_col1 = #{spareCol1,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol2 != null">
+                <bind name="spareCol2Like" value="'%'+spareCol2+'%'"/>
+                and spare_col2 like #{spareCol2Like}
+                <!--and spare_col2 = #{spareCol2,jdbcType=VARCHAR}-->
+            </if>
+            <if test="spareCol3 != null">
+                <bind name="spareCol3Like" value="'%'+spareCol3+'%'"/>
+                and spare_col3 like #{spareCol3Like}
+                <!--and spare_col3 = #{spareCol3,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctUser != null">
+                <bind name="ctUserLike" value="'%'+ctUser+'%'"/>
+                and ct_user like #{ctUserLike}
+                <!--and ct_user = #{ctUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ctDate != null">
+                and ct_date = #{ctDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ltUser != null">
+                <bind name="ltUserLike" value="'%'+ltUser+'%'"/>
+                and lt_user like #{ltUserLike}
+                <!--and lt_user = #{ltUser,jdbcType=VARCHAR}-->
+            </if>
+            <if test="ltDate != null">
+                and lt_date = #{ltDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectListByKeys" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ed_job_unit
+        <where>
+            <if test="keys != null">
+                <bind name="keysLike" value="'%'+keys+'%'"/>
+                or job_id like #{keysLike}
+                or job_name like #{keysLike}
+                or job_path like #{keysLike}
+                or seq_type like #{keysLike}
+                or seq_expr like #{keysLike}
+                or use_type like #{keysLike}
+                or use_flag like #{keysLike}
+                or remark like #{keysLike}
+                or spare_col1 like #{keysLike}
+                or spare_col2 like #{keysLike}
+                or spare_col3 like #{keysLike}
+                or ct_user like #{keysLike}
+                or ct_date == #{keys}
+                or lt_user like #{keysLike}
+                or lt_date == #{keys}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatchByKeys" parameterType="List">
+        delete from
+        ed_job_unit
+        where (job_id) in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            (#{item.jobId})
+        </foreach>
+    </delete>
+</mapper>
